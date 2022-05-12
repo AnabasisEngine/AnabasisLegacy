@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Anabasis.Platform.Abstractions\Anabasis.Platform.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Anabasis.Utility\Anabasis.Utility.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Silk.NET" Version="2.15.0" />
+      <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+      <PackageReference Include="ValueOf" Version="2.0.31" />
+    </ItemGroup>
+
+</Project>
