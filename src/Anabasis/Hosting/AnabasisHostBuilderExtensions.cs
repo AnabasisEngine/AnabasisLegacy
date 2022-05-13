@@ -16,8 +16,8 @@ public static class AnabasisHostBuilderExtensions
             .ConfigureServices(services =>
             {
                 services.AddAnabasisCore(args ?? GetCommandLineArguments());
-
                 services.AddHostedService<AnabasisHostedService>();
+                services.AddSingleton<IHostLifetime, AnabasisLifetime>();
             });
     }
     
@@ -31,7 +31,7 @@ public static class AnabasisHostBuilderExtensions
     
     private static string[] GetCommandLineArguments()
     {
-        var args = System.Environment.GetCommandLineArgs();
+        var args = Environment.GetCommandLineArgs();
         return args.Any()
             ? args.Skip(1).ToArray() // args[0] is the path to executable binary.
             : Array.Empty<string>();

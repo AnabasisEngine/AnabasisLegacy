@@ -76,7 +76,6 @@ public class AnabasisAppHostBuilder
 
     internal void ConfigureDefaults(string[]? args) {
         _builder
-            .ConfigureAnabasis(args)
-            .UseConsoleLifetime(options => options.SuppressStatusMessages = true);
+            .ConfigureAnabasis(args);
     }
 }

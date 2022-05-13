@@ -2,7 +2,7 @@
 
 namespace Anabasis.Platform.Silk;
 
-public sealed partial class SilkPlatform
+public sealed partial class SilkRunLoop
 {
     private readonly record struct PlatformLoopHandler(string Name, int Priority, Action Handler)
     {
@@ -10,7 +10,7 @@ public sealed partial class SilkPlatform
     }
 
     private readonly record struct PlatformLoopHandlerDisposer(AnabasisPlatformLoopStep Step, string Name,
-            WeakReference<SilkPlatform> Platform)
+            WeakReference<SilkRunLoop> Platform)
         : IDisposable
     {
         public void Dispose() {
@@ -38,7 +38,7 @@ public sealed partial class SilkPlatform
         lock (_loopHandlers) {
             LinkedList<PlatformLoopHandler> list = _loopHandlers[step];
 
-            PlatformLoopHandlerDisposer disposer = new(step, name, new WeakReference<SilkPlatform>(this));
+            PlatformLoopHandlerDisposer disposer = new(step, name, new WeakReference<SilkRunLoop>(this));
             PlatformLoopHandler loopHandler = new(name, priority, handler);
             for (LinkedListNode<PlatformLoopHandler>? node = list.Last; node != null; node = node.Previous) {
                 if (node.Value.Priority > priority) continue;

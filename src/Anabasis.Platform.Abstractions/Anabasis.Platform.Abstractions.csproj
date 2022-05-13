@@ -16,4 +16,8 @@
       <Folder Include="Internal" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Anabasis.Abstractions\Anabasis.Abstractions.csproj" />
+    </ItemGroup>
+
 </Project>

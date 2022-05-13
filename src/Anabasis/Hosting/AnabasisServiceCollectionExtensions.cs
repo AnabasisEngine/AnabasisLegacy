@@ -7,8 +7,10 @@ namespace Anabasis.Hosting;
 public static class AnabasisServiceCollectionExtensions
 {
     public static IServiceCollection AddAnabasisCore(this IServiceCollection services, string[] args) {
-        services.TryAddScoped(sp => sp.GetRequiredService<IAnabasisPlatform>().CreateWindow());
-
+        services.TryAddSingleton(sp =>
+            sp.GetRequiredService<IAnabasisPlatform>().Window ?? throw new InvalidOperationException());
+        services.TryAddSingleton(sp =>
+            sp.GetRequiredService<IAnabasisPlatform>().GraphicsDevice ?? throw new InvalidOperationException());
         return services;
     }
 }
