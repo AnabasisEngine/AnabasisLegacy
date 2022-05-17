@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Anabasis.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -24,4 +25,7 @@ public class AnabasisApp : IDisposable
 
     public void Dispose()
         => _host.Dispose();
+    
+    public static AnabasisAppBuilder CreateBuilder(string[]? args = default, Action<AnabasisAppOptions>? configureOptions = null)
+        => new AnabasisAppBuilder(args, configureOptions);
 }

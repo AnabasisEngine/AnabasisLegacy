@@ -1,4 +1,6 @@
-﻿namespace Anabasis.Platform.Abstractions;
+﻿using Anabasis.Abstractions;
+
+namespace Anabasis.Platform.Abstractions;
 
 public interface IAnabasisWindow
 {

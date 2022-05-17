@@ -1,4 +1,4 @@
-﻿namespace Anabasis.Platform.Abstractions;
+﻿namespace Anabasis.Abstractions;
 
 public interface IAnabasisTime
 {

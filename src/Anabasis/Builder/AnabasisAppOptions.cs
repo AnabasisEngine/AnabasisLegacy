@@ -1,4 +1,4 @@
 namespace Anabasis.Builder;
 
-internal class AnabasisAppOptions
+public class AnabasisAppOptions
 { }

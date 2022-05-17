@@ -1,9 +1,9 @@
-﻿using Anabasis.Platform.Abstractions.Buffer;
+﻿using Anabasis.Graphics.Abstractions.Buffer;
 
 namespace Anabasis.Platform.Silk.Buffers;
 
-internal interface ISilkVertexArray<TVertex> : IVertexArray<TVertex>
+internal interface ISilkVertexArray<TVertex> : IVertexArray<TVertex>, IGlObject<VertexArrayHandle>
     where TVertex : unmanaged
 {
-    uint Handle { get; }
+    new VertexArrayHandle Handle { get; }
 }

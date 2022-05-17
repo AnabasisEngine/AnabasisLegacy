@@ -27,8 +27,6 @@ public static class AnabasisAppBuilderExtensions
     }
 
     public static AnabasisAppBuilder UsingPlatform<TPlatform>(this AnabasisAppBuilder builder)
-        where TPlatform : class, IAnabasisPlatform {
+        where TPlatform : class, IAnabasisPlatform =>
         builder.ConfigureServices(TPlatform.ConfigureServices);
-        return builder;
-    }
 }

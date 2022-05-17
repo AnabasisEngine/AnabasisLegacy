@@ -82,9 +82,11 @@ internal class BootstrapHostBuilder : IHostBuilder
     private class HostEnvironment : IHostEnvironment
     {
         public string? ApplicationName { get; set; }
+#pragma warning disable CS8766
         public IFileProvider? ContentRootFileProvider { get; set; }
         public string? ContentRootPath { get; set; }
         public string? EnvironmentName { get; set; }
+#pragma warning restore CS8766
     }
 
     public IHostBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate) {

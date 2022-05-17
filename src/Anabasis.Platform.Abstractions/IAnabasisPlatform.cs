@@ -22,18 +22,11 @@ public interface IAnabasisPlatform
     /// method. Actually running the game loop infrastructure is implemented in <see cref="IAnabasisWindow.Run"/>
     /// </summary>
     public void CreateGraphicsContext();
-    
+
     /// <summary>
     /// The platform window/view.
     /// Should be guaranteed non-null when <see cref="CreateGraphicsContext"/> returns.
     /// Will be registered as a singleton in the DI container, accessing before use of <see cref="CreateGraphicsContext"/> is an error.
     /// </summary>
     public IAnabasisWindow Window { get; }
-    
-    /// <summary>
-    /// The platform graphics device/context.
-    /// Should be guaranteed non-null when <see cref="CreateGraphicsContext"/> returns.
-    /// Will be registered as a singleton in the DI container, accessing before use of <see cref="CreateGraphicsContext"/> is an error.
-    /// </summary>
-    public IGraphicsDevice GraphicsDevice { get; }
 }

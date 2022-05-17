@@ -1,9 +1,9 @@
 ﻿using Anabasis.Platform.Abstractions;
-using ValueOf;
+using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Shader;
 
-public class ProgramHandle : ValueOf<uint, ProgramHandle>, IGraphicsHandle
+public readonly record struct ProgramHandle(uint Value) : IPlatformHandle, IGlHandle
 {
-        
+    public static ObjectIdentifier ObjectType => ObjectIdentifier.Program;
 }

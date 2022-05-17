@@ -1,3 +1,4 @@
+using Anabasis.Abstractions;
 using Anabasis.Platform.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,10 +26,7 @@ public class AnabasisHostedService : IHostedService
         return Task.CompletedTask;
     }
 
-    public Task StopAsync(CancellationToken cancellationToken) {
-        _platform.Window.Close();
-        return Task.CompletedTask;
-    }
+    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
     private static readonly ParameterizedThreadStart RunDelegate = o => {
         if (o is AnabasisHostedService hostedService)
@@ -37,7 +35,11 @@ public class AnabasisHostedService : IHostedService
 
 
     private void Run() {
-        _platform.Window.Run(_provider.GetRequiredService<IAnabasisRunLoop>(),
-            _provider.GetRequiredService<IAnabasisTime>());
+        IAnabasisRunLoop loop = _provider.GetRequiredService<IAnabasisRunLoop>();
+        IAnabasisGame game = _provider.GetRequiredService<IAnabasisGame>();
+        using (loop.RegisterHandler(AnabasisPlatformLoopStep.Initialization, 0, "IAnabasisGame.Load", game.Load))
+        using (loop.RegisterHandler(AnabasisPlatformLoopStep.Update, 0, "IAnabasisGame.Update", game.Update))
+        using (loop.RegisterHandler(AnabasisPlatformLoopStep.Render, 0, "IAnabasisGame.Render", game.Render))
+            _platform.Window.Run(loop, _provider.GetRequiredService<IAnabasisTime>());
     }
 }

@@ -1,28 +1,33 @@
-﻿using Anabasis.Platform.Abstractions;
+﻿using Anabasis.Graphics.Abstractions;
+using Anabasis.Platform.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Silk.NET.Maths;
 using Silk.NET.Windowing;
 using SilkNativeWindow = Silk.NET.Windowing.Window;
 
 namespace Anabasis.Platform.Silk;
 
-public sealed class SilkPlatform : IAnabasisPlatform
+public sealed class SilkPlatform : IGraphicsPlatform
 {
-    private IHostApplicationLifetime _lifetime;
-    
+    private readonly IHostApplicationLifetime _lifetime;
+    private readonly ILoggerFactory           _loggerFactory;
+
     private static readonly GraphicsAPI GraphicsApi = new(ContextAPI.OpenGL, ContextProfile.Core,
         ContextFlags.ForwardCompatible,
         new APIVersion(4, 3));
 
-    public SilkPlatform(IHostApplicationLifetime lifetime) {
+    public SilkPlatform(IHostApplicationLifetime lifetime, ILoggerFactory loggerFactory) {
         _lifetime = lifetime;
+        _loggerFactory = loggerFactory;
     }
 
     public static void ConfigureServices(HostBuilderContext context, IServiceCollection services) {
         services.TryAddSingleton<SilkPlatform>();
         services.TryAddSingleton<IAnabasisPlatform>(s => s.GetRequiredService<SilkPlatform>());
+        services.TryAddSingleton<IGraphicsPlatform>(s => s.GetRequiredService<SilkPlatform>());
         services.TryAddSingleton(sp => (SilkGraphicsDevice)sp.GetRequiredService<IGraphicsDevice>());
     }
 
@@ -44,8 +49,8 @@ public sealed class SilkPlatform : IAnabasisPlatform
             ShouldSwapAutomatically = true,
             VideoMode = VideoMode.Default,
         };
-        var window = SilkNativeWindow.Create(options);
-        Window = new SilkWindow(window, _lifetime);
-        GraphicsDevice  = new SilkGraphicsDevice(Window);
+        IWindow window = SilkNativeWindow.Create(options);
+        Window = new SilkWindow(window, _lifetime, this);
+        GraphicsDevice  = new SilkGraphicsDevice(Window, _loggerFactory);
     }
 }

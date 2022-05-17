@@ -1,6 +1,8 @@
+using System.Collections.ObjectModel;
+
 namespace Anabasis.Platform.Abstractions;
 
-public enum AnabasisPlatformLoopStep
+public enum AnabasisPlatformLoopStep : byte
 {
     Initialization,
     PostInitialization,

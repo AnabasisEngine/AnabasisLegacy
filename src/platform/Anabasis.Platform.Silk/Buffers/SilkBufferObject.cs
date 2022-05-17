@@ -1,24 +1,22 @@
-﻿using Anabasis.Platform.Abstractions;
-using Anabasis.Platform.Abstractions.Buffer;
+﻿using Anabasis.Graphics.Abstractions.Buffer;
+using Anabasis.Platform.Abstractions;
+using Anabasis.Platform.Abstractions.Resources;
 using Anabasis.Platform.Silk.Internal;
-using Anabasis.Utility;
 using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Buffers;
 
-public class SilkBufferObject<T> : IBufferObject<T>
+public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObject<T>
     where T : unmanaged
 {
     private readonly BufferTargetARB _target;
-    private readonly GL              _gl;
-    private          int             _length = 0;
-    internal uint Handle { get; }
+    private readonly IGlApi              _gl;
+    private          int             _length;
     
 
-    internal SilkBufferObject(GL gl, BufferTargetARB target) {
+    internal SilkBufferObject(IGlApi gl, BufferTargetARB target) : base(gl, gl.CreateBuffer()) {
         _target = target;
         _gl = gl;
-        Handle = _gl.CreateBuffer();
     }
 
     public void LoadData(ReadOnlySpan<T> data, int offset = 0) {
@@ -26,15 +24,16 @@ public class SilkBufferObject<T> : IBufferObject<T>
             _gl.NamedBufferSubData(Handle, offset, data);
         } else {
             _gl.NamedBufferData(Handle, data, BufferUsageARB.StaticDraw);
+            _length = data.Length;
         }
     }
 
-    public void Dispose() {
+    public override void Dispose() {
         GC.SuppressFinalize(this);
         _gl.DeleteBuffer(Handle);
     }
 
-    public void Use() {
+    public override void Use() {
         _gl.BindBuffer(_target, Handle);
     }
 }

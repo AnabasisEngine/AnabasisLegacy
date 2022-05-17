@@ -1,20 +1,33 @@
-﻿using Anabasis.Platform.Abstractions;
-using Anabasis.Platform.Abstractions.Buffer;
+﻿using Anabasis.Graphics.Abstractions;
+using Anabasis.Graphics.Abstractions.Buffer;
+using Anabasis.Platform.Abstractions;
 using Anabasis.Platform.Silk.Buffers;
+using Anabasis.Platform.Silk.Internal;
+using Microsoft.Extensions.Logging;
 using Silk.NET.OpenGL;
+using Silk.NET.Windowing;
 
 namespace Anabasis.Platform.Silk;
 
 internal class SilkGraphicsDevice : IDisposable, IGraphicsDevice
 {
-    internal SilkGraphicsDevice(IAnabasisWindow window) {
-        Gl = GL.GetApi(((SilkWindow)window).Window);
+    private readonly ILoggerFactory _loggerFactory;
+    private readonly IWindow        _contextSource;
+
+    internal SilkGraphicsDevice(IAnabasisWindow window, ILoggerFactory loggerFactory) {
+        _loggerFactory = loggerFactory;
+        _contextSource = ((SilkWindow)window).Window;
     }
 
-    internal GL Gl { get; }
+    private IGlApi? _gl;
+    internal IGlApi Gl => Load();
 
+    internal IGlApi Load() {
+        return LazyInitializer.EnsureInitialized(ref _gl, () => new GlApi(GL.GetApi(_contextSource), _loggerFactory.CreateLogger<GlApi>()));
+    }
+    
     public void Dispose() {
-        Gl.Dispose();
+        _gl?.Dispose();
     }
 
     public IVertexArray<TVertex, TIndex> CreateVertexArray<TVertex, TIndex>()

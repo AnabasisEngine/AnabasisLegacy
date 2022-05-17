@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Anabasis.Graphics.Abstractions\Anabasis.Graphics.Abstractions.csproj" />
       <ProjectReference Include="..\Anabasis.Platform.Abstractions\Anabasis.Platform.Abstractions.csproj" />
     </ItemGroup>
 
