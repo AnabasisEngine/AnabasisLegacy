@@ -18,7 +18,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
     }
 
     public void LoadData(ReadOnlySpan<T> data, int offset = 0) {
-        if (_length > offset + data.Length) {
+        if (_length >= offset + data.Length) {
             _gl.NamedBufferSubData(Handle, offset, data);
         } else {
             _gl.NamedBufferData(Handle, data, BufferUsageARB.StaticDraw);
