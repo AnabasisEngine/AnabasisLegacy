@@ -1,6 +1,4 @@
 ﻿using Anabasis.Graphics.Abstractions.Buffer;
-using Anabasis.Platform.Abstractions;
-using Anabasis.Platform.Abstractions.Resources;
 using Anabasis.Platform.Silk.Internal;
 using Silk.NET.OpenGL;
 

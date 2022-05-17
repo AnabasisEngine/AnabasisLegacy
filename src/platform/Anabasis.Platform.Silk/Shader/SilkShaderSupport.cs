@@ -2,6 +2,7 @@
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Platform.Abstractions;
 using Anabasis.Platform.Silk.Internal;
+using Anabasis.Platform.Silk.Shader.Parameters;
 using Anabasis.Utility;
 using Silk.NET.OpenGL;
 using GlShaderType = Silk.NET.OpenGL.ShaderType;
@@ -11,7 +12,14 @@ namespace Anabasis.Platform.Silk.Shader;
 
 public partial class SilkShaderSupport : IShaderSupport
 {
-    public async ValueTask<IPlatformHandle> CompileAndLinkAsync(IGraphicsDevice provider, IShaderProgramTexts texts, CancellationToken cancellationToken) {
+    private readonly ParameterConstructorProvider _parameterProvider;
+
+    internal SilkShaderSupport(ParameterConstructorProvider parameterProvider) {
+        _parameterProvider = parameterProvider;
+    }
+
+    public async ValueTask<IPlatformHandle> CompileAndLinkAsync(IGraphicsDevice provider, IShaderProgramTexts texts,
+        CancellationToken cancellationToken) {
         IGlApi gl = Guard.IsType<SilkGraphicsDevice>(provider, "Unexpected platform implementation").Gl;
         ShaderHandle[] shaders = new ShaderHandle[texts.GetTexts().Count];
         ProgramHandle program;
@@ -43,6 +51,7 @@ public partial class SilkShaderSupport : IShaderSupport
             if (status == 0) {
                 throw new Exception($"Program failed to link with error: {gl.GetProgramInfoLog(program)}");
             }
+
             foreach (ShaderHandle shader in shaders) {
                 gl.DetachShader(program, shader);
             }
@@ -54,6 +63,14 @@ public partial class SilkShaderSupport : IShaderSupport
         }
 
         return program;
+    }
+
+    public IShaderParameter<TParam> CreateParameter<TParam>(IGraphicsDevice graphicsDevice, string name,
+        IPlatformHandle programHandle)
+        where TParam : struct {
+        IGlApi gl = Guard.IsType<SilkGraphicsDevice>(graphicsDevice).Gl;
+        ProgramHandle program = Guard.IsType<ProgramHandle>(programHandle);
+        return _parameterProvider.Get<TParam>().Create(gl, name, program);
     }
 
     private static GlShaderType ShaderTypeToNative(ShaderType type) => type switch {

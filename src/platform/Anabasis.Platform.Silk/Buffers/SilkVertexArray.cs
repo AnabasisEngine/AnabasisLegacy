@@ -6,7 +6,7 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Buffers;
 
-public class SilkVertexArray<TVertex, TIndex> : SilkGlObject<VertexArrayHandle>, IVertexArray<TVertex, TIndex>, ISilkVertexArray<TVertex>
+public class SilkVertexArray<TVertex, TIndex> : SilkGlObject<VertexArrayHandle>, IVertexArray<TVertex, TIndex>
     where TVertex : unmanaged
     where TIndex : unmanaged
 {

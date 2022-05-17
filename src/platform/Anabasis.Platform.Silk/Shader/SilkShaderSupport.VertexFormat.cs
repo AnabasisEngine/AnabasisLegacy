@@ -82,7 +82,7 @@ public partial class SilkShaderSupport
         };
     }
 
-    internal IEnumerable<VertexAttribPointer> BuildAttribList<TVertex>(IGlApi gl, ProgramHandle handle) {
+    internal static IEnumerable<VertexAttribPointer> BuildAttribList<TVertex>(IGlApi gl, ProgramHandle handle) {
         Type vertexType = typeof(TVertex);
         foreach (FieldInfo field in vertexType.GetFields()) {
             if (field.GetCustomAttribute<VertexAttributeAttribute>() is not { } attribute)
@@ -134,7 +134,7 @@ public partial class SilkShaderSupport
 
         [MemberNotNull(nameof(BindingIndex))]
         public IBindingIndex BindVertexFormat(IVertexArray<TVertex> array, IBufferObject<TVertex> bufferObject) {
-            VertexArrayHandle handle = Guard.IsType<ISilkVertexArray<TVertex>>(array).Handle;
+            VertexArrayHandle handle = Guard.IsType<IGlObject<VertexArrayHandle>>(array).Handle;
             if (BindingIndex is null) {
                 CreateBindings(handle);
             }

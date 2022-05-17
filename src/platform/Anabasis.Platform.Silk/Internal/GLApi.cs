@@ -69,7 +69,7 @@ internal class GlApi : IGlApi
         _gl.VertexArrayAttribBinding(vaobj.Value, attribindex, bindingindex.Value);
     }
 
-    public BufferObjectHandle CreateBuffer() => new BufferObjectHandle(_gl.CreateBuffer());
+    public BufferObjectHandle CreateBuffer() => new(_gl.CreateBuffer());
 
     public void DeleteBuffer(BufferObjectHandle handle) {
         _gl.DeleteBuffer(handle.Value);
@@ -79,7 +79,7 @@ internal class GlApi : IGlApi
         _gl.BindBuffer(target, handle.Value);
     }
 
-    public VertexArrayHandle CreateVertexArray() => new VertexArrayHandle(_gl.CreateVertexArray());
+    public VertexArrayHandle CreateVertexArray() => new(_gl.CreateVertexArray());
 
     public void BindVertexArray(VertexArrayHandle handle) {
         _gl.BindVertexArray(handle.Value);
@@ -107,7 +107,7 @@ internal class GlApi : IGlApi
         _gl.DrawElements(primitiveType, count, indexType, (void*)indexOffset);
     }
 
-    public ShaderHandle CreateShader(ShaderType glShaderType) => new ShaderHandle(_gl.CreateShader(glShaderType));
+    public ShaderHandle CreateShader(ShaderType glShaderType) => new(_gl.CreateShader(glShaderType));
 
     public void ShaderSource(ShaderHandle handle, string[] strings) {
         _gl.ShaderSource(handle.Value, (uint)strings.Length, strings, 0);

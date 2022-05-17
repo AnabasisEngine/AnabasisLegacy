@@ -1,5 +1,10 @@
-﻿using Anabasis.Graphics.Abstractions;
+﻿using System.Numerics;
+using Anabasis.Graphics.Abstractions;
+using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Platform.Abstractions;
+using Anabasis.Platform.Silk.Shader;
+using Anabasis.Platform.Silk.Shader.Parameters;
+using Anabasis.Platform.Silk.Textures;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -16,8 +21,7 @@ public sealed class SilkPlatform : IGraphicsPlatform
     private readonly ILoggerFactory           _loggerFactory;
 
     private static readonly GraphicsAPI GraphicsApi = new(ContextAPI.OpenGL, ContextProfile.Core,
-        ContextFlags.ForwardCompatible,
-        new APIVersion(4, 3));
+        ContextFlags.ForwardCompatible, new APIVersion(4, 3));
 
     public SilkPlatform(IHostApplicationLifetime lifetime, ILoggerFactory loggerFactory) {
         _lifetime = lifetime;
@@ -29,7 +33,14 @@ public sealed class SilkPlatform : IGraphicsPlatform
         services.TryAddSingleton<IAnabasisPlatform>(s => s.GetRequiredService<SilkPlatform>());
         services.TryAddSingleton<IGraphicsPlatform>(s => s.GetRequiredService<SilkPlatform>());
         services.TryAddSingleton(sp => (SilkGraphicsDevice)sp.GetRequiredService<IGraphicsDevice>());
+        services.TryAddSingleton<ParameterConstructorProvider>();
+        services.TryAddSingleton<IShaderSupport>(sp =>
+            new SilkShaderSupport(sp.GetRequiredService<ParameterConstructorProvider>()));
+
+        services.TryAddKnownShaderParameterType<Matrix4x4, Matrix4Parameter>();
+        services.TryAddKnownShaderParameterType<TextureBinding, TextureParameter>();
     }
+
 
     public IAnabasisWindow Window { get; private set; } = null!;
     public IGraphicsDevice GraphicsDevice { get; private set; } = null!;
@@ -51,6 +62,6 @@ public sealed class SilkPlatform : IGraphicsPlatform
         };
         IWindow window = SilkNativeWindow.Create(options);
         Window = new SilkWindow(window, _lifetime, this);
-        GraphicsDevice  = new SilkGraphicsDevice(Window, _loggerFactory);
+        GraphicsDevice = new SilkGraphicsDevice(Window, _loggerFactory);
     }
 }

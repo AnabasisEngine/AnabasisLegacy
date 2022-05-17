@@ -11,4 +11,8 @@ public interface IShaderSupport
     IVertexBufferFormatter<TVertex> CreateVertexFormatter<TVertex>(IGraphicsDevice provider,
         IPlatformHandle programHandle)
         where TVertex : unmanaged;
+
+    IShaderParameter<TParam> CreateParameter<TParam>(IGraphicsDevice graphicsDevice, string name,
+        IPlatformHandle programHandle)
+        where TParam : struct;
 }
