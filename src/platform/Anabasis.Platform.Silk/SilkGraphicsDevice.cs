@@ -40,4 +40,11 @@ internal class SilkGraphicsDevice : IDisposable, IGraphicsDevice
         BufferType.VertexBuffer => BufferTargetARB.ArrayBuffer,
         _ => throw new ArgumentOutOfRangeException(nameof(bufferType), bufferType, null),
     });
+
+    public IBufferObject<T> AllocateBuffer<T>(BufferType bufferType, int length, BufferAccess access)
+        where T : unmanaged => new SilkBufferObject<T>(Gl, bufferType switch {
+        BufferType.IndexBuffer => BufferTargetARB.ElementArrayBuffer,
+        BufferType.VertexBuffer => BufferTargetARB.ArrayBuffer,
+        _ => throw new ArgumentOutOfRangeException(nameof(bufferType), bufferType, null),
+    }, length, access);
 }

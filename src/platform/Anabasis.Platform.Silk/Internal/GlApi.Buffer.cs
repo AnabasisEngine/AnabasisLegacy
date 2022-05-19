@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Anabasis.Platform.Silk.Buffers;
 using Silk.NET.OpenGL;
 
@@ -32,5 +33,37 @@ internal partial class GlApi
 
     public void BindBuffer(BufferTargetARB target, BufferObjectHandle handle) {
         _gl.BindBuffer(target, handle.Value);
+    }
+
+    public void NamedBufferStorage<T>(BufferObjectHandle handle, uint length, ReadOnlySpan<T> data,
+        BufferStorageMask flags)
+        where T : unmanaged {
+        _gl.NamedBufferStorage(handle.Value, length, data, flags);
+    }
+
+    public unsafe Span<T> MapNamedBuffer<T>(BufferObjectHandle handle, BufferAccessARB access)
+        where T : unmanaged {
+        _gl.GetNamedBufferParameter(handle.Value, BufferPNameARB.BufferSize, out int size);
+        void* ptr = _gl.MapNamedBuffer(handle.Value, access);
+        if (ptr == null)
+            GetAndThrowError();
+        return new Span<T>(ptr, size);
+    }
+
+    public unsafe Span<T> MapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
+        where T : unmanaged {
+        void* ptr = _gl.MapNamedBufferRange(handle.Value, offset * sizeof(T), (nuint)(length * sizeof(T)), mask);
+        if (ptr == null)
+            GetAndThrowError();
+        return new Span<T>(ptr, length);
+    }
+
+    public void FlushMappedNamedBufferRange(BufferObjectHandle handle, int offset, int length) {
+        _gl.FlushMappedNamedBufferRange(handle.Value, offset, (nuint)length);
+    }
+
+    public void UnmapNamedBuffer(BufferObjectHandle handle) {
+        if (!_gl.UnmapNamedBuffer(handle.Value))
+            GetAndThrowError();
     }
 }

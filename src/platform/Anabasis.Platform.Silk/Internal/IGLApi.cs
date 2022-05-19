@@ -20,4 +20,6 @@ public partial interface IGlApi : IDisposable
         where TName : struct, IGlHandle;
 
     void GetAndThrowError([CallerMemberName] string caller = null!);
+    void FenceAndWait(uint timeoutNanoseconds, SyncBehaviorFlags flags = SyncBehaviorFlags.None);
+    void MemoryBarrier(MemoryBarrierMask mask);
 }

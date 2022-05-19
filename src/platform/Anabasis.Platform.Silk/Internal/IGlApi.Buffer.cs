@@ -20,4 +20,17 @@ public partial interface IGlApi
     BufferObjectHandle CreateBuffer();
     void DeleteBuffer(BufferObjectHandle handle);
     void BindBuffer(BufferTargetARB target, BufferObjectHandle handle);
+
+    void NamedBufferStorage<T>(BufferObjectHandle handle, uint length, ReadOnlySpan<T> data,
+        BufferStorageMask staticDraw)
+        where T : unmanaged;
+
+    unsafe Span<T> MapNamedBuffer<T>(BufferObjectHandle handle, BufferAccessARB access)
+        where T : unmanaged;
+
+    unsafe Span<T> MapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
+        where T : unmanaged;
+
+    void FlushMappedNamedBufferRange(BufferObjectHandle handle, int offset, int length);
+    void UnmapNamedBuffer(BufferObjectHandle handle);
 }

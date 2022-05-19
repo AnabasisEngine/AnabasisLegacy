@@ -14,4 +14,10 @@ public interface IBufferObject<T> : IPlatformResource
     /// This call *may* change the actively bound buffer object(s) if necessary for the particular backend graphics api
     /// </remarks>
     void LoadData(ReadOnlySpan<T> data, int offset = 0);
+
+    /// <summary>
+    /// Returns -1 if the buffer is not allocated
+    /// </summary>
+    int Length { get; }
+    void Allocate(int length, ReadOnlySpan<T> data = default, BufferAccess flags = BufferAccess.None);
 }

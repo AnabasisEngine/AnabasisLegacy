@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Anabasis.Platform.Silk.Error;
 using Microsoft.Extensions.Logging;
 using Silk.NET.Core.Native;
@@ -55,5 +56,20 @@ internal partial class GlApi : IGlApi
         _gl.GetInteger(GetPName.MaxLabelLength, out int maxLength);
         _gl.GetObjectLabel(TName.ObjectType, name.Value, (uint)Math.Min(maxLength, 128), out uint _, out string label);
         return label;
+    }
+
+    public void MemoryBarrier(MemoryBarrierMask mask) {
+        _gl.MemoryBarrier(mask);
+    }
+
+    public void FenceAndWait(uint timeoutNanoseconds, SyncBehaviorFlags flags = SyncBehaviorFlags.None) {
+        nint fence = _gl.FenceSync(SyncCondition.SyncGpuCommandsComplete, flags);
+        switch (_gl.ClientWaitSync(fence, SyncObjectMask.SyncFlushCommandsBit, timeoutNanoseconds)) {
+            case GLEnum.TimeoutExpired:
+                throw new TimeoutException();
+            case GLEnum.WaitFailed:
+                GetAndThrowError();
+                throw new UnreachableException();
+        }
     }
 }
