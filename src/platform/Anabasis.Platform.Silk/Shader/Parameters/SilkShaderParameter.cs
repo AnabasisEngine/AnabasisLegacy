@@ -5,7 +5,6 @@ using Anabasis.Platform.Silk.Internal;
 namespace Anabasis.Platform.Silk.Shader.Parameters;
 
 public abstract class SilkShaderParameter<T> : IShaderParameter<T>
-    where T : struct
 {
     protected SilkShaderParameter(IGlApi gl, string name, ProgramHandle program) {
         Gl = gl;

@@ -2,8 +2,9 @@
 
 namespace Anabasis.Graphics.Abstractions.Textures;
 
-public interface ITexture<out TBinding> : IPlatformResource
-where TBinding : struct
+public interface ITexture : IPlatformResource
 {
-    public TBinding Bind(int unit);
+    ITextureBinding Bind(int unit);
+    int MipmapLevels { get; }
+    void GenerateMipmap();
 }

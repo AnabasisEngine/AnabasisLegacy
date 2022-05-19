@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Shaders;
+using Anabasis.Graphics.Abstractions.Textures;
 using Anabasis.Platform.Abstractions;
 using Anabasis.Platform.Silk.Shader;
 using Anabasis.Platform.Silk.Shader.Parameters;
@@ -36,9 +37,10 @@ public sealed class SilkPlatform : IGraphicsPlatform
         services.TryAddSingleton<ParameterConstructorProvider>();
         services.TryAddSingleton<IShaderSupport>(sp =>
             new SilkShaderSupport(sp.GetRequiredService<ParameterConstructorProvider>()));
+        services.TryAddSingleton<ITextureSupport, SilkTextureSupport>();
 
         services.TryAddKnownShaderParameterType<Matrix4x4, Matrix4Parameter>();
-        services.TryAddKnownShaderParameterType<TextureBinding, TextureParameter>();
+        services.TryAddKnownShaderParameterType<ITextureBinding, TextureParameter>();
     }
 
 

@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Anabasis.Platform.Silk.Shader.Parameters;
 
 internal interface ISilkParameterConstructor<TValue>
-    where TValue : struct
 {
     public IShaderParameter<TValue> Create(IGlApi gl, string name, ProgramHandle programHandle);
 }
@@ -15,7 +14,6 @@ internal class SilkParameterConstructor<TValue,
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         TParam>
     : ISilkParameterConstructor<TValue>
-    where TValue : struct
     where TParam : SilkShaderParameter<TValue>
 {
     private readonly IServiceProvider _provider;

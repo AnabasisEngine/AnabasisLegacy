@@ -10,7 +10,6 @@ public static class SilkServiceCollectionExtensions
     public static void TryAddKnownShaderParameterType
         <TValue, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TParam>(
             this IServiceCollection services)
-        where TValue : struct
         where TParam : SilkShaderParameter<TValue> {
         services.TryAddSingleton<ISilkParameterConstructor<TValue>, SilkParameterConstructor<TValue, TParam>>();
     }

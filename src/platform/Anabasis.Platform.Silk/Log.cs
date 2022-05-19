@@ -3,7 +3,7 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk;
 
-public static class SilkLogIds
+internal static class SilkLogIds
 {
     public const int GlDebugProc = 1;
 }
