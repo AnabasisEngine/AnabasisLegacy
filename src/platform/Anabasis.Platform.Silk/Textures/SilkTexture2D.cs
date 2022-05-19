@@ -6,8 +6,7 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Textures;
 
-public class SilkTexture2D
-    : SilkTexture, ITexture2D, ISupportRawPixelUpload2D<PixelFormat, PixelType>
+public class SilkTexture2D : SilkTexture, ITexture2D, ISupportRawPixelUpload2D<PixelFormat, PixelType>
 {
     public SilkTexture2D(IGlApi glApi, SizedInternalFormat format, int levels, int width, int height) : base(glApi,
         TextureTarget.Texture2D) {

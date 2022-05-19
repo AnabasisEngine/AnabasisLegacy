@@ -4,8 +4,7 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Textures;
 
-public class SilkTexture2DArray
-    : SilkTexture3D, ITexture2DArray
+public class SilkTexture2DArray : SilkTexture3D, ITexture2DArray
 {
     public SilkTexture2DArray(IGlApi glApi, SizedInternalFormat format, int levels, int width, int height, int depth)
         : base(glApi, TextureTarget.Texture2DArray, format, levels, width, height, depth) { }
