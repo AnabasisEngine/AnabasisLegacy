@@ -22,7 +22,8 @@ internal partial class GlApi
         (VertexBufferObjectUsage)usage);
 
     public void NamedBufferSubData<T>(BufferObjectHandle buffer, nint offset, ReadOnlySpan<T> data)
-        where T : unmanaged => _gl.NamedBufferSubData(buffer.Value, offset, (nuint)(data.Length * Marshal.SizeOf<T>()),
+        where T : unmanaged => _gl.NamedBufferSubData(buffer.Value, offset * Marshal.SizeOf<T>(), (nuint)(data.Length * Marshal
+        .SizeOf<T>()),
         data);
 
     public BufferObjectHandle CreateBuffer() => new(_gl.CreateBuffer());
@@ -35,10 +36,10 @@ internal partial class GlApi
         _gl.BindBuffer(target, handle.Value);
     }
 
-    public void NamedBufferStorage<T>(BufferObjectHandle handle, uint length, ReadOnlySpan<T> data,
+    public void NamedBufferStorage<T>(BufferObjectHandle handle, nint length, ReadOnlySpan<T> data,
         BufferStorageMask flags)
         where T : unmanaged {
-        _gl.NamedBufferStorage(handle.Value, length, data, flags);
+        _gl.NamedBufferStorage(handle.Value, (nuint)(length * Marshal.SizeOf<T>()), data, flags);
     }
 
     public unsafe Span<T> MapNamedBuffer<T>(BufferObjectHandle handle, BufferAccessARB access)

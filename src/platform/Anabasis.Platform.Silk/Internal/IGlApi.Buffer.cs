@@ -21,7 +21,7 @@ public partial interface IGlApi
     void DeleteBuffer(BufferObjectHandle handle);
     void BindBuffer(BufferTargetARB target, BufferObjectHandle handle);
 
-    void NamedBufferStorage<T>(BufferObjectHandle handle, uint length, ReadOnlySpan<T> data,
+    void NamedBufferStorage<T>(BufferObjectHandle handle, nint length, ReadOnlySpan<T> data,
         BufferStorageMask staticDraw)
         where T : unmanaged;
 

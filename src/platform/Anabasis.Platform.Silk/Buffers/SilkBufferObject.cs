@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Buffers;
+using System.Diagnostics.CodeAnalysis;
 using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Platform.Silk.Internal;
 using Silk.NET.OpenGL;
@@ -9,7 +10,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
     where T : unmanaged
 {
     private readonly BufferTargetARB _target;
-    private readonly IGlApi              _gl;
+    private readonly IGlApi          _gl;
     public int Length { get; private set; } = -1;
 
 
@@ -39,8 +40,8 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
             mask |= BufferStorageMask.MapWriteBit;
         if ((flags & BufferAccess.Dynamic) != 0)
             mask |= BufferStorageMask.DynamicStorageBit;
-        
-        _gl.NamedBufferStorage(Handle, (uint)length, data, mask);
+
+        _gl.NamedBufferStorage(Handle, length, data, mask);
     }
 
     public void LoadData(ReadOnlySpan<T> data, int offset = 0) {
@@ -51,8 +52,29 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
         } else if (Length >= offset + data.Length) {
             _gl.NamedBufferSubData(Handle, offset, data);
         } else {
-            throw new InvalidOperationException("Cannot change the size of a buffer after first allocation, use Allocate()");
+            throw new InvalidOperationException(
+                "Cannot change the size of a buffer after first allocation, use Allocate()");
         }
+    }
+
+    public void LoadData<TArg>(int offset, int length, SpanAction<T, TArg> load, TArg state) {
+        if (offset < 0)
+            throw new ArgumentOutOfRangeException(nameof(offset), offset, null);
+        if (length < 0)
+            throw new ArgumentOutOfRangeException(nameof(length), length, null);
+        if (Length < 0) {
+            Allocate(length);
+        }
+
+        if (Length < offset + Length)
+            throw new ArgumentOutOfRangeException(nameof(length), length, null);
+        Range range = offset..(offset + length);
+        LoadData(range, load, state);
+    }
+    
+    public void LoadData<TArg>(Range range, SpanAction<T, TArg> load, TArg state) {
+        using BufferMappingRange<T> mapping = MapRange(range, BufferAccess.Write);
+        load(mapping.Span, state);
     }
 
     public override void Dispose() {
@@ -85,7 +107,8 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
             BufferAccess.Read => BufferAccessARB.ReadOnly,
             BufferAccess.Write => BufferAccessARB.WriteOnly,
             BufferAccess.ReadWrite => BufferAccessARB.ReadWrite,
-            _ => throw new ArgumentOutOfRangeException(nameof(flags), flags, "Cannot map full buffer with given flags, use MapRange(Range.All)"),
+            _ => throw new ArgumentOutOfRangeException(nameof(flags), flags,
+                "Cannot map full buffer with given flags, use MapRange(Range.All)"),
         };
         return new BufferMapping<T>(this, _gl, access);
     }
