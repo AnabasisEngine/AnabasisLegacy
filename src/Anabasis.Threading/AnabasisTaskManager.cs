@@ -75,7 +75,7 @@ public class AnabasisTaskManager : IDisposable
         }
     }
 
-    public YieldToMainLoopAwaitable Yield(AnabasisPlatformStepMask mask) => new(mask, this);
+    public YieldToMainLoopAwaitable Yield(AnabasisPlatformStepMask mask = AnabasisPlatformStepMask.All) => new(mask, this);
 
     /// <summary>Provides the context for waiting when asynchronously switching into a game environment.</summary>
     public readonly struct YieldToMainLoopAwaitable

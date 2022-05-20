@@ -1,8 +1,10 @@
-﻿using Anabasis.Graphics.Abstractions;
+﻿using Anabasis.Abstractions;
+using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Platform.Abstractions;
 using Anabasis.Platform.Silk.Internal;
 using Anabasis.Platform.Silk.Shader.Parameters;
+using Anabasis.Threading;
 using Anabasis.Utility;
 using Silk.NET.OpenGL;
 using GlShaderType = Silk.NET.OpenGL.ShaderType;
@@ -13,10 +15,13 @@ namespace Anabasis.Platform.Silk.Shader;
 internal partial class SilkShaderSupport : IShaderSupport
 {
     private readonly ParameterConstructorProvider _parameterProvider;
+    private readonly AnabasisTaskManager          _taskManager;
     private readonly IGlApi                       _gl;
 
-    public SilkShaderSupport(ParameterConstructorProvider parameterProvider, IGraphicsDevice graphicsDevice) {
+    public SilkShaderSupport(ParameterConstructorProvider parameterProvider, IGraphicsDevice graphicsDevice,
+        AnabasisTaskManager taskManager) {
         _parameterProvider = parameterProvider;
+        _taskManager = taskManager;
         _gl = Guard.IsType<SilkGraphicsDevice>(graphicsDevice).Gl;
     }
 
@@ -29,8 +34,11 @@ internal partial class SilkShaderSupport : IShaderSupport
             foreach (KeyValuePair<ShaderType, IAsyncEnumerable<string>> keyValuePair in texts.GetTexts()) {
                 cancellationToken.ThrowIfCancellationRequested();
                 GlShaderType glShaderType = ShaderTypeToNative(keyValuePair.Key);
-                ShaderHandle handle = _gl.CreateShader(glShaderType);
                 string[] strings = await keyValuePair.Value.ToArrayAsync(cancellationToken);
+                
+                await _taskManager.Yield();
+                
+                ShaderHandle handle = _gl.CreateShader(glShaderType);
                 _gl.ShaderSource(handle, strings);
                 _gl.CompileShader(handle);
                 _gl.GetShader(handle, ShaderParameterName.CompileStatus, out int isCompiled);
