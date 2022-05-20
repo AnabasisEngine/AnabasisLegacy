@@ -14,16 +14,18 @@ public static class ImageLoader
         where TPixel : unmanaged, IPixel<TPixel>
         where TFormat : Enum
         where TType : Enum {
-        if (resolver.Resolve<TPixel, TFormat, TType>() is not var (format, type)) return false;
-        if(image.DangerousTryGetSinglePixelMemory(out Memory<TPixel> mem))
-            texture.UploadPixels(0, ..image.Width, ..image.Height, format, type, mem.Span);
-        else {
+        if (resolver.Resolve<TPixel, TFormat, TType>() is not var (format, type))
+            return false;
+        if (image.DangerousTryGetSinglePixelMemory(out Memory<TPixel> mem)) {
+            texture.UploadPixels<TPixel>(0, ..image.Width, ..image.Height, format, type, mem.Span);
+        } else {
             image.ProcessPixelRows(accessor => {
                 for (int i = 0; i < accessor.Height; i++) {
-                    texture.UploadPixels(0, ..accessor.Width, i..(i + 1), format, type, accessor.GetRowSpan(i));
+                    texture.UploadPixels<TPixel>(0, ..accessor.Width, i..(i + 1), format, type, accessor.GetRowSpan(i));
                 }
             });
         }
+
         return true;
     }
 

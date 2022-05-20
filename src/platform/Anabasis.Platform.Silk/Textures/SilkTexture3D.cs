@@ -27,11 +27,11 @@ public class SilkTexture3D : SilkTexture, ITexture3D, ISupportRawPixelUpload3D<P
     public int Depth { get; protected init; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void UploadPixels(int level, Range xRange, Range yRange, Range zRange, Span<Color> pixels) =>
+    public void UploadPixels(int level, Range xRange, Range yRange, Range zRange, ReadOnlySpan<Color> pixels) =>
         UploadPixels(level, xRange, yRange, zRange, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
 
     public void UploadPixels<TPixel>(int level, Range xRange, Range yRange, Range zRange, PixelFormat format,
-        PixelType type, Span<TPixel> pixels)
+        PixelType type, ReadOnlySpan<TPixel> pixels)
         where TPixel : unmanaged {
         (int xOffset, int width) = xRange.GetOffsetAndLength(Width);
         (int yOffset, int height) = yRange.GetOffsetAndLength(Height);

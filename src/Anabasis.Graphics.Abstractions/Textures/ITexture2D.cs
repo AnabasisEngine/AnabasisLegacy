@@ -4,5 +4,5 @@ public interface ITexture2D : ITexture
 {
     int Width { get; }
     int Height { get; }
-    void UploadPixels(int level, Range xRange, Range yRange, Span<Color> pixels);
+    void UploadPixels(int level, Range xRange, Range yRange, ReadOnlySpan<Color> pixels);
 }

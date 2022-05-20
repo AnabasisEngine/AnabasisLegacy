@@ -72,7 +72,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
     }
     
     public void LoadData<TArg>(Range range, SpanAction<T, TArg> load, TArg state) {
-        using BufferMappingRange<T> mapping = MapRange(range, BufferAccess.Write);
+        using BufferMappingRange<T> mapping = MapRange(range, BufferAccess.Write | BufferAccess.Coherent | BufferAccess.Persistent);
         load(mapping.Span, state);
     }
 

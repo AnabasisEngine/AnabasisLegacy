@@ -6,6 +6,6 @@ public interface ISupportRawPixelUpload3D<in TPixelFormat, in TPixelType>: IText
 {
     public void UploadPixels<TPixel>(int level, Range xRange, Range yRange, Range zRange, TPixelFormat format,
         TPixelType type,
-        Span<TPixel> pixels)
+        ReadOnlySpan<TPixel> pixels)
         where TPixel : unmanaged;
 }
