@@ -1,4 +1,4 @@
-﻿using Anabasis.Platform.Abstractions;
+﻿using Anabasis.Abstractions;
 
 namespace Anabasis.Internal;
 
