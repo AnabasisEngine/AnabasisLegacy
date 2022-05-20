@@ -2,14 +2,13 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Anabasis\Anabasis.csproj" />
+      <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk.SixLabors.ImageSharp\Anabasis.Platform.Silk.SixLabors.ImageSharp.csproj" />
       <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk\Anabasis.Platform.Silk.csproj" />
+      <ProjectReference Include="..\..\src\platform\Anabasis.Platform.SixLabors.ImageSharp\Anabasis.Platform.SixLabors.ImageSharp.csproj" />
     </ItemGroup>
 
     <ItemGroup>

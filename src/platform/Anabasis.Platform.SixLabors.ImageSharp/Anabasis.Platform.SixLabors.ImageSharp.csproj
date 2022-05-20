@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <PackageReference Include="SixLabors.ImageSharp" Version="2.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Anabasis.Graphics.Abstractions\Anabasis.Graphics.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>
