@@ -8,7 +8,7 @@ namespace Anabasis.Platform.Silk.SixLabors.ImageSharp;
 public static class SilkImageSharpFormatProvider
 {
     public static void AddSilkImageSharpSupport(this IServiceCollection services) {
-        services.Configure<KnownPixelFormats<PixelFormat, PixelType>>(k => {
+        services.Configure<KnownPixelFormats>(k => {
             k.Register<Rgba32>(PixelFormat.Rgba, PixelType.UnsignedByte);
         });
     }

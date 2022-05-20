@@ -8,7 +8,7 @@ using Color = Anabasis.Graphics.Abstractions.Color;
 
 namespace Anabasis.Platform.SixLabors.ImageSharp;
 
-public sealed class ImageSharpSource<TPixel> : IImageDataSource
+internal sealed class ImageSharpSource<TPixel> : IImageDataSource
     where TPixel : unmanaged, IPixel<TPixel>
 {
     private readonly Image<TPixel>       _img;

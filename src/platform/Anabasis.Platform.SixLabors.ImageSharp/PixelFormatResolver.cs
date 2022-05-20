@@ -6,22 +6,25 @@ namespace Anabasis.Platform.SixLabors.ImageSharp;
 
 public sealed class PixelFormatResolver
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly KnownPixelFormats _formats;
 
-    public PixelFormatResolver(IServiceProvider serviceProvider) {
-        _serviceProvider = serviceProvider;
+    public PixelFormatResolver(IOptions<KnownPixelFormats> options) {
+        _formats = options.Value;
     }
 
     public (TFormat UploadFormat, TType UploadType)? Resolve<TPixel, TFormat, TType>()
         where TPixel : unmanaged, IPixel<TPixel>
         where TFormat : Enum
-        where TType : Enum => _serviceProvider.GetRequiredService<IOptions<KnownPixelFormats<TFormat, TType>>>().Value
-        .KnownFormats[typeof(TPixel)];
+        where TType : Enum =>
+        _formats.KnownFormats.TryGetValue(typeof(TPixel), out (Enum format, Enum type) tuple)
+        && tuple.format is TFormat f && tuple.type is TType t
+            ? (f, t)
+            : null;
 }
 
-public class KnownPixelFormats<TFormat, TType>
+public class KnownPixelFormats
 {
-    public Dictionary<Type, (TFormat, TType)> KnownFormats { get; } = new();
+    public Dictionary<Type, (Enum format, Enum type)> KnownFormats { get; } = new();
 
-    public void Register<TPixel>(TFormat format, TType type) => KnownFormats[typeof(TPixel)] = (format, type);
+    public void Register<TPixel>(Enum format, Enum type) => KnownFormats[typeof(TPixel)] = (format, type);
 }

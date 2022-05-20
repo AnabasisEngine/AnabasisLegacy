@@ -2,6 +2,7 @@
 using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Graphics.Abstractions.Textures;
+using Anabasis.Images.Abstractions;
 using Anabasis.Threading;
 using Microsoft.Extensions.Logging;
 
@@ -15,15 +16,17 @@ public class Game : IAnabasisGame
     private readonly ITextureSupport     _textureSupport;
     private readonly IShaderSupport      _shaderSupport;
     private readonly AnabasisTaskManager _taskManager;
+    private readonly IImageDataLoader    _imageLoader;
 
     public Game(ILogger<Game> logger, IAnabasisTime time, IGraphicsDevice graphics, ITextureSupport textureSupport,
-        IShaderSupport shaderSupport, AnabasisTaskManager taskManager) {
+        IShaderSupport shaderSupport, AnabasisTaskManager taskManager, IImageDataLoader imageLoader) {
         _logger = logger;
         _time = time;
         _graphics = graphics;
         _textureSupport = textureSupport;
         _shaderSupport = shaderSupport;
         _taskManager = taskManager;
+        _imageLoader = imageLoader;
     }
 
     public async AnabasisCoroutine Load() {

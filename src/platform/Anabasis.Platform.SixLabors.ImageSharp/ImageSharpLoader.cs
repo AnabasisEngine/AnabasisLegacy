@@ -7,7 +7,7 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Anabasis.Platform.SixLabors.ImageSharp;
 
-public class ImageSharpLoader : IImageDataLoader
+internal class ImageSharpLoader : IImageDataLoader
 {
     internal static readonly Type                LoaderType = typeof(ImageLoader);
     internal static          MethodInfo?         UploadMethod;
