@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Anabasis.Graphics.Abstractions;
 
@@ -6,6 +8,7 @@ namespace Anabasis.Graphics.Abstractions;
 /// Field initialization order requires this to be a non-record struct to support not having a five-parameter constructor
 /// </remarks>
 [StructLayout(LayoutKind.Explicit)]
+[DebuggerDisplay("{DebugDisplayString,nq}")]
 public readonly partial struct Color : IEquatable<Color>
 {
     public Color(byte r, byte g, byte b, byte a) {
@@ -24,6 +27,9 @@ public readonly partial struct Color : IEquatable<Color>
         PackedValue = packedValue;
     }
 
+    public Color(Vector4 vector4) : this((byte)(vector4.X * 255), (byte)(vector4.Y * 255), (byte)(vector4.Z * 255),
+        (byte)(vector4.W * 255)) { }
+
     [field: FieldOffset(0)]
     public readonly uint PackedValue;
 
@@ -38,12 +44,34 @@ public readonly partial struct Color : IEquatable<Color>
 
     [field: FieldOffset(3)]
     public readonly byte A;
-
+    
+    public void Deconstruct(out byte r, out byte g, out byte b)
+    {
+        r = R;
+        g = G;
+        b = B;
+    }
+    
+    public void Deconstruct(out float r, out float g, out float b)
+    {
+        r = R / 255f;
+        g = G / 255f;
+        b = B / 255f;
+    }
+    
     public void Deconstruct(out byte r, out byte g, out byte b, out byte a) {
         r = R;
         g = G;
         b = B;
         a = A;
+    }
+    
+    public void Deconstruct(out float r, out float g, out float b, out float a)
+    {
+        r = R / 255f;
+        g = G / 255f;
+        b = B / 255f;
+        a = A / 255f;
     }
 
     public bool Equals(Color other) => PackedValue == other.PackedValue;
@@ -55,4 +83,12 @@ public readonly partial struct Color : IEquatable<Color>
     public static bool operator ==(Color left, Color right) => left.Equals(right);
 
     public static bool operator !=(Color left, Color right) => !(left == right);
+
+    internal string DebugDisplayString => $"{R}  {G}  {B}  {A}";
+
+    public Vector4 ToVector4() => new(R / 255f, G / 255f, B / 255f, A / 255f);
+
+    public override string ToString() => $"(R:{R},G:{G},B:{B},A:{A}";
+
+    public string ToHexString() => $"{R:X2}{G:X2}{B:X2}{A:X2}";
 }

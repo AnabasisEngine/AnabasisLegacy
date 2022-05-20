@@ -12,8 +12,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
     private readonly BufferTargetARB _target;
     private readonly IGlApi          _gl;
     public int Length { get; private set; } = -1;
-
-
+    
     internal SilkBufferObject(IGlApi gl, BufferTargetARB target) : base(gl, gl.CreateBuffer()) {
         _target = target;
         _gl = gl;
@@ -89,7 +88,6 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
     [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
     public BufferMappingRange<T> MapRange(Range range, BufferAccess flags = BufferAccess.None) {
         MapBufferAccessMask mask = 0;
-
         if ((flags & BufferAccess.Persistent) != 0)
             mask |= MapBufferAccessMask.MapPersistentBit;
         if ((flags & BufferAccess.Coherent) != 0)
@@ -102,14 +100,11 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
         return new BufferMappingRange<T>(this, _gl, range, mask);
     }
 
-    public BufferMapping<T> Map(BufferAccess flags = BufferAccess.None) {
-        BufferAccessARB access = flags switch {
+    public BufferMapping<T> Map(BufferAccess flags = BufferAccess.None) => new(this, _gl, flags switch {
             BufferAccess.Read => BufferAccessARB.ReadOnly,
             BufferAccess.Write => BufferAccessARB.WriteOnly,
             BufferAccess.ReadWrite => BufferAccessARB.ReadWrite,
             _ => throw new ArgumentOutOfRangeException(nameof(flags), flags,
                 "Cannot map full buffer with given flags, use MapRange(Range.All)"),
-        };
-        return new BufferMapping<T>(this, _gl, access);
-    }
+        });
 }
