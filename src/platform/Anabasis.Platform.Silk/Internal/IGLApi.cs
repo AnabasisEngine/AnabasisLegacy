@@ -1,8 +1,4 @@
-﻿using System.Numerics;
-using System.Runtime.CompilerServices;
-using Anabasis.Platform.Silk.Buffers;
-using Anabasis.Platform.Silk.Shader;
-using Anabasis.Platform.Silk.Textures;
+﻿using System.Runtime.CompilerServices;
 using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Internal;

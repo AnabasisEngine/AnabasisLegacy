@@ -1,5 +1,4 @@
-﻿using Anabasis.Abstractions;
-using Anabasis.Graphics.Abstractions;
+﻿using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Platform.Abstractions;
 using Anabasis.Platform.Silk.Internal;

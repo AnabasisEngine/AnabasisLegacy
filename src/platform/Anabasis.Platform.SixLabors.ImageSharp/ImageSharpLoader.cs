@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Textures;
 using Anabasis.Images.Abstractions;
 using Microsoft.Extensions.Options;

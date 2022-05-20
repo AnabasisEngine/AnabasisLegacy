@@ -1,6 +1,5 @@
 ﻿using Anabasis.Graphics.Abstractions.Textures;
 using Anabasis.Platform.Abstractions;
-using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Textures;
 

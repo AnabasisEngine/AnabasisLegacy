@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Anabasis.Graphics.Abstractions.Textures;
+﻿namespace Anabasis.Graphics.Abstractions.Textures;
 
 public interface ITextureArray : ITexture
 {

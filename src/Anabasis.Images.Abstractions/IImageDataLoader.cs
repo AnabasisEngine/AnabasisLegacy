@@ -1,5 +1,4 @@
-﻿using Anabasis.Graphics.Abstractions;
-using Anabasis.Graphics.Abstractions.Textures;
+﻿using Anabasis.Graphics.Abstractions.Textures;
 
 namespace Anabasis.Images.Abstractions;
 

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Anabasis.Platform.Silk.Buffers;
 using Silk.NET.OpenGL;
 

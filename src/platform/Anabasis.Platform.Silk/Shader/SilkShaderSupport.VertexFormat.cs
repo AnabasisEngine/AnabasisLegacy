@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Platform.Abstractions;
@@ -102,7 +101,7 @@ internal partial class SilkShaderSupport
 
     public IVertexBufferFormatter<TVertex> CreateVertexFormatter<TVertex>(IPlatformHandle programHandle)
         where TVertex : unmanaged {
-        ref ProgramHandle handle = ref Guard.IsType<IPlatformHandle, ProgramHandle>(ref programHandle);
+        ProgramHandle handle = Guard.IsType<ProgramHandle>(programHandle);
 
         return new LazyBufferBinding<TVertex>(_gl, BuildAttribList<TVertex>(_gl, handle).ToArray());
     }
