@@ -1,5 +1,6 @@
 using Anabasis.Abstractions;
 using Anabasis.Platform.Abstractions;
+using Anabasis.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -33,13 +34,26 @@ public class AnabasisHostedService : IHostedService
             hostedService.Run();
     };
 
-
     private void Run() {
         IAnabasisRunLoop loop = _provider.GetRequiredService<IAnabasisRunLoop>();
-        IAnabasisGame game = _provider.GetRequiredService<IAnabasisGame>();
-        using (loop.RegisterHandler(AnabasisPlatformLoopStep.Initialization, 0, "IAnabasisGame.Load", game.Load))
-        using (loop.RegisterHandler(AnabasisPlatformLoopStep.Update, 0, "IAnabasisGame.Update", game.Update))
-        using (loop.RegisterHandler(AnabasisPlatformLoopStep.Render, 0, "IAnabasisGame.Render", game.Render))
-            _platform.Window.Run(loop, _provider.GetRequiredService<IAnabasisTime>());
+        AnabasisTaskManager taskManager = _provider.GetRequiredService<AnabasisTaskManager>();
+        taskManager.MainThreadId = Environment.CurrentManagedThreadId;
+        IAnabasisGame? game = null;
+        IServiceScope? scope = null;
+        try {
+            using (loop.RegisterHandler(AnabasisPlatformLoopStep.Initialization, 0, "IAnabasisGame.Load", () => {
+                       scope = _provider.CreateScope();
+                       game = scope.ServiceProvider.GetRequiredService<IAnabasisGame>();
+                       game.Load().Forget();
+                   }))
+            using (loop.RegisterHandler(AnabasisPlatformLoopStep.Update, 0, "IAnabasisGame.Update",
+                       () => game?.Update()))
+            using (loop.RegisterHandler(AnabasisPlatformLoopStep.Render, 0, "IAnabasisGame.Render",
+                       () => game?.Render()))
+                _platform.Window.Run(loop, _provider.GetRequiredService<IAnabasisTime>());
+        }
+        finally {
+            scope?.Dispose();
+        }
     }
 }
