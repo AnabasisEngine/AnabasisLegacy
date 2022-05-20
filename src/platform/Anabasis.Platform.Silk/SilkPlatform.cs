@@ -35,9 +35,8 @@ public sealed class SilkPlatform : IGraphicsPlatform
         services.TryAddSingleton<IGraphicsPlatform>(s => s.GetRequiredService<SilkPlatform>());
         services.TryAddSingleton(sp => (SilkGraphicsDevice)sp.GetRequiredService<IGraphicsDevice>());
         services.TryAddSingleton<ParameterConstructorProvider>();
-        services.TryAddSingleton<IShaderSupport>(sp =>
-            new SilkShaderSupport(sp.GetRequiredService<ParameterConstructorProvider>()));
-        services.TryAddSingleton<ITextureSupport, SilkTextureSupport>();
+        services.TryAddScoped<IShaderSupport, SilkShaderSupport>();
+        services.TryAddScoped<ITextureSupport, SilkTextureSupport>();
 
         services.TryAddKnownShaderParameterType<Matrix4x4, Matrix4Parameter>();
         services.TryAddKnownShaderParameterType<ITextureBinding, TextureParameter>();
@@ -47,7 +46,7 @@ public sealed class SilkPlatform : IGraphicsPlatform
     public IAnabasisWindow Window { get; private set; } = null!;
     public IGraphicsDevice GraphicsDevice { get; private set; } = null!;
 
-    public void CreateGraphicsContext() {
+    public void Initialize() {
         WindowOptions options = new() {
             IsVisible = true,
             Position = new Vector2D<int>(50, 50),

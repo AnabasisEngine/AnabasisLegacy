@@ -15,7 +15,7 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Shader;
 
-public partial class SilkShaderSupport
+internal partial class SilkShaderSupport
 {
     // FIXME: I think this is fucked for matrices because opengl is column-oriented instead of row-oriented
     private static void GetVertexAttributeBindingCounts(Type type, out int columns, out int countPerColumn) {
@@ -100,14 +100,11 @@ public partial class SilkShaderSupport
         }
     }
 
-    public IVertexBufferFormatter<TVertex> CreateVertexFormatter<TVertex>(
-        IGraphicsDevice provider,
-        IPlatformHandle programHandle)
+    public IVertexBufferFormatter<TVertex> CreateVertexFormatter<TVertex>(IPlatformHandle programHandle)
         where TVertex : unmanaged {
-        IGlApi gl = Guard.IsType<SilkGraphicsDevice>(provider, "Unexpected platform implementation").Gl;
-        ProgramHandle handle = Guard.IsType<ProgramHandle>(programHandle);
+        ref ProgramHandle handle = ref Guard.IsType<IPlatformHandle, ProgramHandle>(ref programHandle);
 
-        return new LazyBufferBinding<TVertex>(gl, BuildAttribList<TVertex>(gl, handle).ToArray());
+        return new LazyBufferBinding<TVertex>(_gl, BuildAttribList<TVertex>(_gl, handle).ToArray());
     }
 
     internal readonly record struct VertexAttribPointer(uint Layout, [Range(1, 4)] int Count,

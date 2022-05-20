@@ -13,7 +13,7 @@ internal class AnabasisLifetime : IHostLifetime
     public IAnabasisPlatform AnabasisPlatform { get; }
     
     public Task WaitForStartAsync(CancellationToken cancellationToken) {
-        AnabasisPlatform.CreateGraphicsContext();
+        AnabasisPlatform.Initialize();
         Window = AnabasisPlatform.Window;
         return Task.CompletedTask;
     }

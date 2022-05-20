@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Platform.Silk.SixL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Platform.SixLabors.ImageSharp", "src\platform\Anabasis.Platform.SixLabors.ImageSharp\Anabasis.Platform.SixLabors.ImageSharp.csproj", "{0E98D29C-6D22-440C-A8A3-53FABA461110}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Images.Abstractions", "src\Anabasis.Images.Abstractions\Anabasis.Images.Abstractions.csproj", "{A1373D82-F570-4677-B4CC-3ACDB2156A00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{0E98D29C-6D22-440C-A8A3-53FABA461110}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E98D29C-6D22-440C-A8A3-53FABA461110}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E98D29C-6D22-440C-A8A3-53FABA461110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1373D82-F570-4677-B4CC-3ACDB2156A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1373D82-F570-4677-B4CC-3ACDB2156A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1373D82-F570-4677-B4CC-3ACDB2156A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1373D82-F570-4677-B4CC-3ACDB2156A00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{088C3865-E555-46BA-B414-54E1DD40E0C4} = {B8AA43FB-A9DF-4A79-B2A3-EA9E3B40D575}
@@ -98,5 +104,6 @@ Global
 		{EE2F562D-AC80-4581-A8A0-FF274AB27624} = {A2E17887-CD0B-4212-8CC5-4435ED76326F}
 		{9D759F38-A6D3-4833-9BDD-AD0DC7518379} = {86087C3C-E68B-425F-8D50-EEA2DE0E81EF}
 		{0E98D29C-6D22-440C-A8A3-53FABA461110} = {86087C3C-E68B-425F-8D50-EEA2DE0E81EF}
+		{A1373D82-F570-4677-B4CC-3ACDB2156A00} = {B8AA43FB-A9DF-4A79-B2A3-EA9E3B40D575}
 	EndGlobalSection
 EndGlobal

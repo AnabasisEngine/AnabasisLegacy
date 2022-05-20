@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0-preview.4.22229.4" />
       <PackageReference Include="SixLabors.ImageSharp" Version="2.1.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\Anabasis.Graphics.Abstractions\Anabasis.Graphics.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Anabasis.Images.Abstractions\Anabasis.Images.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>

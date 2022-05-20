@@ -1,4 +1,5 @@
 ﻿using Anabasis.Graphics.Abstractions.Textures;
+using Anabasis.Images.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SixLabors.ImageSharp;
@@ -18,7 +19,8 @@ public static class ImageLoader
         private readonly TFormat                                  _format;
         private readonly TType                                    _type;
 
-        public TextureUploader(ISupportRawPixelUpload2D<TFormat, TType> texture, int mipmap, TFormat format, TType type) {
+        public TextureUploader(ISupportRawPixelUpload2D<TFormat, TType> texture, int mipmap, TFormat format,
+            TType type) {
             _texture = texture;
             _mipmap = mipmap;
             _format = format;
@@ -31,44 +33,32 @@ public static class ImageLoader
                 return;
             }
 
-            _texture.UploadPixels(_mipmap, Range.All, Range.All, _format, _type, memory.Span);
+            _texture.UploadPixels(_mipmap, ..image.Width, ..image.Height, _format, _type, memory.Span);
         }
 
         private void Run(PixelAccessor<TPixel> accessor) {
             for (int i = 0; i < accessor.Height; i++) {
                 Span<TPixel> span = accessor.GetRowSpan(i);
-                _texture.UploadPixels(_mipmap, Range.All, i..(i + 1), _format, _type, span);
+                _texture.UploadPixels(_mipmap, ..accessor.Width, i..(i + 1), _format, _type, span);
             }
         }
     }
 
-    public static void Upload<TPixel, TFormat, TType>(this Image<TPixel> image,
+    internal static bool Upload<TPixel, TFormat, TType>(this Image<TPixel> image,
         ISupportRawPixelUpload2D<TFormat, TType> texture, PixelFormatResolver resolver)
         where TPixel : unmanaged, IPixel<TPixel>
         where TFormat : Enum
         where TType : Enum {
-        IPixelFormatInfo<TPixel, TFormat, TType> resolver1 = resolver.Resolve<TPixel, TFormat, TType>();
-        new TextureUploader<TPixel, TFormat, TType>(texture, 0, resolver1.UploadFormat, resolver1.UploadType)
+        if (resolver.Resolve<TPixel, TFormat, TType>() is not { } i) return false;
+        new TextureUploader<TPixel, TFormat, TType>(texture, 0, i.UploadFormat, i.UploadType)
             .Upload(image);
+        return true;
     }
 
     public static void AddImageSharpUploader(this IServiceCollection services) {
         services.TryAddSingleton<PixelFormatResolver>();
+        services.TryAddScoped<IImageDataLoader, ImageSharpLoader>();
     }
-}
-
-public sealed class PixelFormatResolver
-{
-    private readonly IServiceProvider _serviceProvider;
-    public PixelFormatResolver(IServiceProvider serviceProvider) {
-        _serviceProvider = serviceProvider;
-    }
-
-    public IPixelFormatInfo<TPixel, TFormat, TType> Resolve<TPixel, TFormat, TType>()
-        where TPixel : unmanaged, IPixel<TPixel>
-        where TFormat : Enum
-        where TType : Enum =>
-        _serviceProvider.GetRequiredService<IPixelFormatInfo<TPixel, TFormat, TType>>();
 }
 
 public interface IPixelFormatInfo<TPixel, out TFormat, out TType>

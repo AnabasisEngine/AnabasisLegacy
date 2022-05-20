@@ -10,17 +10,18 @@ using ShaderType = Anabasis.Graphics.Abstractions.Shaders.ShaderType;
 
 namespace Anabasis.Platform.Silk.Shader;
 
-public partial class SilkShaderSupport : IShaderSupport
+internal partial class SilkShaderSupport : IShaderSupport
 {
     private readonly ParameterConstructorProvider _parameterProvider;
+    private readonly IGlApi                       _gl;
 
-    internal SilkShaderSupport(ParameterConstructorProvider parameterProvider) {
+    public SilkShaderSupport(ParameterConstructorProvider parameterProvider, IGraphicsDevice graphicsDevice) {
         _parameterProvider = parameterProvider;
+        _gl = Guard.IsType<SilkGraphicsDevice>(graphicsDevice).Gl;
     }
 
-    public async ValueTask<IPlatformHandle> CompileAndLinkAsync(IGraphicsDevice provider, IShaderProgramTexts texts,
-        CancellationToken cancellationToken) {
-        IGlApi gl = Guard.IsType<SilkGraphicsDevice>(provider, "Unexpected platform implementation").Gl;
+    public async ValueTask<IPlatformHandle> CompileAndLinkAsync(IShaderProgramTexts texts,
+        CancellationToken cancellationToken = default) {
         ShaderHandle[] shaders = new ShaderHandle[texts.GetTexts().Count];
         ProgramHandle program;
         try {
@@ -28,49 +29,47 @@ public partial class SilkShaderSupport : IShaderSupport
             foreach (KeyValuePair<ShaderType, IAsyncEnumerable<string>> keyValuePair in texts.GetTexts()) {
                 cancellationToken.ThrowIfCancellationRequested();
                 GlShaderType glShaderType = ShaderTypeToNative(keyValuePair.Key);
-                ShaderHandle handle = gl.CreateShader(glShaderType);
+                ShaderHandle handle = _gl.CreateShader(glShaderType);
                 string[] strings = await keyValuePair.Value.ToArrayAsync(cancellationToken);
-                gl.ShaderSource(handle, strings);
-                gl.CompileShader(handle);
-                gl.GetShader(handle, ShaderParameterName.CompileStatus, out int isCompiled);
+                _gl.ShaderSource(handle, strings);
+                _gl.CompileShader(handle);
+                _gl.GetShader(handle, ShaderParameterName.CompileStatus, out int isCompiled);
                 if (isCompiled == 0) {
                     throw new Exception(
-                        $"Error compiling shader of type {keyValuePair.Key}, failed with error {gl.GetShaderInfoLog(handle)}");
+                        $"Error compiling shader of type {keyValuePair.Key}, failed with error {_gl.GetShaderInfoLog(handle)}");
                 }
 
                 shaders[i++] = handle;
             }
 
-            program = gl.CreateProgram();
+            program = _gl.CreateProgram();
             foreach (ShaderHandle shader in shaders) {
-                gl.AttachShader(program, shader);
+                _gl.AttachShader(program, shader);
             }
 
-            gl.LinkProgram(program);
-            gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int status);
+            _gl.LinkProgram(program);
+            _gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int status);
             if (status == 0) {
-                throw new Exception($"Program failed to link with error: {gl.GetProgramInfoLog(program)}");
+                throw new Exception($"Program failed to link with error: {_gl.GetProgramInfoLog(program)}");
             }
 
             foreach (ShaderHandle shader in shaders) {
-                gl.DetachShader(program, shader);
+                _gl.DetachShader(program, shader);
             }
         }
         finally {
             foreach (ShaderHandle shader in shaders) {
-                gl.DeleteShader(shader);
+                _gl.DeleteShader(shader);
             }
         }
 
         return program;
     }
 
-    public IShaderParameter<TParam> CreateParameter<TParam>(IGraphicsDevice graphicsDevice, string name,
-        IPlatformHandle programHandle)
+    public IShaderParameter<TParam> CreateParameter<TParam>(string name, IPlatformHandle programHandle)
         where TParam : struct {
-        IGlApi gl = Guard.IsType<SilkGraphicsDevice>(graphicsDevice).Gl;
         ProgramHandle program = Guard.IsType<ProgramHandle>(programHandle);
-        return _parameterProvider.Get<TParam>().Create(gl, name, program);
+        return _parameterProvider.Get<TParam>().Create(_gl, name, program);
     }
 
     private static GlShaderType ShaderTypeToNative(ShaderType type) => type switch {
