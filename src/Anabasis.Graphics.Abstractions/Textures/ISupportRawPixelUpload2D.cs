@@ -1,6 +1,6 @@
 namespace Anabasis.Graphics.Abstractions.Textures;
 
-public interface ISupportRawPixelUpload2D<in TPixelFormat, in TPixelType>
+public interface ISupportRawPixelUpload2D<in TPixelFormat, in TPixelType> : ITexture2D
     where TPixelFormat : Enum
     where TPixelType : Enum
 {

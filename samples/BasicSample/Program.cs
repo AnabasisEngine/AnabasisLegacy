@@ -4,6 +4,8 @@ using Anabasis;
 using Anabasis.Abstractions;
 using Anabasis.Builder;
 using Anabasis.Platform.Silk;
+using Anabasis.Platform.Silk.SixLabors.ImageSharp;
+using Anabasis.Platform.SixLabors.ImageSharp;
 using BasicSample;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -23,7 +25,11 @@ try {
                 .WriteTo.Console();
         }))
         .UsingPlatform<SilkPlatform>()
-        .ConfigureServices(s => s.AddSingleton<IAnabasisGame, Game>())
+        .ConfigureServices(s => {
+            s.AddScoped<IAnabasisGame, Game>();
+            s.AddImageSharpUploader();
+            s.AddSilkImageSharpSupport();
+        })
         .Build()
         .RunAsync();
     return 0;

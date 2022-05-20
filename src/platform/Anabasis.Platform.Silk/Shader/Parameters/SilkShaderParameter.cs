@@ -26,7 +26,7 @@ public abstract class SilkShaderParameter<T> : IShaderParameter<T>
     private int? GetLocation() => Gl.UniformLocation(_program, Name);
 
     protected readonly IGlApi        Gl;
-    private            T             _value;
+    private            T             _value = default!;
     private            int?          _location;
     private readonly   ProgramHandle _program;
     protected abstract void SetValue(uint programHandle, int location, in T value);
