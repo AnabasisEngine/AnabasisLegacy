@@ -13,4 +13,6 @@ public interface IShaderSupport
 
     IShaderParameter<TParam> CreateParameter<TParam>(string name, IPlatformHandle programHandle)
         where TParam : struct;
+
+    void UseShaderProgram(IPlatformHandle program);
 }

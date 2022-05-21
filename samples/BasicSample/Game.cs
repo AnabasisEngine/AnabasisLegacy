@@ -124,7 +124,7 @@ public class Game : IAnabasisGame, IDisposable
         if (!_loadedTcs.Task.IsCompleted)
             return;
         _graphics.Clear(new Color(0.1f, 0.1f, 0.1f, 1f), ClearFlags.Color | ClearFlags.Depth);
-        _graphics.UseShaderProgram(_shader);
+        _shaderSupport.UseShaderProgram(_shader);
         using (_vertexArray.Use())
             _vertexArray.DrawArraysInstanced(DrawMode.Triangles, 0, 6, 100);
     }

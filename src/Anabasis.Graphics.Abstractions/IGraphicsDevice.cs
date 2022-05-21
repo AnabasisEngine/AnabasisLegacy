@@ -12,8 +12,6 @@ public interface IGraphicsDevice
         where T : unmanaged;
 
     void Clear(Color color, ClearFlags flags = ClearFlags.None);
-
-    void UseShaderProgram(IPlatformHandle program);
 }
 
 [Flags]

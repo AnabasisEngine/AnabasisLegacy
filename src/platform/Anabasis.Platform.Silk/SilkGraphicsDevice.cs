@@ -58,10 +58,6 @@ internal class SilkGraphicsDevice : IDisposable, IGraphicsDevice
         Gl.ClearFlags(mask);
     }
 
-    public void UseShaderProgram(IPlatformHandle program) {
-        Gl.UseProgram(Guard.IsType<ProgramHandle>(program));
-    }
-
     public IBufferObject<T> AllocateBuffer<T>(BufferType bufferType, int length, BufferAccess access)
         where T : unmanaged => new SilkBufferObject<T>(Gl, bufferType switch {
         BufferType.IndexBuffer => BufferTargetARB.ElementArrayBuffer,

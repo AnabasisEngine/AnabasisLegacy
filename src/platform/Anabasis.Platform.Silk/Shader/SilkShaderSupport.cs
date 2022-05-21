@@ -87,4 +87,8 @@ internal partial class SilkShaderSupport : IShaderSupport
         ShaderType.TessControl => GlShaderType.TessControlShader,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
+
+    public void UseShaderProgram(IPlatformHandle program) {
+        _gl.UseProgram(Guard.IsType<ProgramHandle>(program));
+    }
 }
