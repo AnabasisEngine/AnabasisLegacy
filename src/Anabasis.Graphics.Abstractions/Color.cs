@@ -19,6 +19,9 @@ public readonly partial struct Color : IEquatable<Color>
         A = a;
     }
 
+    public Color(float r, float g, float b, float a)
+        : this(new Vector4(r, g, b, a)) { }
+
     public Color(uint packedValue) {
         R = 0;
         G = 0;
@@ -44,30 +47,27 @@ public readonly partial struct Color : IEquatable<Color>
 
     [field: FieldOffset(3)]
     public readonly byte A;
-    
-    public void Deconstruct(out byte r, out byte g, out byte b)
-    {
+
+    public void Deconstruct(out byte r, out byte g, out byte b) {
         r = R;
         g = G;
         b = B;
     }
-    
-    public void Deconstruct(out float r, out float g, out float b)
-    {
+
+    public void Deconstruct(out float r, out float g, out float b) {
         r = R / 255f;
         g = G / 255f;
         b = B / 255f;
     }
-    
+
     public void Deconstruct(out byte r, out byte g, out byte b, out byte a) {
         r = R;
         g = G;
         b = B;
         a = A;
     }
-    
-    public void Deconstruct(out float r, out float g, out float b, out float a)
-    {
+
+    public void Deconstruct(out float r, out float g, out float b, out float a) {
         r = R / 255f;
         g = G / 255f;
         b = B / 255f;

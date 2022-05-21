@@ -1,13 +1,27 @@
 ﻿using Anabasis.Graphics.Abstractions.Buffer;
+using Anabasis.Platform.Abstractions;
 
 namespace Anabasis.Graphics.Abstractions;
 
 public interface IGraphicsDevice
 {
-    public IVertexArray<TVertex, TIndex> CreateVertexArray<TVertex, TIndex>()
-        where TVertex : unmanaged
+    public IVertexArray<TIndex> CreateVertexArray<TIndex>()
         where TIndex : unmanaged;
 
     public IBufferObject<T> CreateBuffer<T>(BufferType bufferType)
         where T : unmanaged;
+
+    void Clear(Color color, ClearFlags flags = ClearFlags.None);
+
+    void UseShaderProgram(IPlatformHandle program);
+}
+
+[Flags]
+public enum ClearFlags
+{
+    None     = 0,
+    Color    = 1,
+    Stencil  = 2,
+    Depth    = 4,
+    Coverage = 8
 }

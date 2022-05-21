@@ -3,5 +3,5 @@
 public interface IPlatformResource : IDisposable
 {
     public IPlatformHandle Handle { get; }
-    public void Use();
+    public IDisposable Use();
 }

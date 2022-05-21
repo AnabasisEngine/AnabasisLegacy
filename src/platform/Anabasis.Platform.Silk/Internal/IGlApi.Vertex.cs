@@ -19,4 +19,5 @@ public partial interface IGlApi
         uint sizeOf);
 
     void VertexArrayElementBuffer(VertexArrayHandle handle, BufferObjectHandle buffer);
+    void VertexArrayBindingDivisor(VertexArrayHandle vaobj, SilkBindingIndex bindingindex, uint divisor);
 }

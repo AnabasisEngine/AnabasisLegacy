@@ -28,6 +28,6 @@ public abstract class SilkGlObject<TName> : IGlObject<TName>, IPlatformResource
         }
     }
 
-    public abstract void Use();
+    public abstract IDisposable Use();
     public abstract void Dispose();
 }

@@ -1,6 +1,8 @@
 ﻿using Anabasis.Abstractions;
 using Anabasis.Platform.Abstractions;
+using Anabasis.Platform.Silk.Internal;
 using Microsoft.Extensions.Hosting;
+using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 
 namespace Anabasis.Platform.Silk;
@@ -20,9 +22,10 @@ internal class SilkWindow : IAnabasisWindow
 
     internal IWindow Window { get; }
 
-    public void Run(IAnabasisRunLoop runLoop, IAnabasisTime time) {
+    public void Run(IAnabasisRunLoop runLoop, IAnabasisTime time, Action unloadCallback) {
         Window.Load += () => {
-            ((SilkGraphicsDevice)_silkPlatform.GraphicsDevice).Load();
+            IGlApi glApi = ((SilkGraphicsDevice)_silkPlatform.GraphicsDevice).Load();
+            ((GlApi)glApi).Gl.Enable(EnableCap.DepthTest);
             runLoop.Load();
         };
         Window.Update += d => {
@@ -33,6 +36,7 @@ internal class SilkWindow : IAnabasisWindow
             time.Render(d);
             runLoop.Render();
         };
+        Window.Closing += unloadCallback;
         Window.Run();
         _tcs.TrySetResult();
         _applicationLifetime.StopApplication();

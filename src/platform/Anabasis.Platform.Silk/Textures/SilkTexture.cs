@@ -26,8 +26,9 @@ public abstract class SilkTexture : SilkGlObject<TextureHandle>, ITexture
         Gl.DeleteTexture(Handle);
     }
 
-    public override void Use() {
+    public override IDisposable Use() {
         Bind(0);
+        return new GenericDisposer(() => Gl.BindTextureUnit(0, new TextureHandle(0)));
     }
 
     protected static int ComputeMipmapDimension(int mipmap, int length) => length / (1 << mipmap);

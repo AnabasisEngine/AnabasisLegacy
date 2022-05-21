@@ -87,7 +87,7 @@ internal partial class SilkShaderSupport
             if (field.GetCustomAttribute<VertexAttributeAttribute>() is not { } attribute)
                 continue;
             string attributeName = attribute.Name;
-            int layout = attribute.Layout ?? gl.GetAttribLocation(handle, attributeName);
+            int layout = attribute.Layout == -1 ? gl.GetAttribLocation(handle, attributeName) : attribute.Layout;
             if (layout == -1)
                 continue;
             GetVertexAttributeBindingCounts(field.FieldType, out int cols, out int count);
@@ -103,7 +103,9 @@ internal partial class SilkShaderSupport
         where TVertex : unmanaged {
         ProgramHandle handle = Guard.IsType<ProgramHandle>(programHandle);
 
-        return new LazyBufferBinding<TVertex>(_gl, BuildAttribList<TVertex>(_gl, handle).ToArray());
+        if (typeof(TVertex).GetCustomAttribute<VertexTypeAttribute>() is not { } typeAttribute)
+            throw new InvalidOperationException();
+        return new LazyBufferBinding<TVertex>(_gl, typeAttribute.Divisor, BuildAttribList<TVertex>(_gl, handle).ToArray());
     }
 
     internal readonly record struct VertexAttribPointer(uint Layout, [Range(1, 4)] int Count,
@@ -118,36 +120,40 @@ internal partial class SilkShaderSupport
         where TVertex : unmanaged
     {
         private readonly IGlApi                _gl;
+        private readonly uint                   _divisor;
         private readonly VertexAttribPointer[] _attribs;
-        private          SilkBindingIndex?        _bindingIndex;
+        private          SilkBindingIndex?     _bindingIndex;
 
-        public LazyBufferBinding(IGlApi gl, VertexAttribPointer[] attribs) {
+        public LazyBufferBinding(IGlApi gl, uint divisor, VertexAttribPointer[] attribs) {
             _gl = gl;
+            _divisor = divisor;
             _attribs = attribs;
         }
 
         public IBindingIndex? BindingIndex => _bindingIndex;
 
         [MemberNotNull(nameof(BindingIndex))]
-        public IBindingIndex BindVertexFormat(IVertexArray<TVertex> array, IBufferObject<TVertex> bufferObject) {
+        public IBindingIndex BindVertexFormat(IVertexArray array, IBufferObject<TVertex> bufferObject) {
             VertexArrayHandle handle = Guard.IsType<IGlObject<VertexArrayHandle>>(array).Handle;
             if (BindingIndex is null) {
-                CreateBindings(handle);
-            }
-            array.BindVertexBuffer(bufferObject, BindingIndex);
+                CreateBindings(array, handle, bufferObject);
+            } else
+                array.BindVertexBuffer(bufferObject, BindingIndex);
+
             return BindingIndex;
         }
 
         [MemberNotNull(nameof(BindingIndex))]
-        // TODO because im like this: this can be optimized using IL emit to create a dynamic implementation type at runtime
-        private void CreateBindings(VertexArrayHandle handle) {
+        private void CreateBindings(IVertexArray array, VertexArrayHandle handle, IBufferObject<TVertex> bufferObject) {
             _bindingIndex = new SilkBindingIndex(LazyBufferBinding.NextBindingIndex++);
+            array.BindVertexBuffer(bufferObject, _bindingIndex);
             // pretty sure roslyn optimizes a foreach on an array to a for loop internally so i think this is fine
             foreach ((uint layout, int count, VertexAttribType pointerType, uint offset) in _attribs) {
                 _gl.EnableVertexArrayAttrib(handle, layout);
                 _gl.VertexArrayAttribFormat(handle, layout, count, pointerType, false, offset);
                 _gl.VertexArrayAttribBinding(handle, layout, _bindingIndex.Value);
             }
+            _gl.VertexArrayBindingDivisor(handle, _bindingIndex.Value, _divisor);
 #pragma warning disable CS8774
         }
 #pragma warning restore CS8774

@@ -15,4 +15,6 @@ public class GlDebugException : Exception
         GlSeverity = severity;
         GlMessageId = glMessageId;
     }
+
+    public override string ToString() => $"{base.ToString()}, {nameof(GlSource)}: {GlSource}, {nameof(GlType)}: {GlType}, {nameof(GlSeverity)}: {GlSeverity}, {nameof(GlMessageId)}: {GlMessageId}";
 }

@@ -50,7 +50,9 @@ public class AnabasisHostedService : IHostedService
                        () => game?.Update()))
             using (loop.RegisterHandler(AnabasisPlatformLoopStep.Render, 0, "IAnabasisGame.Render",
                        () => game?.Render()))
-                _platform.Window.Run(loop, _provider.GetRequiredService<IAnabasisTime>());
+                _platform.Window.Run(loop, _provider.GetRequiredService<IAnabasisTime>(), () => {
+                    scope?.Dispose();
+                });
         }
         finally {
             scope?.Dispose();

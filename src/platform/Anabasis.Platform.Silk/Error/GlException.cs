@@ -11,4 +11,6 @@ public class GlException : Exception
     }
     public ErrorCode ErrorCode { get; }
     public string Function { get; }
+
+    public override string ToString() => $"{base.ToString()}, {nameof(ErrorCode)}: {ErrorCode}, {nameof(Function)}: {Function}";
 }

@@ -22,4 +22,5 @@ public partial interface IGlApi
     int UniformLocation(ProgramHandle program, string name);
     void ProgramUniformMatrix4(uint programHandle, int location, bool transpose, Matrix4x4 matrix);
     void ProgramUniform(uint programHandle, int location, int value);
+    void UseProgram(ProgramHandle program);
 }

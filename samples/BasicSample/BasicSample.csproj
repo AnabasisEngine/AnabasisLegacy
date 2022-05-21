@@ -18,4 +18,13 @@
       <PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="shader.frag">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="shader.vert">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

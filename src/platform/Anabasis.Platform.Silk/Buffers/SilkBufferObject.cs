@@ -52,59 +52,52 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
             _gl.NamedBufferSubData(Handle, offset, data);
         } else {
             throw new InvalidOperationException(
-                "Cannot change the size of a buffer after first allocation, use Allocate()");
+                "Cannot change the size of a buffer after first allocation, use Allocate() to allocate sufficient storage");
         }
     }
 
-    public void LoadData<TArg>(int offset, int length, SpanAction<T, TArg> load, TArg state) {
-        if (offset < 0)
-            throw new ArgumentOutOfRangeException(nameof(offset), offset, null);
-        if (length < 0)
-            throw new ArgumentOutOfRangeException(nameof(length), length, null);
-        if (Length < 0) {
-            Allocate(length);
-        }
-
-        if (Length < offset + Length)
-            throw new ArgumentOutOfRangeException(nameof(length), length, null);
-        Range range = offset..(offset + length);
-        LoadData(range, load, state);
-    }
-    
-    public void LoadData<TArg>(Range range, SpanAction<T, TArg> load, TArg state) {
-        using BufferMappingRange<T> mapping = MapRange(range, BufferAccess.Write | BufferAccess.Coherent | BufferAccess.Persistent);
-        load(mapping.Span, state);
-    }
+    // public void LoadData<TArg>(int offset, int length, SpanAction<T, TArg> load, TArg state) {
+    //     if (offset < 0)
+    //         throw new ArgumentOutOfRangeException(nameof(offset), offset, null);
+    //     if (length < 0)
+    //         throw new ArgumentOutOfRangeException(nameof(length), length, null);
+    //     if (Length < 0) {
+    //         Allocate(length);
+    //     }
+    //
+    //     if (Length < offset + Length)
+    //         throw new ArgumentOutOfRangeException(nameof(length), length, null);
+    //     Range range = offset..(offset + length);
+    //     LoadData(range, load, state);
+    // }
+    //
+    // public void LoadData<TArg>(Range range, SpanAction<T, TArg> load, TArg state) {
+    //     using BufferMappingRange<T> mapping = MapRange(range, BufferAccess.Write | BufferAccess.Coherent | BufferAccess.Persistent);
+    //     load(mapping.Span, state);
+    // }
 
     public override void Dispose() {
         GC.SuppressFinalize(this);
         _gl.DeleteBuffer(Handle);
     }
 
-    public override void Use() {
+    public override IDisposable Use() {
         _gl.BindBuffer(_target, Handle);
+        return new GenericDisposer(() => _gl.BindBuffer(_target, new BufferObjectHandle(0)));
     }
 
-    [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
-    public BufferMappingRange<T> MapRange(Range range, BufferAccess flags = BufferAccess.None) {
-        MapBufferAccessMask mask = 0;
-        if ((flags & BufferAccess.Persistent) != 0)
-            mask |= MapBufferAccessMask.MapPersistentBit;
-        if ((flags & BufferAccess.Coherent) != 0)
-            mask |= MapBufferAccessMask.MapCoherentBit;
-        if ((flags & BufferAccess.Read) != 0)
-            mask |= MapBufferAccessMask.MapReadBit;
-        if ((flags & BufferAccess.Write) != 0)
-            mask |= MapBufferAccessMask.MapWriteBit;
-
-        return new BufferMappingRange<T>(this, _gl, range, mask);
-    }
-
-    public BufferMapping<T> Map(BufferAccess flags = BufferAccess.None) => new(this, _gl, flags switch {
-            BufferAccess.Read => BufferAccessARB.ReadOnly,
-            BufferAccess.Write => BufferAccessARB.WriteOnly,
-            BufferAccess.ReadWrite => BufferAccessARB.ReadWrite,
-            _ => throw new ArgumentOutOfRangeException(nameof(flags), flags,
-                "Cannot map full buffer with given flags, use MapRange(Range.All)"),
-        });
+    // [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
+    // public BufferMappingRange<T> MapRange(Range range, BufferAccess flags = BufferAccess.None) {
+    //     MapBufferAccessMask mask = 0;
+    //     if ((flags & BufferAccess.Persistent) != 0)
+    //         mask |= MapBufferAccessMask.MapPersistentBit;
+    //     if ((flags & BufferAccess.Coherent) != 0)
+    //         mask |= MapBufferAccessMask.MapCoherentBit;
+    //     if ((flags & BufferAccess.Read) != 0)
+    //         mask |= MapBufferAccessMask.MapReadBit;
+    //     if ((flags & BufferAccess.Write) != 0)
+    //         mask |= MapBufferAccessMask.MapWriteBit;
+    //
+    //     return new BufferMappingRange<T>(this, _gl, range, mask);
+    // }
 }

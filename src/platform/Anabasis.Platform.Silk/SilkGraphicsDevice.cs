@@ -3,6 +3,8 @@ using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Platform.Abstractions;
 using Anabasis.Platform.Silk.Buffers;
 using Anabasis.Platform.Silk.Internal;
+using Anabasis.Platform.Silk.Shader;
+using Anabasis.Utility;
 using Microsoft.Extensions.Logging;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
@@ -30,9 +32,8 @@ internal class SilkGraphicsDevice : IDisposable, IGraphicsDevice
         _gl?.Dispose();
     }
 
-    public IVertexArray<TVertex, TIndex> CreateVertexArray<TVertex, TIndex>()
-        where TVertex : unmanaged
-        where TIndex : unmanaged => new SilkVertexArray<TVertex, TIndex>(Gl);
+    public IVertexArray<TIndex> CreateVertexArray<TIndex>()
+        where TIndex : unmanaged => new SilkVertexArray<TIndex>(Gl);
 
     public IBufferObject<T> CreateBuffer<T>(BufferType bufferType)
         where T : unmanaged => new SilkBufferObject<T>(Gl, bufferType switch {
@@ -40,6 +41,26 @@ internal class SilkGraphicsDevice : IDisposable, IGraphicsDevice
         BufferType.VertexBuffer => BufferTargetARB.ArrayBuffer,
         _ => throw new ArgumentOutOfRangeException(nameof(bufferType), bufferType, null),
     });
+
+    public void Clear(Color color, ClearFlags flags) {
+        Gl.ClearColor(color);
+        ClearBufferMask mask = 0;
+        if ((flags & ClearFlags.Color) != 0)
+            mask |= ClearBufferMask.ColorBufferBit;
+        if ((flags & ClearFlags.Coverage) != 0)
+            mask |= ClearBufferMask.CoverageBufferBitNV;
+        if ((flags & ClearFlags.Depth) != 0)
+            mask |= ClearBufferMask.DepthBufferBit;
+        if ((flags & ClearFlags.Stencil) != 0)
+            mask |= ClearBufferMask.StencilBufferBit;
+        if(mask == 0)
+            return;
+        Gl.ClearFlags(mask);
+    }
+
+    public void UseShaderProgram(IPlatformHandle program) {
+        Gl.UseProgram(Guard.IsType<ProgramHandle>(program));
+    }
 
     public IBufferObject<T> AllocateBuffer<T>(BufferType bufferType, int length, BufferAccess access)
         where T : unmanaged => new SilkBufferObject<T>(Gl, bufferType switch {

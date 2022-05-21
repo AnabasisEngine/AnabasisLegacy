@@ -1,4 +1,6 @@
-﻿using Anabasis.Graphics.Abstractions.Textures;
+﻿using Anabasis.Graphics.Abstractions;
+using Anabasis.Graphics.Abstractions.Textures;
+using Anabasis.Platform.Abstractions;
 using Anabasis.Platform.Silk.Internal;
 using Silk.NET.OpenGL;
 
@@ -37,6 +39,32 @@ public class SilkTexture2DArray : SilkTexture3D, ITexture2DArray
                 Width = ComputeMipmapDimension(levelOffset, Width),
                 Height = ComputeMipmapDimension(levelOffset, Height),
             };
+        }
+    }
+
+    public ITextureView2D Upload(int layer) => new Texture2DArrayView(this, layer);
+
+    private class Texture2DArrayView : ITextureView2D, ISupportRawPixelUpload2D<PixelFormat, PixelType>
+    {
+        private readonly SilkTexture2DArray _array;
+        private readonly int                _layer;
+
+        public Texture2DArrayView(SilkTexture2DArray array, int layer) {
+            _array = array;
+            _layer = layer;
+        }
+
+        public void UploadPixels(int level, Range xRange, Range yRange, ReadOnlySpan<Color> pixels) {
+            _array.UploadPixels(level, xRange, yRange, _layer..(_layer + 1), pixels);
+        }
+
+        public int Width => _array.Width;
+        public int Height => _array.Height;
+
+        public void UploadPixels<TPixel>(int level, Range xRange, Range yRange, PixelFormat format, PixelType type,
+            ReadOnlySpan<TPixel> pixels)
+            where TPixel : unmanaged {
+            _array.UploadPixels(level, xRange, yRange, _layer..(_layer + 1), format, type, pixels);
         }
     }
 }

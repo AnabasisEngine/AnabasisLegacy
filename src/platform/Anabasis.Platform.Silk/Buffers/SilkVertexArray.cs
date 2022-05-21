@@ -6,16 +6,16 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Buffers;
 
-public class SilkVertexArray<TVertex, TIndex> : SilkGlObject<VertexArrayHandle>, IVertexArray<TVertex, TIndex>
-    where TVertex : unmanaged
+public class SilkVertexArray<TIndex> : SilkGlObject<VertexArrayHandle>, IVertexArray<TIndex>
     where TIndex : unmanaged
 {
     internal SilkVertexArray(IGlApi gl) : base(gl, gl.CreateVertexArray()) {
     }
 
 
-    public override void Use() {
+    public override IDisposable Use() {
         Gl.BindVertexArray(Handle);
+        return new GenericDisposer(() => Gl.BindVertexArray(new VertexArrayHandle(0)));
     }
 
     public override void Dispose() {
@@ -23,7 +23,8 @@ public class SilkVertexArray<TVertex, TIndex> : SilkGlObject<VertexArrayHandle>,
         Gl.DeleteVertexArray(Handle);
     }
 
-    public void BindVertexBuffer(IBufferObject<TVertex> bufferObject, IBindingIndex bindingIndex) {
+    public void BindVertexBuffer<TVertex>(IBufferObject<TVertex> bufferObject, IBindingIndex bindingIndex)
+        where TVertex : unmanaged {
         BufferObjectHandle buffer = Guard.IsType<SilkBufferObject<TVertex>>(bufferObject).Handle;
         SilkBindingIndex idx = Guard.IsType<SilkBindingIndex>(bindingIndex);
         Gl.VertexArrayVertexBuffer(Handle, idx, buffer, 0, (uint)Marshal.SizeOf<TVertex>());
@@ -40,6 +41,14 @@ public class SilkVertexArray<TVertex, TIndex> : SilkGlObject<VertexArrayHandle>,
             _ => throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null),
         };
         Gl.DrawArrays(primitiveType, first, count);
+    }
+
+    public void DrawArraysInstanced(DrawMode drawMode, int first, uint count, uint instances) {
+        PrimitiveType primitiveType = drawMode switch {
+            DrawMode.Triangles => PrimitiveType.Triangles,
+            _ => throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null),
+        };
+        Gl.DrawArraysInstanced(primitiveType, first, count, instances);
     }
 
     public unsafe void DrawElements(DrawMode drawMode, uint count, uint indexOffset) {
