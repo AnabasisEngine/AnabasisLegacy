@@ -23,22 +23,24 @@ public sealed class DrawPipeline : IDisposable
     public IGraphicsDevice GraphicsDevice { get; }
 
     [MemberNotNull(nameof(IndexBuffer))]
-    public void CreateIndexBuffer<T>(int count, ReadOnlySpan<T> span = default, BufferAccess flags = BufferAccess.None)
+    public IBufferObject<T> CreateIndexBuffer<T>(int count, ReadOnlySpan<T> span = default, BufferAccess flags = BufferAccess.None)
         where T : unmanaged {
         IndexBuffer?.Dispose();
         IBufferObject<T> idxBuf = GraphicsDevice.CreateBuffer<T>(BufferType.IndexBuffer);
         IndexBuffer = idxBuf;
         idxBuf.Allocate(count, span, flags);
         VertexArray.BindIndexBuffer(idxBuf);
+        return idxBuf;
     }
 
-    public void CreateVertexBuffer<T>(int count, ReadOnlySpan<T> span = default, BufferAccess flags = BufferAccess.None,
+    public IBufferObject<T> CreateVertexBuffer<T>(int count, ReadOnlySpan<T> span = default, BufferAccess flags = BufferAccess.None,
         IVertexBufferFormatter<T>? formatter = null)
         where T : unmanaged {
         IBufferObject<T> buf = GraphicsDevice.CreateBuffer<T>(BufferType.VertexBuffer);
-        VertexBuffers.AddLast(buf);
-        buf.Allocate(count, span);
+        buf.Allocate(count, span, flags);
         ShaderProgram.FormatBuffer(VertexArray, buf, formatter);
+        VertexBuffers.AddLast(buf);
+        return buf;
     }
 
     public void Dispose() {

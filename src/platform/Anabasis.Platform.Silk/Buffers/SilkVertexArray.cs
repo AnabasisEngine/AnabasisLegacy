@@ -60,7 +60,6 @@ public class SilkVertexArray : SilkGlObject<VertexArrayHandle>, IVertexArray
             _ => throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null),
         };
         Gl.DrawArraysInstanced(primitiveType, first, count, instances);
-        Gl.GetAndThrowError();
     }
 
     public unsafe void DrawElements(DrawMode drawMode, uint count, uint indexOffset) {

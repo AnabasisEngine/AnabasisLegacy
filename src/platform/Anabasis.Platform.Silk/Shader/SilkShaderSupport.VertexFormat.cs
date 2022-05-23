@@ -130,20 +130,18 @@ internal partial class SilkShaderSupport
             _attribs = attribs;
         }
 
-        public IBindingIndex? BindingIndex => _bindingIndex;
-
-        [MemberNotNull(nameof(BindingIndex))]
+        [MemberNotNull(nameof(_bindingIndex))]
         public IBindingIndex BindVertexFormat(IVertexArray array, IBufferObject<TVertex> bufferObject) {
             VertexArrayHandle handle = Guard.IsType<IGlObject<VertexArrayHandle>>(array).Handle;
-            if (BindingIndex is null) {
+            if (_bindingIndex is null) {
                 CreateBindings(array, handle, bufferObject);
             } else
-                array.BindVertexBuffer(bufferObject, BindingIndex);
-
-            return BindingIndex;
+                array.BindVertexBuffer(bufferObject, _bindingIndex);
+            
+            return _bindingIndex;
         }
 
-        [MemberNotNull(nameof(BindingIndex))]
+        [MemberNotNull(nameof(_bindingIndex))]
         private void CreateBindings(IVertexArray array, VertexArrayHandle handle, IBufferObject<TVertex> bufferObject) {
             _bindingIndex = new SilkBindingIndex(LazyBufferBinding.NextBindingIndex++);
             array.BindVertexBuffer(bufferObject, _bindingIndex);
@@ -155,8 +153,6 @@ internal partial class SilkShaderSupport
             }
             _gl.VertexArrayBindingDivisor(handle, _bindingIndex.Value, _divisor);
             _gl.GetAndThrowError();
-#pragma warning disable CS8774
         }
-#pragma warning restore CS8774
     }
 }

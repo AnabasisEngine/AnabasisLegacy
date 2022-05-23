@@ -5,7 +5,6 @@ using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Threading;
 using Microsoft.Extensions.Logging;
-using Silk.NET.Maths;
 
 namespace BasicSample;
 
@@ -17,9 +16,6 @@ public struct VertexData
 
     [VertexAttribute("aColor", Layout = 1)]
     public Vector3 Color;
-    //
-    // [VertexAttribute("aTexCoord")]
-    // public Vector2 TexCoord;
 }
 
 [VertexType(Divisor = 1)]
@@ -27,9 +23,6 @@ public struct InstanceData
 {
     [VertexAttribute("aOffset", Layout = 2)]
     public Vector2 Offset;
-    //
-    // [VertexAttribute("aTexLayer")]
-    // public int LayerCoord;
 }
 
 public class Game : IAnabasisGame, IDisposable
@@ -37,37 +30,33 @@ public class Game : IAnabasisGame, IDisposable
     private readonly ILogger<Game>        _logger;
     private readonly IGraphicsDevice      _graphics;
     private readonly IShaderSupport       _shaderSupport;
-    private readonly AnabasisTaskManager  _taskManager;
     private readonly TaskCompletionSource _loadedTcs;
-    private          Shader               _shader       = null!;
-    private          DrawPipeline         _drawPipeline = null!;
 
-    public Game(ILogger<Game> logger, IGraphicsDevice graphics, IShaderSupport shaderSupport,
-        AnabasisTaskManager taskManager) {
+    private DrawPipeline _pipeline;
+
+    public Game(ILogger<Game> logger, IGraphicsDevice graphics, IShaderSupport shaderSupport) {
         _logger = logger;
         _graphics = graphics;
         _shaderSupport = shaderSupport;
-        _taskManager = taskManager;
         _loadedTcs = new TaskCompletionSource();
     }
 
     public async AnabasisCoroutine Load() {
-        _graphics.Viewport = new Vector2D<uint>(1280, 720);
         _logger.LogDebug("Game.Load");
 
-        _shader = await _shaderSupport.CompileShaderAsync<Shader>();
-        _drawPipeline = _graphics.CreateDrawPipeline(_shader);
+        _pipeline = _graphics.CreateDrawPipeline(await _shaderSupport.CompileShaderAsync<Shader>());
 
-        LoadInstanceVertices(_drawPipeline);
-        LoadInstanceTransforms(_drawPipeline);
+        _pipeline.CreateVertexBuffer<VertexData>(6, LoadInstanceVertices());
+        _pipeline.CreateVertexBuffer<InstanceData>(100, LoadInstanceTransforms());
 
         _loadedTcs.SetResult();
     }
 
-    private void LoadInstanceTransforms(DrawPipeline instances) {
-        Span<InstanceData> data = stackalloc InstanceData[100];
-        const float offset = 0.1f;
-        for (int index = 0, y = -10; y < 10; y += 2) {
+    private InstanceData[] LoadInstanceTransforms() {
+        InstanceData[] data = new InstanceData[100];
+        int index = 0;
+        float offset = 0.1f;
+        for (int y = -10; y < 10; y += 2) {
             for (int x = -10; x < 10; x += 2) {
                 // glm::vec2 translation;
                 // translation.x = (float)x / 10.0f + offset;
@@ -79,11 +68,11 @@ public class Game : IAnabasisGame, IDisposable
             }
         }
 
-        instances.CreateVertexBuffer<InstanceData>(100, data);
+        return data;
     }
 
-    private void LoadInstanceVertices(DrawPipeline vertices) {
-        Span<VertexData> data = stackalloc VertexData[6];
+    private VertexData[] LoadInstanceVertices() {
+        VertexData[] data = new VertexData[6];
         data[0].Pos = new Vector2(-0.5f, 0.5f);
         data[0].Color = new Vector3(1f, 0f, 0f);
 
@@ -101,7 +90,8 @@ public class Game : IAnabasisGame, IDisposable
 
         data[5].Pos = new Vector2(0.5f, 0.5f);
         data[5].Color = new Vector3(0f, 0f, 1f);
-        vertices.CreateVertexBuffer<VertexData>(6, data);
+
+        return data;
     }
 
     public void Update() { }
@@ -109,13 +99,11 @@ public class Game : IAnabasisGame, IDisposable
     public void Render() {
         if (!_loadedTcs.Task.IsCompleted)
             return;
-        _graphics.Clear(Color.Black, ClearFlags.Color | ClearFlags.Depth);
-        _drawPipeline.DrawArraysInstanced(DrawMode.Triangles, 0, 6, 100);
+        _graphics.Clear(new Color(0.1f, 0.1f, 0.1f, 1f), ClearFlags.Color | ClearFlags.Depth);
+        _pipeline.DrawArraysInstanced(DrawMode.Triangles, 0, 6, 100);
     }
 
     public void Dispose() {
-        GC.SuppressFinalize(this);
-        _drawPipeline.Dispose();
-        _shader.Dispose();
+        _pipeline.Dispose();
     }
 }

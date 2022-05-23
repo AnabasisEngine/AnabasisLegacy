@@ -1,9 +1,7 @@
 ﻿namespace Anabasis.Graphics.Abstractions.Buffer;
 
 public interface IVertexBufferFormatter
-{
-    IBindingIndex? BindingIndex { get; }
-}
+{ }
 
 public interface IVertexBufferFormatter<TVertex>
     : IVertexBufferFormatter

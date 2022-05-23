@@ -11,7 +11,7 @@ out vec3 fColor;
 
 void main()
 {
-    vec2 pos = aPos / 8.0 * (gl_InstanceID / 100.0);
+    vec2 pos = aPos / 10.0 * (gl_InstanceID / 100.0);
     fColor = aColor;
 //    fTexCoord = aTexCoord;
 //    fTexLayer = aTexLayer;

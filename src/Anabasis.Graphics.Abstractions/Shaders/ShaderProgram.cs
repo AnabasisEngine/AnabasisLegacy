@@ -46,7 +46,7 @@ public abstract class ShaderProgram : IShaderProgramTexts, IPlatformResource
     private readonly Dictionary<Type, IVertexBufferFormatter> _formatters = new();
 
     public void FormatBuffer<T>(IVertexArray vertexArray, IBufferObject<T> buffer,
-        IVertexBufferFormatter<T>? formatter)
+        IVertexBufferFormatter<T>? formatter = null)
         where T : unmanaged {
         if (formatter != null) {
             _formatters[typeof(T)] = formatter;
