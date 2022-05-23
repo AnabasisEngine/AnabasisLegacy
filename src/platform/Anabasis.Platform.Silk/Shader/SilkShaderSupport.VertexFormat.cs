@@ -154,6 +154,7 @@ internal partial class SilkShaderSupport
                 _gl.VertexArrayAttribBinding(handle, layout, _bindingIndex.Value);
             }
             _gl.VertexArrayBindingDivisor(handle, _bindingIndex.Value, _divisor);
+            _gl.GetAndThrowError();
 #pragma warning disable CS8774
         }
 #pragma warning restore CS8774

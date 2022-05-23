@@ -2,10 +2,10 @@
 out vec4 FragColor;
 
 in vec3 fColor;
-in vec2 fTexCoord;
-in float fTexLayer;
+//in vec2 fTexCoord;
+//in float fTexLayer;
 
-uniform sampler2DArray texarray;
+//uniform sampler2DArray texarray;
 
 void main()
 {

@@ -42,6 +42,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
             mask |= BufferStorageMask.DynamicStorageBit;
 
         _gl.NamedBufferStorage(Handle, length, data, mask);
+        _gl.GetAndThrowError();
     }
 
     public void LoadData(ReadOnlySpan<T> data, int offset = 0) {

@@ -19,19 +19,19 @@ public struct VertexData
 
     [VertexAttribute("aColor", Layout = 1)]
     public Vector3 Color;
-
-    [VertexAttribute("aTexCoord")]
-    public Vector2 TexCoord;
+    //
+    // [VertexAttribute("aTexCoord")]
+    // public Vector2 TexCoord;
 }
 
 [VertexType(Divisor = 1)]
 public struct InstanceData
 {
-    [VertexAttribute("aOffset")]
+    [VertexAttribute("aOffset", Layout = 2)]
     public Vector2 Offset;
-
-    [VertexAttribute("aTexLayer")]
-    public int LayerCoord;
+    //
+    // [VertexAttribute("aTexLayer")]
+    // public int LayerCoord;
 }
 
 public class Game : IAnabasisGame, IDisposable
@@ -68,8 +68,8 @@ public class Game : IAnabasisGame, IDisposable
         _shader = await _shaderSupport.CompileShaderAsync<Shader>();
         _drawPipeline = _graphics.CreateDrawPipeline(_shader);
 
-        LoadInstanceTransforms(_drawPipeline);
         LoadInstanceVertices(_drawPipeline);
+        LoadInstanceTransforms(_drawPipeline);
 
         _loadedTcs.SetResult();
     }
@@ -119,7 +119,7 @@ public class Game : IAnabasisGame, IDisposable
     public void Render() {
         if (!_loadedTcs.Task.IsCompleted)
             return;
-        _graphics.Clear(new Color(0.1f, 0.1f, 0.1f, 1f), ClearFlags.Color | ClearFlags.Depth);
+        _graphics.Clear(Color.Black, ClearFlags.Color | ClearFlags.Depth);
         _drawPipeline.DrawArraysInstanced(DrawMode.Triangles, 0, 6, 100);
     }
 
