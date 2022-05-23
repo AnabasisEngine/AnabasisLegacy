@@ -30,8 +30,7 @@ internal class ImageSharpLoader : IImageDataLoader
     private IImageDataSource Create(Image img) {
         Type type = img.GetType();
         if (type.IsGenericType && typeof(Image<>) == type.GetGenericTypeDefinition()) {
-            return Activator.CreateInstance(GenericSourceType.MakeGenericType(type.GetGenericArguments()),
-                       BindingFlags.NonPublic, null, img, _resolver) as IImageDataSource ??
+            return Activator.CreateInstance(GenericSourceType.MakeGenericType(type.GetGenericArguments()),img, _resolver) as IImageDataSource ??
                    throw new InvalidOperationException();
         }
 
