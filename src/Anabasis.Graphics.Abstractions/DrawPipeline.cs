@@ -2,7 +2,6 @@
 using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Platform.Abstractions.Resources;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Anabasis.Graphics.Abstractions;
 

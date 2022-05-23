@@ -8,9 +8,6 @@ public class Shader : ShaderProgram
         
     }
 
-    // private IShaderParameter<ITextureBinding>? _textureParameter;
-    // public IShaderParameter<ITextureBinding> TextureArray => CreateParameter(ref _textureParameter, "texarray");
-
     public override IEnumerable<(ShaderType,Task<string>)> GetTexts() {
         yield return (ShaderType.Fragment, File.ReadAllTextAsync("shader.frag"));
         yield return (ShaderType.Vertex, File.ReadAllTextAsync("shader.vert"));

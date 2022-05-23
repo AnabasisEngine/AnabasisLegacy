@@ -46,13 +46,13 @@ public class Game : IAnabasisGame, IDisposable
 
         _pipeline = _graphics.CreateDrawPipeline(await _shaderSupport.CompileShaderAsync<Shader>());
 
-        _pipeline.CreateVertexBuffer<VertexData>(6, LoadInstanceVertices());
-        _pipeline.CreateVertexBuffer<InstanceData>(100, LoadInstanceTransforms());
+        _pipeline.CreateVertexBuffer<VertexData>(6, CreateInstanceVertices());
+        _pipeline.CreateVertexBuffer<InstanceData>(100, CreateInstanceTransforms());
 
         _loadedTcs.SetResult();
     }
 
-    private InstanceData[] LoadInstanceTransforms() {
+    private static InstanceData[] CreateInstanceTransforms() {
         InstanceData[] data = new InstanceData[100];
         int index = 0;
         float offset = 0.1f;
@@ -71,7 +71,7 @@ public class Game : IAnabasisGame, IDisposable
         return data;
     }
 
-    private VertexData[] LoadInstanceVertices() {
+    private static VertexData[] CreateInstanceVertices() {
         VertexData[] data = new VertexData[6];
         data[0].Pos = new Vector2(-0.5f, 0.5f);
         data[0].Color = new Vector3(1f, 0f, 0f);
