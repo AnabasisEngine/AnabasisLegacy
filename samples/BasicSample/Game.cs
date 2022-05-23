@@ -3,8 +3,6 @@ using Anabasis.Abstractions;
 using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Graphics.Abstractions.Shaders;
-using Anabasis.Graphics.Abstractions.Textures;
-using Anabasis.Images.Abstractions;
 using Anabasis.Threading;
 using Microsoft.Extensions.Logging;
 using Silk.NET.Maths;
@@ -37,33 +35,25 @@ public struct InstanceData
 public class Game : IAnabasisGame, IDisposable
 {
     private readonly ILogger<Game>        _logger;
-    private readonly IAnabasisTime        _time;
     private readonly IGraphicsDevice      _graphics;
-    private readonly ITextureSupport      _textureSupport;
     private readonly IShaderSupport       _shaderSupport;
     private readonly AnabasisTaskManager  _taskManager;
-    private readonly IImageDataLoader     _imageLoader;
     private readonly TaskCompletionSource _loadedTcs;
     private          Shader               _shader       = null!;
     private          DrawPipeline         _drawPipeline = null!;
 
-    public Game(ILogger<Game> logger, IAnabasisTime time, IGraphicsDevice graphics, ITextureSupport textureSupport,
-        IShaderSupport shaderSupport, AnabasisTaskManager taskManager, IImageDataLoader imageLoader) {
+    public Game(ILogger<Game> logger, IGraphicsDevice graphics, IShaderSupport shaderSupport,
+        AnabasisTaskManager taskManager) {
         _logger = logger;
-        _time = time;
         _graphics = graphics;
-        _textureSupport = textureSupport;
         _shaderSupport = shaderSupport;
         _taskManager = taskManager;
-        _imageLoader = imageLoader;
         _loadedTcs = new TaskCompletionSource();
     }
 
     public async AnabasisCoroutine Load() {
         _graphics.Viewport = new Vector2D<uint>(1280, 720);
         _logger.LogDebug("Game.Load");
-        await _taskManager.Yield(AnabasisPlatformStepMask.PostInitialization);
-        _logger.LogDebug("Game.Load in PostInitialization");
 
         _shader = await _shaderSupport.CompileShaderAsync<Shader>();
         _drawPipeline = _graphics.CreateDrawPipeline(_shader);

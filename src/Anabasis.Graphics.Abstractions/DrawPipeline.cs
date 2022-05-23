@@ -42,7 +42,6 @@ public sealed class DrawPipeline : IDisposable
     }
 
     public void Dispose() {
-        GC.SuppressFinalize(this);
         VertexArray?.Dispose();
         IndexBuffer?.Dispose();
         foreach (IPlatformResource buffer in VertexBuffers) {
