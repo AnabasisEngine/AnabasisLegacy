@@ -1,4 +1,4 @@
-﻿namespace Anabasis.Platform.Silk.Internal;
+﻿namespace Anabasis.Graphics.Abstractions.Internal;
 
 public class GenericDisposer : IDisposable
 {

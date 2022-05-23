@@ -7,7 +7,7 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Textures;
 
-public class SilkTextureSupport : ITextureSupport
+public class SilkTextureSupport : ITextureSupport, ISupportCopyTextureData
 {
     private readonly AnabasisTaskManager _taskManager;
     private readonly IGlApi              _gl;
@@ -30,4 +30,12 @@ public class SilkTextureSupport : ITextureSupport
         int height, int layers) => _taskManager.RunOnGraphicsThread<ITexture2DArray>(() =>
         new SilkTexture2DArray(_gl, SizedInternalFormat.Rgba8, levels, width,
             height, layers));
+
+    public void CopyPixels(ITexture source, ITexture dest, int srcX, int srcY, int srcZ, int srcLevel, int destX,
+        int destY, int destZ, int destLevel, uint srcWidth, uint srcHeight, uint srcDepth) {
+        SilkTexture src = Guard.IsType<SilkTexture>(source);
+        SilkTexture dst = Guard.IsType<SilkTexture>(dest);
+        _gl.CopyImageSubData(src.Handle, src.Target, srcLevel, srcX, srcY, srcZ, dst.Handle, dst.Target, destLevel,
+            destX, destY, destZ, srcWidth, srcHeight, srcDepth);
+    }
 }

@@ -5,5 +5,7 @@ public interface ITextureView3D
     int Width { get; }
     int Height { get; }
     int Depth { get; }
-    void UploadPixels(int level, Range xRange, Range yRange, Range zRange, ReadOnlySpan<Color> pixels);
+
+    void UploadPixels(int level, int xOffset, uint width, int yOffset, uint height, int zOffset, uint depth,
+        ReadOnlySpan<Color> pixels);
 }

@@ -1,4 +1,5 @@
-﻿using Anabasis.Graphics.Abstractions.Textures;
+﻿using Anabasis.Graphics.Abstractions.Internal;
+using Anabasis.Graphics.Abstractions.Textures;
 using Anabasis.Platform.Silk.Internal;
 using Silk.NET.OpenGL;
 
@@ -6,9 +7,13 @@ namespace Anabasis.Platform.Silk.Textures;
 
 public abstract class SilkTexture : SilkGlObject<TextureHandle>, ITexture
 {
-    internal SilkTexture(IGlApi glApi, TextureTarget target) : this(glApi, glApi.CreateTexture(target)) { }
+    public TextureTarget Target { get; }
+    internal SilkTexture(IGlApi glApi, TextureTarget target) : this(glApi, glApi.CreateTexture(target), target) { }
 
-    internal SilkTexture(IGlApi glApi, TextureHandle handle) : base(glApi, handle) { }
+    internal SilkTexture(IGlApi glApi, TextureHandle handle, TextureTarget textureTarget) : base(glApi, handle) {
+        Target = textureTarget;
+    }
+
     public SizedInternalFormat Format { get; protected internal init; }
     public int MipmapLevels { get; protected internal init; }
 

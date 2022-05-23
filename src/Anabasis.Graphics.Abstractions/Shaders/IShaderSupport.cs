@@ -11,8 +11,11 @@ public interface IShaderSupport
     IVertexBufferFormatter<TVertex> CreateVertexFormatter<TVertex>(IPlatformHandle programHandle)
         where TVertex : unmanaged;
 
-    IShaderParameter<TParam> CreateParameter<TParam>(string name, IPlatformHandle programHandle)
-        where TParam : struct;
+    IShaderParameter<TParam> CreateParameter<TParam>(string name, IPlatformHandle programHandle);
 
     void UseShaderProgram(IPlatformHandle program);
+
+    void DisposeProgram(IPlatformHandle program);
+    
+    IPlatformHandle NullHandle { get; }
 }

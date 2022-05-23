@@ -1,4 +1,5 @@
 ﻿using Anabasis.Graphics.Abstractions;
+using Anabasis.Platform.Silk.Textures;
 using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Internal;
@@ -10,4 +11,6 @@ public partial interface IGlApi
     void ClearColor(Color color);
     void DrawArraysInstanced(PrimitiveType primitiveType, int first, uint count, uint instanceCount);
     void ClearFlags(ClearBufferMask mask);
+    void DrawElementsInstanced(PrimitiveType primitiveType, uint count, DrawElementsType indexType, long indexOffset, uint instanceCount);
+    void Viewport(uint width, uint height);
 }

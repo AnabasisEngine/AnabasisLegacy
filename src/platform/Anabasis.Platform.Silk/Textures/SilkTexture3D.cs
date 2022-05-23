@@ -21,22 +21,22 @@ public class SilkTexture3D : SilkTexture, ITexture3D, ISupportRawPixelUpload3D<P
         Gl.TextureStorage3D(Handle, (uint)levels, format, (uint)width, (uint)height, (uint)depth);
     }
 
-    protected SilkTexture3D(IGlApi glApi, TextureHandle handle) : base(glApi, handle) { }
+    protected SilkTexture3D(IGlApi glApi, TextureHandle handle, TextureTarget target) : base(glApi, handle, target) { }
     public int Width { get; protected init; }
     public int Height { get; protected init; }
     public int Depth { get; protected init; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void UploadPixels(int level, Range xRange, Range yRange, Range zRange, ReadOnlySpan<Color> pixels) =>
-        UploadPixels(level, xRange, yRange, zRange, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
+    public void UploadPixels(int level, int xOffset, uint width, int yOffset, uint height, int zOffset, uint depth,
+        ReadOnlySpan<Color> pixels) =>
+        UploadPixels(level, xOffset, width, yOffset, height, zOffset, depth, PixelFormat.Rgba, PixelType.UnsignedByte,
+            pixels);
 
-    public void UploadPixels<TPixel>(int level, Range xRange, Range yRange, Range zRange, PixelFormat format,
-        PixelType type, ReadOnlySpan<TPixel> pixels)
+    public void UploadPixels<TPixel>(int level, int xOffset, uint width, int yOffset, uint height, int zOffset,
+        uint depth,
+        PixelFormat format, PixelType type, ReadOnlySpan<TPixel> pixels)
         where TPixel : unmanaged {
-        (int xOffset, int width) = xRange.GetOffsetAndLength(Width);
-        (int yOffset, int height) = yRange.GetOffsetAndLength(Height);
-        (int zOffset, int depth) = zRange.GetOffsetAndLength(Depth);
-        Gl.TextureSubImage3D(Handle, level, xOffset, yOffset, zOffset, (uint)width, (uint)height, (uint)depth, format,
-            type, pixels.GetPinnableReference());
+        Gl.TextureSubImage3D(Handle, level, xOffset, yOffset, zOffset, width, height, depth, format, type,
+            pixels.GetPinnableReference());
     }
 }

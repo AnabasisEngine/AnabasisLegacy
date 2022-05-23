@@ -17,11 +17,11 @@ public static class ImageLoader
         if (resolver.Resolve<TPixel, TFormat, TType>() is not var (format, type))
             return false;
         if (image.DangerousTryGetSinglePixelMemory(out Memory<TPixel> mem)) {
-            texture.UploadPixels<TPixel>(0, ..image.Width, ..image.Height, format, type, mem.Span);
+            texture.UploadPixels<TPixel>(0, 0,(uint)image.Width, 0,(uint)image.Height, format, type, mem.Span);
         } else {
             image.ProcessPixelRows(accessor => {
                 for (int i = 0; i < accessor.Height; i++) {
-                    texture.UploadPixels<TPixel>(0, ..accessor.Width, i..(i + 1), format, type, accessor.GetRowSpan(i));
+                    texture.UploadPixels<TPixel>(0, 0, (uint)accessor.Width, i, 1, format, type, accessor.GetRowSpan(i));
                 }
             });
         }

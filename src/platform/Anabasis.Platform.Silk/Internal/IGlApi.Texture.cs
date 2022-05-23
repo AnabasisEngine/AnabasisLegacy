@@ -34,4 +34,8 @@ public partial interface IGlApi
         where T0 : unmanaged;
 
     void GenerateTextureMipmap(TextureHandle texture);
+
+    void CopyImageSubData(TextureHandle srcName, TextureTarget srcTarget, int srcLevel, int srcX,
+        int srcY, int srcZ, TextureHandle dstName, TextureTarget dstTarget, int dstLevel, int dstX, int dstY,
+        int dstZ, uint srcWidth, uint srcHeight, uint srcDepth);
 }

@@ -65,4 +65,11 @@ internal partial class GlApi
     }
 
     public void GenerateTextureMipmap(TextureHandle texture) => Gl.GenerateTextureMipmap(texture.Value);
+
+    public void CopyImageSubData(TextureHandle srcName, TextureTarget srcTarget, int srcLevel, int srcX,
+        int srcY, int srcZ, TextureHandle dstName, TextureTarget dstTarget, int dstLevel, int dstX, int dstY,
+        int dstZ, uint srcWidth, uint srcHeight, uint srcDepth) {
+        Gl.CopyImageSubData(srcName.Value, (CopyImageSubDataTarget)srcTarget, srcLevel, srcX, srcY, srcZ, dstName.Value,
+            (CopyImageSubDataTarget)dstTarget, dstLevel, dstX, dstY, dstZ, srcWidth, srcHeight, srcDepth);
+    }
 }

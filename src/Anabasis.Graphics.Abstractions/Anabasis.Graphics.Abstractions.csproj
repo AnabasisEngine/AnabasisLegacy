@@ -4,4 +4,8 @@
       <ProjectReference Include="..\Anabasis.Platform.Abstractions\Anabasis.Platform.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Silk.NET.Maths" Version="2.15.0" />
+    </ItemGroup>
+
 </Project>

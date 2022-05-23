@@ -16,21 +16,19 @@ public class SilkTexture2D : SilkTexture, ITexture2D, ISupportRawPixelUpload2D<P
         Gl.TextureStorage2D(Handle, (uint)levels, format, (uint)width, (uint)height);
     }
 
-    internal SilkTexture2D(IGlApi glApi, TextureHandle handle) : base(glApi, handle) { }
+    internal SilkTexture2D(IGlApi glApi, TextureHandle handle) : base(glApi, handle, TextureTarget.Texture2D) { }
 
     public int Width { get; internal init; }
     public int Height { get; internal init; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void UploadPixels(int level, Range xRange, Range yRange, ReadOnlySpan<Color> pixels) =>
-        UploadPixels(level, xRange, yRange, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
+    public void UploadPixels(int level, int xOffset, uint width, int yOffset, uint height, ReadOnlySpan<Color> pixels) =>
+        UploadPixels(level, xOffset, width, yOffset, height, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
 
-    public void UploadPixels<TPixel>(int level, Range xRange, Range yRange, PixelFormat format, PixelType type,
-        ReadOnlySpan<TPixel> pixels)
+    public void UploadPixels<TPixel>(int level, int xOffset, uint width, int yOffset, uint height, PixelFormat format, 
+    PixelType type, ReadOnlySpan<TPixel> pixels)
         where TPixel : unmanaged {
-        (int xOffset, int width) = xRange.GetOffsetAndLength(Width);
-        (int yOffset, int height) = yRange.GetOffsetAndLength(Height);
-        Gl.TextureSubImage2D(Handle, level, xOffset, yOffset, (uint)width, (uint)height, format, type,
+        Gl.TextureSubImage2D(Handle, level, xOffset, yOffset, width, height, format, type,
             in pixels.GetPinnableReference());
     }
 }

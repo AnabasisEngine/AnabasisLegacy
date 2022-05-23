@@ -6,6 +6,7 @@ using Anabasis.Platform.Silk.Internal;
 using Anabasis.Platform.Silk.Shader;
 using Anabasis.Utility;
 using Microsoft.Extensions.Logging;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 
@@ -21,19 +22,20 @@ internal class SilkGraphicsDevice : IDisposable, IGraphicsDevice
         _contextSource = ((SilkWindow)window).Window;
     }
 
-    private IGlApi? _gl;
+    private IGlApi?        _gl;
+    private Vector2D<uint> _viewport;
     internal IGlApi Gl => Load();
 
     internal IGlApi Load() {
-        return LazyInitializer.EnsureInitialized(ref _gl, () => new GlApi(GL.GetApi(_contextSource), _loggerFactory.CreateLogger<GlApi>()));
+        return LazyInitializer.EnsureInitialized(ref _gl,
+            () => new GlApi(GL.GetApi(_contextSource), _loggerFactory.CreateLogger<GlApi>()));
     }
-    
+
     public void Dispose() {
         _gl?.Dispose();
     }
 
-    public IVertexArray<TIndex> CreateVertexArray<TIndex>()
-        where TIndex : unmanaged => new SilkVertexArray<TIndex>(Gl);
+    public IVertexArray CreateVertexArray() => new SilkVertexArray(Gl);
 
     public IBufferObject<T> CreateBuffer<T>(BufferType bufferType)
         where T : unmanaged => new SilkBufferObject<T>(Gl, bufferType switch {
@@ -53,9 +55,17 @@ internal class SilkGraphicsDevice : IDisposable, IGraphicsDevice
             mask |= ClearBufferMask.DepthBufferBit;
         if ((flags & ClearFlags.Stencil) != 0)
             mask |= ClearBufferMask.StencilBufferBit;
-        if(mask == 0)
+        if (mask == 0)
             return;
         Gl.ClearFlags(mask);
+    }
+
+    public Vector2D<uint> Viewport {
+        get => _viewport;
+        set {
+            Gl.Viewport(_viewport.X, _viewport.Y);
+            _viewport = value;
+        }
     }
 
     public IBufferObject<T> AllocateBuffer<T>(BufferType bufferType, int length, BufferAccess access)

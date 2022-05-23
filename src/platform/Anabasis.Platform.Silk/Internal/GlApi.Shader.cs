@@ -9,8 +9,8 @@ internal partial class GlApi
 {
     public ShaderHandle CreateShader(ShaderType glShaderType) => new(Gl.CreateShader(glShaderType));
 
-    public void ShaderSource(ShaderHandle handle, string[] strings) {
-        Gl.ShaderSource(handle.Value, (uint)strings.Length, strings, 0);
+    public void ShaderSource(ShaderHandle handle, string @string) {
+        Gl.ShaderSource(handle.Value, @string);
     }
 
     public void CompileShader(ShaderHandle handle) {
@@ -62,5 +62,9 @@ internal partial class GlApi
 
     public void UseProgram(ProgramHandle program) {
         Gl.UseProgram(program.Value);
+    }
+
+    public void DeleteProgram(ProgramHandle program) {
+        Gl.DeleteProgram(program.Value);
     }
 }

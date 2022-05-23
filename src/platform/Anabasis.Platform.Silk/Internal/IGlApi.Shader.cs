@@ -8,7 +8,7 @@ public partial interface IGlApi
 {
     int GetAttribLocation(ProgramHandle program, string name);
     ShaderHandle CreateShader(ShaderType glShaderType);
-    void ShaderSource(ShaderHandle handle, string[] strings);
+    void ShaderSource(ShaderHandle handle, string @string);
     void CompileShader(ShaderHandle handle);
     void GetShader(ShaderHandle handle, ShaderParameterName parameterName, out int i);
     string GetShaderInfoLog(ShaderHandle handle);
@@ -23,4 +23,5 @@ public partial interface IGlApi
     void ProgramUniformMatrix4(uint programHandle, int location, bool transpose, Matrix4x4 matrix);
     void ProgramUniform(uint programHandle, int location, int value);
     void UseProgram(ProgramHandle program);
+    void DeleteProgram(ProgramHandle program);
 }

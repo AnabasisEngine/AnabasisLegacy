@@ -7,5 +7,5 @@ public interface IImageDataLoader
     public ValueTask<IImageDataSource> LoadAsync(Stream stream, CancellationToken cancellationToken = default);
 
     public ValueTask<ITexture2D> LoadAsync(ITextureSupport textureSupport,
-        Stream stream, CancellationToken cancellationToken = default);
+        Stream stream, int levels = 1, CancellationToken cancellationToken = default);
 }

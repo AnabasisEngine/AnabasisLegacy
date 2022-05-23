@@ -38,10 +38,10 @@ internal class ImageSharpLoader : IImageDataLoader
         return new ImageSharpSource<Rgba32>(img.CloneAs<Rgba32>(_configuration), _resolver);
     }
 
-    public async ValueTask<ITexture2D> LoadAsync(ITextureSupport textureSupport, Stream stream,
+    public async ValueTask<ITexture2D> LoadAsync(ITextureSupport textureSupport, Stream stream, int levels = 1,
         CancellationToken cancellationToken = default) {
         Image img = await Image.LoadAsync(_configuration, stream, cancellationToken);
-        ITexture2D texture = await textureSupport.CreateTexture2DAsync(1, img.Width, img.Height);
+        ITexture2D texture = await textureSupport.CreateTexture2DAsync(levels, img.Width, img.Height);
         Create(img).UploadToTexture(texture);
         return texture;
     }

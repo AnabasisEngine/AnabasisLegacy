@@ -2,5 +2,5 @@
 
 public interface IShaderProgramTexts
 {
-    public Dictionary<ShaderType, IAsyncEnumerable<string>> GetTexts();
+    public IEnumerable<(ShaderType, Task<string>)> GetTexts();
 }

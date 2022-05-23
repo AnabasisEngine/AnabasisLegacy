@@ -5,9 +5,9 @@ using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Graphics.Abstractions.Textures;
 using Anabasis.Images.Abstractions;
-using Anabasis.Platform.Abstractions;
 using Anabasis.Threading;
 using Microsoft.Extensions.Logging;
+using Silk.NET.Maths;
 
 namespace BasicSample;
 
@@ -19,29 +19,33 @@ public struct VertexData
 
     [VertexAttribute("aColor", Layout = 1)]
     public Vector3 Color;
+
+    [VertexAttribute("aTexCoord")]
+    public Vector2 TexCoord;
 }
 
 [VertexType(Divisor = 1)]
 public struct InstanceData
 {
-    [VertexAttribute("aOffset", Layout = 2)]
+    [VertexAttribute("aOffset")]
     public Vector2 Offset;
+
+    [VertexAttribute("aTexLayer")]
+    public int LayerCoord;
 }
 
 public class Game : IAnabasisGame, IDisposable
 {
-    private readonly ILogger<Game>               _logger;
-    private readonly IAnabasisTime               _time;
-    private readonly IGraphicsDevice             _graphics;
-    private readonly ITextureSupport             _textureSupport;
-    private readonly IShaderSupport              _shaderSupport;
-    private readonly AnabasisTaskManager         _taskManager;
-    private readonly IImageDataLoader            _imageLoader;
-    private readonly TaskCompletionSource        _loadedTcs;
-    private          IPlatformHandle             _shader;
-    private          IVertexArray<ushort>        _vertexArray;
-    private          IBufferObject<VertexData>   _vertices;
-    private          IBufferObject<InstanceData> _instances;
+    private readonly ILogger<Game>        _logger;
+    private readonly IAnabasisTime        _time;
+    private readonly IGraphicsDevice      _graphics;
+    private readonly ITextureSupport      _textureSupport;
+    private readonly IShaderSupport       _shaderSupport;
+    private readonly AnabasisTaskManager  _taskManager;
+    private readonly IImageDataLoader     _imageLoader;
+    private readonly TaskCompletionSource _loadedTcs;
+    private          Shader               _shader       = null!;
+    private          DrawPipeline         _drawPipeline = null!;
 
     public Game(ILogger<Game> logger, IAnabasisTime time, IGraphicsDevice graphics, ITextureSupport textureSupport,
         IShaderSupport shaderSupport, AnabasisTaskManager taskManager, IImageDataLoader imageLoader) {
@@ -56,32 +60,24 @@ public class Game : IAnabasisGame, IDisposable
     }
 
     public async AnabasisCoroutine Load() {
+        _graphics.Viewport = new Vector2D<uint>(1280, 720);
         _logger.LogDebug("Game.Load");
         await _taskManager.Yield(AnabasisPlatformStepMask.PostInitialization);
         _logger.LogDebug("Game.Load in PostInitialization");
 
-        _shader = await _shaderSupport.CompileAndLinkAsync(new ShaderText());
-        IVertexBufferFormatter<VertexData> vertexFormatter = _shaderSupport.CreateVertexFormatter<VertexData>(_shader);
-        IVertexBufferFormatter<InstanceData> instanceFormatter =
-            _shaderSupport.CreateVertexFormatter<InstanceData>(_shader);
+        _shader = await _shaderSupport.CompileShaderAsync<Shader>();
+        _drawPipeline = _graphics.CreateDrawPipeline(_shader);
 
-        _vertexArray = _graphics.CreateVertexArray<ushort>();
-        _vertices = _graphics.CreateBuffer<VertexData>(BufferType.VertexBuffer);
-        _instances = _graphics.CreateBuffer<InstanceData>(BufferType.VertexBuffer);
-        vertexFormatter.BindVertexFormat(_vertexArray, _vertices);
-        instanceFormatter.BindVertexFormat(_vertexArray, _instances);
-
-        LoadInstanceTransforms(_instances);
-        LoadInstanceVertices(_vertices);
+        LoadInstanceTransforms(_drawPipeline);
+        LoadInstanceVertices(_drawPipeline);
 
         _loadedTcs.SetResult();
     }
 
-    private void LoadInstanceTransforms(IBufferObject<InstanceData> instances) {
+    private void LoadInstanceTransforms(DrawPipeline instances) {
         Span<InstanceData> data = stackalloc InstanceData[100];
-        int index = 0;
-        float offset = 0.1f;
-        for (int y = -10; y < 10; y += 2) {
+        const float offset = 0.1f;
+        for (int index = 0, y = -10; y < 10; y += 2) {
             for (int x = -10; x < 10; x += 2) {
                 // glm::vec2 translation;
                 // translation.x = (float)x / 10.0f + offset;
@@ -93,10 +89,10 @@ public class Game : IAnabasisGame, IDisposable
             }
         }
 
-        instances.Allocate(100, data, BufferAccess.Write);
+        instances.CreateVertexBuffer<InstanceData>(100, data);
     }
 
-    private void LoadInstanceVertices(IBufferObject<VertexData> vertices) {
+    private void LoadInstanceVertices(DrawPipeline vertices) {
         Span<VertexData> data = stackalloc VertexData[6];
         data[0].Pos = new Vector2(-0.5f, 0.5f);
         data[0].Color = new Vector3(1f, 0f, 0f);
@@ -115,7 +111,7 @@ public class Game : IAnabasisGame, IDisposable
 
         data[5].Pos = new Vector2(0.5f, 0.5f);
         data[5].Color = new Vector3(0f, 0f, 1f);
-        vertices.Allocate(6, data);
+        vertices.CreateVertexBuffer<VertexData>(6, data);
     }
 
     public void Update() { }
@@ -124,26 +120,12 @@ public class Game : IAnabasisGame, IDisposable
         if (!_loadedTcs.Task.IsCompleted)
             return;
         _graphics.Clear(new Color(0.1f, 0.1f, 0.1f, 1f), ClearFlags.Color | ClearFlags.Depth);
-        _shaderSupport.UseShaderProgram(_shader);
-        using (_vertexArray.Use())
-            _vertexArray.DrawArraysInstanced(DrawMode.Triangles, 0, 6, 100);
-    }
-
-    private class ShaderText : IShaderProgramTexts
-    {
-        public Dictionary<ShaderType, IAsyncEnumerable<string>> GetTexts() => new() {
-            { ShaderType.Vertex, Load("shader.vert") },
-            { ShaderType.Fragment, Load("shader.frag") },
-        };
-
-        private async IAsyncEnumerable<string> Load(string file) {
-            yield return await File.ReadAllTextAsync(file);
-        }
+        _drawPipeline.DrawArraysInstanced(DrawMode.Triangles, 0, 6, 100);
     }
 
     public void Dispose() {
-        _vertexArray.Dispose();
-        _vertices.Dispose();
-        _instances.Dispose();
+        GC.SuppressFinalize(this);
+        _drawPipeline.Dispose();
+        _shader.Dispose();
     }
 }

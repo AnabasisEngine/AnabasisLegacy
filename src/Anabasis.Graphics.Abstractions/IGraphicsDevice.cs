@@ -1,17 +1,20 @@
-﻿using Anabasis.Graphics.Abstractions.Buffer;
+﻿using System.Numerics;
+using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Platform.Abstractions;
+using Silk.NET.Maths;
 
 namespace Anabasis.Graphics.Abstractions;
 
 public interface IGraphicsDevice
 {
-    public IVertexArray<TIndex> CreateVertexArray<TIndex>()
-        where TIndex : unmanaged;
+    public IVertexArray CreateVertexArray();
 
     public IBufferObject<T> CreateBuffer<T>(BufferType bufferType)
         where T : unmanaged;
 
     void Clear(Color color, ClearFlags flags = ClearFlags.None);
+    
+    Vector2D<uint> Viewport { get; set; }
 }
 
 [Flags]

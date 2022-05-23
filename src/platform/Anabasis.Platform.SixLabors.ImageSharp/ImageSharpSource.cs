@@ -19,7 +19,7 @@ internal sealed class ImageSharpSource<TPixel> : IImageDataSource
         _resolver = resolver;
     }
 
-    public void UploadToTexture(ITexture2D texture) {
+    public void UploadToTexture(ITextureView2D texture) {
         Type type = texture.GetType();
         if (type.GetInterfaces().SingleOrDefault(i =>
                 i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ISupportRawPixelUpload2D<,>)) is { } iface) {
@@ -49,14 +49,14 @@ internal sealed class ImageSharpSource<TPixel> : IImageDataSource
         }
     }
 
-    private static void UploadRgba(ITexture2D texture, Image<Rgba32> image) {
+    private static void UploadRgba(ITextureView2D texture, Image<Rgba32> image) {
         if (image.DangerousTryGetSinglePixelMemory(out Memory<Rgba32> memory)) {
-            texture.UploadPixels(0, Range.All, Range.All, MemoryMarshal.Cast<Rgba32, Color>(memory.Span));
+            texture.UploadPixels(0, 0, (uint)image.Width, 0, (uint)image.Height, MemoryMarshal.Cast<Rgba32, Color>(memory.Span));
         } else {
             image.ProcessPixelRows(accessor => {
                 for (int i = 0; i < accessor.Height; i++) {
                     Span<Rgba32> span = accessor.GetRowSpan(i);
-                    texture.UploadPixels(0, ..accessor.Width, i..(i + 1), MemoryMarshal.Cast<Rgba32, Color>(span));
+                    texture.UploadPixels(0, 0, (uint)accessor.Width, i, 1, MemoryMarshal.Cast<Rgba32, Color>(span));
                 }
             });
         }

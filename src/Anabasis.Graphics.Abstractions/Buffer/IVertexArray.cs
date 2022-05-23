@@ -10,11 +10,9 @@ public interface IVertexArray : IPlatformResource
     public void DrawArrays(DrawMode drawMode, int first, uint count);
 
     public void DrawArraysInstanced(DrawMode drawMode, int first, uint count, uint instances);
-}
-
-public interface IVertexArray<TIndex> : IVertexArray, IPlatformResource
-    where TIndex : unmanaged
-{
-    public void BindIndexBuffer(IBufferObject<TIndex> buffer);
+    public void BindIndexBuffer<TIndex>(IBufferObject<TIndex> buffer)
+        where TIndex : unmanaged;
     public void DrawElements(DrawMode drawMode, uint count, uint indexOffset);
+
+    public void DrawElementsInstanced(DrawMode drawMode, uint count, uint indexOffset, uint instanceCount);
 }

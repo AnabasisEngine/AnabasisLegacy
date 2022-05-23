@@ -26,14 +26,15 @@ internal partial class SilkShaderSupport : IShaderSupport
 
     public async ValueTask<IPlatformHandle> CompileAndLinkAsync(IShaderProgramTexts texts,
         CancellationToken cancellationToken = default) {
-        ShaderHandle[] shaders = new ShaderHandle[texts.GetTexts().Count];
+        (ShaderType, Task<string>)[] t = texts.GetTexts().ToArray();
+        ShaderHandle[] shaders = new ShaderHandle[t.Length];
         ProgramHandle program;
         try {
             int i = 0;
-            foreach (KeyValuePair<ShaderType, IAsyncEnumerable<string>> keyValuePair in texts.GetTexts()) {
+            foreach ((ShaderType shaderType, Task<string>? task) in t) {
                 cancellationToken.ThrowIfCancellationRequested();
-                GlShaderType glShaderType = ShaderTypeToNative(keyValuePair.Key);
-                string[] strings = await keyValuePair.Value.ToArrayAsync(cancellationToken);
+                GlShaderType glShaderType = ShaderTypeToNative(shaderType);
+                string strings = await task;
                 
                 await _taskManager.Yield();
                 
@@ -43,7 +44,7 @@ internal partial class SilkShaderSupport : IShaderSupport
                 _gl.GetShader(handle, ShaderParameterName.CompileStatus, out int isCompiled);
                 if (isCompiled == 0) {
                     throw new Exception(
-                        $"Error compiling shader of type {keyValuePair.Key}, failed with error {_gl.GetShaderInfoLog(handle)}");
+                        $"Error compiling shader of type {shaderType}, failed with error {_gl.GetShaderInfoLog(handle)}");
                 }
 
                 shaders[i++] = handle;
@@ -73,8 +74,7 @@ internal partial class SilkShaderSupport : IShaderSupport
         return program;
     }
 
-    public IShaderParameter<TParam> CreateParameter<TParam>(string name, IPlatformHandle programHandle)
-        where TParam : struct {
+    public IShaderParameter<TParam> CreateParameter<TParam>(string name, IPlatformHandle programHandle) {
         ProgramHandle program = Guard.IsType<ProgramHandle>(programHandle);
         return _parameterProvider.Get<TParam>().Create(_gl, name, program);
     }
@@ -91,4 +91,10 @@ internal partial class SilkShaderSupport : IShaderSupport
     public void UseShaderProgram(IPlatformHandle program) {
         _gl.UseProgram(Guard.IsType<ProgramHandle>(program));
     }
+
+    public void DisposeProgram(IPlatformHandle program) {
+        _gl.DeleteProgram(Guard.IsType<ProgramHandle>(program));
+    }
+
+    public IPlatformHandle NullHandle { get; } = new ProgramHandle(0);
 }

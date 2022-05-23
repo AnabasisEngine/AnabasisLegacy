@@ -1,6 +1,7 @@
 ﻿using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using Anabasis.Graphics.Abstractions.Buffer;
+using Anabasis.Graphics.Abstractions.Internal;
 using Anabasis.Platform.Silk.Internal;
 using Silk.NET.OpenGL;
 

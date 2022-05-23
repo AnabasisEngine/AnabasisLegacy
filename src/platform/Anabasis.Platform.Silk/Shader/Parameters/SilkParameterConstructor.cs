@@ -38,6 +38,5 @@ internal class ParameterConstructorProvider
         _provider = provider;
     }
 
-    public ISilkParameterConstructor<TValue> Get<TValue>()
-        where TValue : struct => _provider.GetRequiredService<ISilkParameterConstructor<TValue>>();
+    public ISilkParameterConstructor<TValue> Get<TValue>() => _provider.GetRequiredService<ISilkParameterConstructor<TValue>>();
 }
