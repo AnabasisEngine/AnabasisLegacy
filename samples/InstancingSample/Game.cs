@@ -6,7 +6,7 @@ using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Threading;
 using Microsoft.Extensions.Logging;
 
-namespace BasicSample;
+namespace InstancingSample;
 
 [VertexType]
 public struct VertexData

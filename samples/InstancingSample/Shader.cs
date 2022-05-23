@@ -1,6 +1,6 @@
 ﻿using Anabasis.Graphics.Abstractions.Shaders;
 
-namespace BasicSample;
+namespace InstancingSample;
 
 public class Shader : ShaderProgram
 {

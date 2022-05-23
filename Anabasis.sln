@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Graphics.Abstracti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{6DA66A73-0467-4FAF-A195-5DAD18FEBB35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicSample", "samples\BasicSample\BasicSample.csproj", "{98B5E66E-47D2-4179-B6E3-406F98B345C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstancingSample", "samples\InstancingSample\InstancingSample.csproj", "{98B5E66E-47D2-4179-B6E3-406F98B345C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilkPlatformTests", "test\SilkPlatformTests\SilkPlatformTests.csproj", "{EE2F562D-AC80-4581-A8A0-FF274AB27624}"
 EndProject

@@ -6,7 +6,7 @@ using Anabasis.Builder;
 using Anabasis.Platform.Silk;
 using Anabasis.Platform.Silk.SixLabors.ImageSharp;
 using Anabasis.Platform.SixLabors.ImageSharp;
-using BasicSample;
+using InstancingSample;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
