@@ -15,6 +15,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Anabasis.Graphics.Abstractions\Anabasis.Graphics.Abstractions.csproj" />
       <ProjectReference Include="..\..\Anabasis.Utility\Anabasis.Utility.csproj" />
+      <ProjectReference Include="..\Anabasis.Ascension\Anabasis.Ascension.csproj" />
     </ItemGroup>
 
 </Project>

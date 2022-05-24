@@ -50,21 +50,21 @@ public ref struct SpriteBatch
             Span<VertexSpecification> verticesMemory = buffer.Slice(offset, 4);
             verticesMemory[0].Position = new Vector3D<float>(bounds.Origin, depth);
             verticesMemory[0].Color = color;
-            verticesMemory[0].TexCoord = texCoordRect.Origin;
+            verticesMemory[0].TexCoord = Texture.NormalizeTexCoordUshort(texCoordRect.Origin);
 
             verticesMemory[1].Position =
                 new Vector3D<float>(bounds.Origin + new Vector2D<float>(bounds.Size.X, 0), depth);
             verticesMemory[1].Color = color;
-            verticesMemory[0].TexCoord = texCoordRect.Origin + new Vector2D<ushort>(texCoordRect.Size.X, 0);
+            verticesMemory[0].TexCoord = Texture.NormalizeTexCoordUshort(texCoordRect.Origin + new Vector2D<ushort>(texCoordRect.Size.X, 0));
 
             verticesMemory[2].Position =
                 new Vector3D<float>(bounds.Origin + new Vector2D<float>(0, bounds.Size.Y), depth);
             verticesMemory[2].Color = color;
-            verticesMemory[0].TexCoord = texCoordRect.Origin + new Vector2D<ushort>(0, texCoordRect.Size.Y);
+            verticesMemory[0].TexCoord = Texture.NormalizeTexCoordUshort(texCoordRect.Origin + new Vector2D<ushort>(0, texCoordRect.Size.Y));
 
             verticesMemory[3].Position = new Vector3D<float>(bounds.Max, depth);
             verticesMemory[3].Color = color;
-            verticesMemory[0].TexCoord = texCoordRect.Max;
+            verticesMemory[0].TexCoord = Texture.NormalizeTexCoordUshort(texCoordRect.Max);
 
             // indices are 0,1,3,1,2,3, adjusted for offset within working buffer
             indexLocation[0] = (ushort)(0 + offset);

@@ -26,10 +26,8 @@ public sealed class SpriteBatcher : IDisposable
         _vertexBuffer = vertexBuffer;
         _indexBuffer = indexBuffer;
         _syncLength = _vertexBuffer.Length / 3;
-        _mappedVertexBuffer = _vertexBuffer.MapRange(0, _vertexBuffer.Length,
-            BufferAccess.Coherent | BufferAccess.Persistent | BufferAccess.Write);
-        _mappedIndexBuffer = _indexBuffer.MapRange(0, _indexBuffer.Length,
-            BufferAccess.Coherent | BufferAccess.Persistent | BufferAccess.Write);
+        _mappedVertexBuffer = _vertexBuffer.MapRange(0, _vertexBuffer.Length);
+        _mappedIndexBuffer = _indexBuffer.MapRange(0, _indexBuffer.Length);
     }
 
     internal static async ValueTask<SpriteBatcher> CreateSpriteBatcher(IGraphicsDevice graphicsDevice,
