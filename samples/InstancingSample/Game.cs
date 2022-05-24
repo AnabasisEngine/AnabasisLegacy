@@ -14,8 +14,8 @@ public struct VertexData
     [VertexAttribute("aPos", Layout = 0)]
     public Vector2 Pos;
 
-    [VertexAttribute("aColor", Layout = 1)]
-    public Vector3 Color;
+    [VertexAttribute("aColor", Layout = 1, Normalize = true)]
+    public Color Color;
 }
 
 [VertexType(Divisor = 1)]
@@ -32,7 +32,7 @@ public class Game : IAnabasisGame, IDisposable
     private readonly IShaderSupport       _shaderSupport;
     private readonly TaskCompletionSource _loadedTcs;
 
-    private DrawPipeline _pipeline;
+    private DrawPipeline _pipeline = null!;
 
     public Game(ILogger<Game> logger, IGraphicsDevice graphics, IShaderSupport shaderSupport) {
         _logger = logger;
@@ -74,22 +74,22 @@ public class Game : IAnabasisGame, IDisposable
     private static VertexData[] CreateInstanceVertices() {
         VertexData[] data = new VertexData[6];
         data[0].Pos = new Vector2(-0.5f, 0.5f);
-        data[0].Color = new Vector3(1f, 0f, 0f);
+        data[0].Color = Color.Red;
 
         data[1].Pos = new Vector2(0.5f, -0.5f);
-        data[1].Color = new Vector3(0f, 1f, 0f);
+        data[1].Color = Color.Green;
 
         data[2].Pos = new Vector2(-0.5f, -0.5f);
-        data[2].Color = new Vector3(0f, 0f, 1f);
+        data[2].Color = Color.Blue;
 
         data[3].Pos = new Vector2(-0.5f, 0.5f);
-        data[3].Color = new Vector3(1f, 0f, 0f);
+        data[3].Color = Color.Red;
 
         data[4].Pos = new Vector2(0.5f, -0.5f);
-        data[4].Color = new Vector3(0f, 1f, 0f);
+        data[4].Color = Color.Green;
 
         data[5].Pos = new Vector2(0.5f, 0.5f);
-        data[5].Color = new Vector3(0f, 0f, 1f);
+        data[5].Color = Color.Blue;
 
         return data;
     }

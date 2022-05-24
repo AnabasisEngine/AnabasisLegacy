@@ -1,7 +1,7 @@
 ﻿#version 450 core
 out vec4 FragColor;
 
-in vec3 fColor;
+in vec4 fColor;
 //in vec2 fTexCoord;
 //in float fTexLayer;
 
@@ -9,5 +9,5 @@ in vec3 fColor;
 
 void main()
 {
-    FragColor = vec4(fColor, 1.0)/* * texture(texarray, vec3(fTexCoord, fTexLayer))*/;
+    FragColor = fColor/* * texture(texarray, vec3(fTexCoord, fTexLayer))*/;
 }

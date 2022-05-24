@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Reflection;
+using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Platform.Silk.Internal;
 using Anabasis.Platform.Silk.Shader;
@@ -19,6 +20,9 @@ public class VertexAttribSpecificationTests
 
         [VertexAttribute("texCoord")]
         public Vector2 TexCoord;
+
+        [VertexAttribute("color", Normalize = true)]
+        public Color Color;
     }
 
     [Theory, MemberData(nameof(AttribListGenData))]
@@ -41,9 +45,11 @@ public class VertexAttribSpecificationTests
     internal static TheoryData<Type, Dictionary<string, int>, VertexAttribPointer[]>
         AttribListGenData() => new() {
         {
-            typeof(TestVertexType), new Dictionary<string, int> { { "pos", 0 }, { "texCoord", 1 }, }, new[] {
-                new VertexAttribPointer(0, 3, VertexAttribType.Float, 0),
-                new VertexAttribPointer(1, 2, VertexAttribType.Float, 12),
+            typeof(TestVertexType), new Dictionary<string, int> { { "pos", 0 }, { "texCoord", 1 }, { "color", 2 } },
+            new[] {
+                new VertexAttribPointer(0, 3, VertexAttribType.Float, 0, false),
+                new VertexAttribPointer(1, 2, VertexAttribType.Float, 12, false),
+                new VertexAttribPointer(2, 4, VertexAttribType.Byte, 20, true),
             }
         },
     };

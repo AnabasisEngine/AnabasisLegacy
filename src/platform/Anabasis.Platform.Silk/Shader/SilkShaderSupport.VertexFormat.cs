@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Anabasis.Graphics.Abstractions;
 using Anabasis.Graphics.Abstractions.Buffer;
 using Anabasis.Graphics.Abstractions.Shaders;
 using Anabasis.Platform.Abstractions;
@@ -46,6 +47,9 @@ internal partial class SilkShaderSupport
                                type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Vector4D<>):
                 countPerColumn = 4;
                 break;
+            case not null when type == typeof(Color):
+                countPerColumn = 4;
+                break;
             default:
                 countPerColumn = 1;
                 break;
@@ -61,6 +65,8 @@ internal partial class SilkShaderSupport
         if (type == typeof(Half)) return VertexAttribType.HalfFloat;
         if (type == typeof(Vector2) || type == typeof(Vector3) || type == typeof(Vector4))
             return VertexAttribType.Float;
+        if (type == typeof(Color))
+            return VertexAttribType.UnsignedByte;
         TypeCode code = Type.GetTypeCode(type);
         return code switch {
             TypeCode.SByte => VertexAttribType.Byte,
@@ -94,7 +100,7 @@ internal partial class SilkShaderSupport
             for (int i = 0; i < cols; i++) {
                 yield return new VertexAttribPointer((uint)(layout + i), count,
                     GetVertexAttribType(field.FieldType),
-                    (uint)Marshal.OffsetOf<TVertex>(field.Name));
+                    (uint)Marshal.OffsetOf<TVertex>(field.Name), attribute.Normalize);
             }
         }
     }
@@ -109,7 +115,7 @@ internal partial class SilkShaderSupport
     }
 
     internal readonly record struct VertexAttribPointer(uint Layout, [Range(1, 4)] int Count,
-        VertexAttribType PointerType, uint Offset);
+        VertexAttribType PointerType, uint Offset, bool Normalize);
 
     private static class LazyBufferBinding
     {
@@ -146,9 +152,9 @@ internal partial class SilkShaderSupport
             _bindingIndex = new SilkBindingIndex(LazyBufferBinding.NextBindingIndex++);
             array.BindVertexBuffer(bufferObject, _bindingIndex);
             // pretty sure roslyn optimizes a foreach on an array to a for loop internally so i think this is fine
-            foreach ((uint layout, int count, VertexAttribType pointerType, uint offset) in _attribs) {
+            foreach ((uint layout, int count, VertexAttribType pointerType, uint offset, bool normalize) in _attribs) {
                 _gl.EnableVertexArrayAttrib(handle, layout);
-                _gl.VertexArrayAttribFormat(handle, layout, count, pointerType, false, offset);
+                _gl.VertexArrayAttribFormat(handle, layout, count, pointerType, normalize, offset);
                 _gl.VertexArrayAttribBinding(handle, layout, _bindingIndex.Value);
             }
             _gl.VertexArrayBindingDivisor(handle, _bindingIndex.Value, _divisor);
