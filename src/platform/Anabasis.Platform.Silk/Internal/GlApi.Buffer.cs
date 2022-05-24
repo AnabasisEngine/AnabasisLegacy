@@ -52,10 +52,15 @@ internal partial class GlApi
 
     public unsafe Span<T> MapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
         where T : unmanaged {
+        return new Span<T>(UnsafeMapNamedBufferRange<T>(handle, offset, length, mask), length);
+    }
+
+    public unsafe T* UnsafeMapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
+        where T : unmanaged {
         void* ptr = Gl.MapNamedBufferRange(handle.Value, offset * sizeof(T), (nuint)(length * sizeof(T)), mask);
         if (ptr == null)
             GetAndThrowError();
-        return new Span<T>(ptr, length);
+        return (T*)ptr;
     }
 
     public void FlushMappedNamedBufferRange(BufferObjectHandle handle, int offset, int length) {

@@ -1,23 +1,26 @@
-﻿using Anabasis.Platform.Silk.Internal;
+﻿using System.Buffers;
+using Anabasis.Platform.Silk.Internal;
 using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Buffers;
 
-public ref struct BufferMappingRange<T>
+public sealed class BufferMappingRange<T> : MemoryManager<T>
     where T : unmanaged
 {
-    public           Span<T>            Span;
     public readonly  int                Offset;
     public readonly  int                Length;
     private readonly BufferObjectHandle _buffer;
     private readonly IGlApi             _gl;
 
-    public BufferMappingRange(SilkBufferObject<T> buffer, IGlApi gl, Range range, MapBufferAccessMask mask) {
+    public unsafe BufferMappingRange(SilkBufferObject<T> buffer, IGlApi gl, int offset, int length, MapBufferAccessMask mask) {
         _buffer = buffer.Handle;
         _gl = gl;
-        (Offset, Length) = range.GetOffsetAndLength(buffer.Length);
-        Span = _gl.MapNamedBufferRange<T>(_buffer, Offset, Length, mask);
+        Offset = offset;
+        Length = length;
+        Pointer = _gl.UnsafeMapNamedBufferRange<T>(_buffer, Offset, Length, mask);
     }
+
+    public unsafe T* Pointer { get; set; }
 
     public void Flush() {
         _gl.FlushMappedNamedBufferRange(_buffer, Offset, Length);
@@ -31,7 +34,19 @@ public ref struct BufferMappingRange<T>
         _gl.MemoryBarrier(MemoryBarrierMask.ClientMappedBufferBarrierBit);
     }
 
-    public void Dispose() {
+    protected override unsafe void Dispose(bool disposing) {
         _gl.UnmapNamedBuffer(_buffer);
+        Pointer = null;
+    }
+
+    public override unsafe Span<T> GetSpan() => new Span<T>(Pointer, Length);
+
+    public override unsafe MemoryHandle Pin(int elementIndex = 0) {
+        if (elementIndex < 0 || elementIndex >= Length)
+            throw new ArgumentOutOfRangeException(nameof(elementIndex));
+        return new MemoryHandle(Pointer + elementIndex);
+    }
+
+    public override void Unpin() {
     }
 }

@@ -25,10 +25,13 @@ public partial interface IGlApi
         BufferStorageMask staticDraw)
         where T : unmanaged;
 
-    unsafe Span<T> MapNamedBuffer<T>(BufferObjectHandle handle, BufferAccessARB access)
+    Span<T> MapNamedBuffer<T>(BufferObjectHandle handle, BufferAccessARB access)
         where T : unmanaged;
 
-    unsafe Span<T> MapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
+    Span<T> MapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
+        where T : unmanaged;
+    
+    unsafe T* UnsafeMapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
         where T : unmanaged;
 
     void FlushMappedNamedBufferRange(BufferObjectHandle handle, int offset, int length);

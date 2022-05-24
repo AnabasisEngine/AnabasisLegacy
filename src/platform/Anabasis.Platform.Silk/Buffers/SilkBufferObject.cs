@@ -7,7 +7,7 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Buffers;
 
-public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObject<T>
+public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObject<T>, IMappableBufferObject<T>
     where T : unmanaged
 {
     private readonly BufferTargetARB _target;
@@ -58,26 +58,6 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
         }
     }
 
-    // public void LoadData<TArg>(int offset, int length, SpanAction<T, TArg> load, TArg state) {
-    //     if (offset < 0)
-    //         throw new ArgumentOutOfRangeException(nameof(offset), offset, null);
-    //     if (length < 0)
-    //         throw new ArgumentOutOfRangeException(nameof(length), length, null);
-    //     if (Length < 0) {
-    //         Allocate(length);
-    //     }
-    //
-    //     if (Length < offset + Length)
-    //         throw new ArgumentOutOfRangeException(nameof(length), length, null);
-    //     Range range = offset..(offset + length);
-    //     LoadData(range, load, state);
-    // }
-    //
-    // public void LoadData<TArg>(Range range, SpanAction<T, TArg> load, TArg state) {
-    //     using BufferMappingRange<T> mapping = MapRange(range, BufferAccess.Write | BufferAccess.Coherent | BufferAccess.Persistent);
-    //     load(mapping.Span, state);
-    // }
-
     public override void Dispose() {
         GC.SuppressFinalize(this);
         _gl.DeleteBuffer(Handle);
@@ -88,18 +68,18 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
         return new GenericDisposer(() => _gl.BindBuffer(_target, new BufferObjectHandle(0)));
     }
 
-    // [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
-    // public BufferMappingRange<T> MapRange(Range range, BufferAccess flags = BufferAccess.None) {
-    //     MapBufferAccessMask mask = 0;
-    //     if ((flags & BufferAccess.Persistent) != 0)
-    //         mask |= MapBufferAccessMask.MapPersistentBit;
-    //     if ((flags & BufferAccess.Coherent) != 0)
-    //         mask |= MapBufferAccessMask.MapCoherentBit;
-    //     if ((flags & BufferAccess.Read) != 0)
-    //         mask |= MapBufferAccessMask.MapReadBit;
-    //     if ((flags & BufferAccess.Write) != 0)
-    //         mask |= MapBufferAccessMask.MapWriteBit;
-    //
-    //     return new BufferMappingRange<T>(this, _gl, range, mask);
-    // }
+    [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
+    public IMemoryOwner<T> MapRange(int offset, int length, BufferAccess flags = BufferAccess.None) {
+        MapBufferAccessMask mask = 0;
+        if ((flags & BufferAccess.Persistent) != 0)
+            mask |= MapBufferAccessMask.MapPersistentBit;
+        if ((flags & BufferAccess.Coherent) != 0)
+            mask |= MapBufferAccessMask.MapCoherentBit;
+        if ((flags & BufferAccess.Read) != 0)
+            mask |= MapBufferAccessMask.MapReadBit;
+        if ((flags & BufferAccess.Write) != 0)
+            mask |= MapBufferAccessMask.MapWriteBit;
+    
+        return new BufferMappingRange<T>(this, _gl, offset, length, mask);
+    }
 }
