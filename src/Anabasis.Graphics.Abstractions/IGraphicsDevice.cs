@@ -13,7 +13,7 @@ public interface IGraphicsDevice
         where T : unmanaged;
 
     void Clear(Color color, ClearFlags flags = ClearFlags.None);
-    
+
     Vector2D<uint> Viewport { get; set; }
 }
 

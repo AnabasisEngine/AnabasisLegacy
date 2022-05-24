@@ -55,12 +55,14 @@ public ref struct SpriteBatch
             verticesMemory[1].Position =
                 new Vector3D<float>(bounds.Origin + new Vector2D<float>(bounds.Size.X, 0), depth);
             verticesMemory[1].Color = color;
-            verticesMemory[0].TexCoord = Texture.NormalizeTexCoordUshort(texCoordRect.Origin + new Vector2D<ushort>(texCoordRect.Size.X, 0));
+            verticesMemory[0].TexCoord =
+                Texture.NormalizeTexCoordUshort(texCoordRect.Origin + new Vector2D<ushort>(texCoordRect.Size.X, 0));
 
             verticesMemory[2].Position =
                 new Vector3D<float>(bounds.Origin + new Vector2D<float>(0, bounds.Size.Y), depth);
             verticesMemory[2].Color = color;
-            verticesMemory[0].TexCoord = Texture.NormalizeTexCoordUshort(texCoordRect.Origin + new Vector2D<ushort>(0, texCoordRect.Size.Y));
+            verticesMemory[0].TexCoord =
+                Texture.NormalizeTexCoordUshort(texCoordRect.Origin + new Vector2D<ushort>(0, texCoordRect.Size.Y));
 
             verticesMemory[3].Position = new Vector3D<float>(bounds.Max, depth);
             verticesMemory[3].Color = color;
@@ -78,7 +80,8 @@ public ref struct SpriteBatch
 
     public void Draw(ITexture2D texture, float x, float y, float w, float h, in Color color, ushort srcX, ushort srcY,
         ushort srcW, ushort srcH, float depth) {
-        _items.AddLast(BatchItem.Allocate(_currentWorkingBuffer, _currentVertex, new Rectangle<float>(x, y, w, h), color,
+        _items.AddLast(BatchItem.Allocate(_currentWorkingBuffer, _currentVertex, new Rectangle<float>(x, y, w, h),
+            color,
             new Rectangle<ushort>(srcX, srcY, srcW, srcH), depth, texture,
             _indexWorkingBuffer.Slice((int)_currentIndex, 6)));
         _currentVertex += 4;

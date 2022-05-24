@@ -11,6 +11,7 @@ public abstract class SilkShaderParameter<T> : IShaderParameter<T>
         Name = name;
         _program = program;
     }
+
     public string Name { get; }
 
     public IPlatformHandle Program => _program;

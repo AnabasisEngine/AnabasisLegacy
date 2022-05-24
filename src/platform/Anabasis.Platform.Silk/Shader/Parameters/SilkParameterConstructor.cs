@@ -34,9 +34,11 @@ internal class SilkParameterConstructor<TValue,
 internal class ParameterConstructorProvider
 {
     private readonly IServiceProvider _provider;
+
     public ParameterConstructorProvider(IServiceProvider provider) {
         _provider = provider;
     }
 
-    public ISilkParameterConstructor<TValue> Get<TValue>() => _provider.GetRequiredService<ISilkParameterConstructor<TValue>>();
+    public ISilkParameterConstructor<TValue> Get<TValue>() =>
+        _provider.GetRequiredService<ISilkParameterConstructor<TValue>>();
 }

@@ -1,3 +1,4 @@
 ﻿namespace Anabasis.Graphics.Abstractions.Buffer;
 
-public interface IBindingIndex {}
+public interface IBindingIndex
+{ }

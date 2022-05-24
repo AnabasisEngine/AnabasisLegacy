@@ -13,7 +13,7 @@ void main()
 {
     vec2 pos = aPos / 10.0 * (gl_InstanceID / 100.0);
     fColor = aColor;
-//    fTexCoord = aTexCoord;
-//    fTexLayer = aTexLayer;
+    //    fTexCoord = aTexCoord;
+    //    fTexLayer = aTexLayer;
     gl_Position = vec4(pos + aOffset, 0.0, 1.0);
 }

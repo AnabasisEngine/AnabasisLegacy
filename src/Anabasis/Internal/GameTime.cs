@@ -6,6 +6,7 @@ namespace Anabasis.Internal;
 public class GameTime : IAnabasisTime
 {
     private ILogger<GameTime> _logger;
+
     public GameTime(ILogger<GameTime> logger) {
         _logger = logger;
     }

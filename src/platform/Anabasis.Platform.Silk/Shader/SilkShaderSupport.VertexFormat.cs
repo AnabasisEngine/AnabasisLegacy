@@ -111,7 +111,8 @@ internal partial class SilkShaderSupport
 
         if (typeof(TVertex).GetCustomAttribute<VertexTypeAttribute>() is not { } typeAttribute)
             throw new InvalidOperationException();
-        return new LazyBufferBinding<TVertex>(_gl, typeAttribute.Divisor, BuildAttribList<TVertex>(_gl, handle).ToArray());
+        return new LazyBufferBinding<TVertex>(_gl, typeAttribute.Divisor,
+            BuildAttribList<TVertex>(_gl, handle).ToArray());
     }
 
     internal readonly record struct VertexAttribPointer(uint Layout, [Range(1, 4)] int Count,
@@ -126,7 +127,7 @@ internal partial class SilkShaderSupport
         where TVertex : unmanaged
     {
         private readonly IGlApi                _gl;
-        private readonly uint                   _divisor;
+        private readonly uint                  _divisor;
         private readonly VertexAttribPointer[] _attribs;
         private          SilkBindingIndex?     _bindingIndex;
 
@@ -143,7 +144,7 @@ internal partial class SilkShaderSupport
                 CreateBindings(array, handle, bufferObject);
             } else
                 array.BindVertexBuffer(bufferObject, _bindingIndex);
-            
+
             return _bindingIndex;
         }
 
@@ -157,6 +158,7 @@ internal partial class SilkShaderSupport
                 _gl.VertexArrayAttribFormat(handle, layout, count, pointerType, normalize, offset);
                 _gl.VertexArrayAttribBinding(handle, layout, _bindingIndex.Value);
             }
+
             _gl.VertexArrayBindingDivisor(handle, _bindingIndex.Value, _divisor);
             _gl.GetAndThrowError();
         }

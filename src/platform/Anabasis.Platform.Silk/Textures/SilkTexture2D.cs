@@ -22,11 +22,12 @@ public class SilkTexture2D : SilkTexture, ITexture2D, ISupportRawPixelUpload2D<P
     public int Height { get; internal init; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void UploadPixels(int level, int xOffset, uint width, int yOffset, uint height, ReadOnlySpan<Color> pixels) =>
+    public void UploadPixels(int level, int xOffset, uint width, int yOffset, uint height,
+        ReadOnlySpan<Color> pixels) =>
         UploadPixels(level, xOffset, width, yOffset, height, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
 
-    public void UploadPixels<TPixel>(int level, int xOffset, uint width, int yOffset, uint height, PixelFormat format, 
-    PixelType type, ReadOnlySpan<TPixel> pixels)
+    public void UploadPixels<TPixel>(int level, int xOffset, uint width, int yOffset, uint height, PixelFormat format,
+        PixelType type, ReadOnlySpan<TPixel> pixels)
         where TPixel : unmanaged {
         Gl.TextureSubImage2D(Handle, level, xOffset, yOffset, width, height, format, type,
             in pixels.GetPinnableReference());

@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.CodeAnalysis.PooledObjects" Version="3.9.0-5.21120.8" />
+        <PackageReference Include="Microsoft.CodeAnalysis.PooledObjects" Version="3.9.0-5.21120.8"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Anabasis.Abstractions\Anabasis.Abstractions.csproj" />
+        <ProjectReference Include="..\Anabasis.Abstractions\Anabasis.Abstractions.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
         <InternalsVisibleTo Include="Anabasis"/>
     </ItemGroup>
-    
+
 </Project>

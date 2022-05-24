@@ -10,6 +10,8 @@ internal static class SilkLogIds
 
 internal static partial class SilkLog
 {
-    [LoggerMessage(EventId = SilkLogIds.GlDebugProc, Message = "OpenGl debug message: {Source}, {Type}, {Id}: {Message}")]
-    public static partial void GlMessage(this ILogger logger, LogLevel level, DebugSource source, DebugType type, int id, string? message);
+    [LoggerMessage(EventId = SilkLogIds.GlDebugProc,
+        Message = "OpenGl debug message: {Source}, {Type}, {Id}: {Message}")]
+    public static partial void GlMessage(this ILogger logger, LogLevel level, DebugSource source, DebugType type,
+        int id, string? message);
 }

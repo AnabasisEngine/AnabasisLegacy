@@ -11,7 +11,8 @@ public class SilkTexture2DArray : SilkTexture3D, ITexture2DArray
     public SilkTexture2DArray(IGlApi glApi, SizedInternalFormat format, int levels, int width, int height, int depth)
         : base(glApi, TextureTarget.Texture2DArray, format, levels, width, height, depth) { }
 
-    private SilkTexture2DArray(IGlApi glApi, TextureHandle handle) : base(glApi, handle, TextureTarget.Texture2DArray) { }
+    private SilkTexture2DArray(IGlApi glApi, TextureHandle handle) :
+        base(glApi, handle, TextureTarget.Texture2DArray) { }
 
     public int Layers => Depth;
 
@@ -54,14 +55,16 @@ public class SilkTexture2DArray : SilkTexture3D, ITexture2DArray
             _layer = layer;
         }
 
-        public void UploadPixels(int level, int xOffset, uint width, int yOffset, uint height, ReadOnlySpan<Color> pixels) {
+        public void UploadPixels(int level, int xOffset, uint width, int yOffset, uint height,
+            ReadOnlySpan<Color> pixels) {
             _array.UploadPixels(level, xOffset, width, yOffset, height, _layer, 1u, pixels);
         }
 
         public int Width => _array.Width;
         public int Height => _array.Height;
 
-        public void UploadPixels<TPixel>(int level, int xOffset, uint width, int yOffset, uint height, PixelFormat format, PixelType type,
+        public void UploadPixels<TPixel>(int level, int xOffset, uint width, int yOffset, uint height,
+            PixelFormat format, PixelType type,
             ReadOnlySpan<TPixel> pixels)
             where TPixel : unmanaged {
             _array.UploadPixels(level, xOffset, width, yOffset, height, _layer, 1u, format, type, pixels);

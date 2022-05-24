@@ -1,3 +1,4 @@
 ﻿namespace Anabasis.Platform.Abstractions;
 
-public interface IPlatformHandle {}
+public interface IPlatformHandle
+{ }

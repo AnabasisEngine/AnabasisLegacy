@@ -6,8 +6,8 @@ namespace Anabasis.Builder.Internal;
 internal class LoggingBuilder : ILoggingBuilder
 {
     private readonly IServiceCollection _services;
-    public LoggingBuilder(IServiceCollection services)
-    {
+
+    public LoggingBuilder(IServiceCollection services) {
         _services = services;
     }
 

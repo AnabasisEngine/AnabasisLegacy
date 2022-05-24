@@ -12,12 +12,13 @@ public abstract class SilkGlObject<TName> : IGlObject<TName>, IPlatformResource
         Gl = gl;
         Handle = name;
     }
+
     protected IGlApi Gl { get; }
 
     public TName Handle { get; }
-    
+
     IGlHandle IGlObject.Handle => Handle;
-    
+
     IPlatformHandle IPlatformResource.Handle => Handle;
 
     public string Label {

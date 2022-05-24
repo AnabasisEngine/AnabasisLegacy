@@ -10,7 +10,10 @@ public partial interface IGlApi
     void ClearColor(Color color);
     void DrawArraysInstanced(PrimitiveType primitiveType, int first, uint count, uint instanceCount);
     void ClearFlags(ClearBufferMask mask);
-    void DrawElementsInstanced(PrimitiveType primitiveType, uint count, DrawElementsType indexType, long indexOffset, uint instanceCount);
+
+    void DrawElementsInstanced(PrimitiveType primitiveType, uint count, DrawElementsType indexType, long indexOffset,
+        uint instanceCount);
+
     void Viewport(uint width, uint height);
 
     void DrawElementsInstancedBaseVertexBaseInstance(PrimitiveType mode, uint count, DrawElementsType type,

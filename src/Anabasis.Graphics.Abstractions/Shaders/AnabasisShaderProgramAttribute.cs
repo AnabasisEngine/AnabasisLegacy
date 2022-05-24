@@ -7,7 +7,7 @@ public class AnabasisShaderProgramAttribute : Attribute
         TextsType = textsType;
         VertexType = vertexType;
     }
-    
+
     public Type VertexType { get; }
     public Type TextsType { get; }
 }

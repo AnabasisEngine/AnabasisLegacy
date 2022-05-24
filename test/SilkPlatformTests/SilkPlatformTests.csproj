@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="6.7.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-        <PackageReference Include="Moq" Version="4.18.1" />
-        <PackageReference Include="xunit" Version="2.4.2-pre.12" />
+        <PackageReference Include="FluentAssertions" Version="6.7.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0"/>
+        <PackageReference Include="Moq" Version="4.18.1"/>
+        <PackageReference Include="xunit" Version="2.4.2-pre.12"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -16,8 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ascension\Anabasis.Ascension\Anabasis.Ascension.csproj" />
-      <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk\Anabasis.Platform.Silk.csproj" />
+        <ProjectReference Include="..\..\src\ascension\Anabasis.Ascension\Anabasis.Ascension.csproj"/>
+        <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk\Anabasis.Platform.Silk.csproj"/>
     </ItemGroup>
 
 </Project>

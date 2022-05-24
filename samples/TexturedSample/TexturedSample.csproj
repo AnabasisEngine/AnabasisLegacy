@@ -8,30 +8,30 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Serilog" Version="2.11.1-dev-01397" />
-      <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.0-dev-00095" />
-      <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.1-dev-00337" />
-      <PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890" />
+        <PackageReference Include="Serilog" Version="2.11.1-dev-01397"/>
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.0-dev-00095"/>
+        <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.1-dev-00337"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Anabasis.Images.Abstractions\Anabasis.Images.Abstractions.csproj" />
-      <ProjectReference Include="..\..\src\Anabasis\Anabasis.csproj" />
-      <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk.SixLabors.ImageSharp\Anabasis.Platform.Silk.SixLabors.ImageSharp.csproj" />
-      <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk\Anabasis.Platform.Silk.csproj" />
-      <ProjectReference Include="..\..\src\platform\Anabasis.Platform.SixLabors.ImageSharp\Anabasis.Platform.SixLabors.ImageSharp.csproj" />
+        <ProjectReference Include="..\..\src\Anabasis.Images.Abstractions\Anabasis.Images.Abstractions.csproj"/>
+        <ProjectReference Include="..\..\src\Anabasis\Anabasis.csproj"/>
+        <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk.SixLabors.ImageSharp\Anabasis.Platform.Silk.SixLabors.ImageSharp.csproj"/>
+        <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk\Anabasis.Platform.Silk.csproj"/>
+        <ProjectReference Include="..\..\src\platform\Anabasis.Platform.SixLabors.ImageSharp\Anabasis.Platform.SixLabors.ImageSharp.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="silk.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="shader.vert">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="shader.frag">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="silk.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="shader.vert">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="shader.frag">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

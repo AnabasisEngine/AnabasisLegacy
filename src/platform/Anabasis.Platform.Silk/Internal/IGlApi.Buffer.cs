@@ -30,7 +30,7 @@ public partial interface IGlApi
 
     Span<T> MapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
         where T : unmanaged;
-    
+
     unsafe T* UnsafeMapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
         where T : unmanaged;
 

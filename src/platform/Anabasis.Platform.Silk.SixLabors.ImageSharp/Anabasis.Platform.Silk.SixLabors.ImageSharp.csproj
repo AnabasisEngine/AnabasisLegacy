@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-preview.4.22229.4" />
-      <PackageReference Include="Silk.NET.OpenGL" Version="2.15.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-preview.4.22229.4"/>
+        <PackageReference Include="Silk.NET.OpenGL" Version="2.15.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Anabasis.Platform.SixLabors.ImageSharp\Anabasis.Platform.SixLabors.ImageSharp.csproj" />
+        <ProjectReference Include="..\Anabasis.Platform.SixLabors.ImageSharp\Anabasis.Platform.SixLabors.ImageSharp.csproj"/>
     </ItemGroup>
 
 </Project>

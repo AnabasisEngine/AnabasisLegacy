@@ -9,9 +9,10 @@ internal class AnabasisLifetime : IHostLifetime
         ApplicationLifetime = applicationLifetime;
         AnabasisPlatform = anabasisPlatform;
     }
+
     public IHostApplicationLifetime ApplicationLifetime { get; }
     public IAnabasisPlatform AnabasisPlatform { get; }
-    
+
     public Task WaitForStartAsync(CancellationToken cancellationToken) {
         AnabasisPlatform.Initialize();
         Window = AnabasisPlatform.Window;

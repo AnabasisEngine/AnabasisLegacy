@@ -8,6 +8,7 @@ namespace Anabasis.Platform.Silk.Shader.Parameters;
 internal sealed class TextureParameter : SilkShaderParameter<ITextureBinding>
 {
     public TextureParameter(IGlApi gl, string name, ProgramHandle program) : base(gl, name, program) { }
+
     protected override void SetValue(uint programHandle, int location, in ITextureBinding value) {
         Gl.ProgramUniform(programHandle, location, Guard.IsType<TextureBinding>(value).Unit);
     }

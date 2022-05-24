@@ -37,7 +37,8 @@ internal partial class GlApi
         Gl.DrawArraysInstanced(primitiveType, first, count, instanceCount);
     }
 
-    public unsafe void DrawElementsInstancedBaseVertexBaseInstance(PrimitiveType mode, uint count, DrawElementsType type,
+    public unsafe void DrawElementsInstancedBaseVertexBaseInstance(PrimitiveType mode, uint count,
+        DrawElementsType type,
         long indices, uint instancecount, int basevertex, uint baseinstance) {
         Gl.DrawElementsInstancedBaseVertexBaseInstance(mode, count, type, (void*)indices, instancecount, basevertex,
             baseinstance);
@@ -48,7 +49,8 @@ internal partial class GlApi
         Gl.DrawElementsBaseVertex(mode, count, type, (void*)indices, basevertex);
     }
 
-    public unsafe void DrawElementsInstancedBaseVertex(PrimitiveType mode, uint count, DrawElementsType type, long indices,
+    public unsafe void DrawElementsInstancedBaseVertex(PrimitiveType mode, uint count, DrawElementsType type,
+        long indices,
         uint instancecount, int basevertex) {
         Gl.DrawElementsInstancedBaseVertex(mode, count, type, (void*)indices, instancecount, basevertex);
     }

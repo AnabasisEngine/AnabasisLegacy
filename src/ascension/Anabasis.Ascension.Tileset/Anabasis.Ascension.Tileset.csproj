@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Anabasis.Images.Abstractions\Anabasis.Images.Abstractions.csproj" />
+        <ProjectReference Include="..\..\Anabasis.Images.Abstractions\Anabasis.Images.Abstractions.csproj"/>
     </ItemGroup>
 
 </Project>

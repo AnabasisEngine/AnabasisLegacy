@@ -21,9 +21,7 @@ try {
                 .WriteTo.Console();
         }))
         .UsingPlatform<SilkPlatform>()
-        .ConfigureServices(s => {
-            s.AddScoped<IAnabasisGame, Game>();
-        })
+        .ConfigureServices(s => { s.AddScoped<IAnabasisGame, Game>(); })
         .Build()
         .RunAsync();
     return 0;

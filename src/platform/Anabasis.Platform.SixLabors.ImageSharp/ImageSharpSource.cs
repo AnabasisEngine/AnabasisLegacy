@@ -51,7 +51,8 @@ internal sealed class ImageSharpSource<TPixel> : IImageDataSource
 
     private static void UploadRgba(ITextureView2D texture, Image<Rgba32> image) {
         if (image.DangerousTryGetSinglePixelMemory(out Memory<Rgba32> memory)) {
-            texture.UploadPixels(0, 0, (uint)image.Width, 0, (uint)image.Height, MemoryMarshal.Cast<Rgba32, Color>(memory.Span));
+            texture.UploadPixels(0, 0, (uint)image.Width, 0, (uint)image.Height,
+                MemoryMarshal.Cast<Rgba32, Color>(memory.Span));
         } else {
             image.ProcessPixelRows(accessor => {
                 for (int i = 0; i < accessor.Height; i++) {

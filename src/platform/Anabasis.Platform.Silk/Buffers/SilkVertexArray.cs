@@ -10,8 +10,7 @@ namespace Anabasis.Platform.Silk.Buffers;
 
 public class SilkVertexArray : SilkGlObject<VertexArrayHandle>, IVertexArray
 {
-    internal SilkVertexArray(IGlApi gl) : base(gl, gl.CreateVertexArray()) {
-    }
+    internal SilkVertexArray(IGlApi gl) : base(gl, gl.CreateVertexArray()) { }
 
     private int?              _indexSize;
     private DrawElementsType? _indexType;
@@ -100,8 +99,8 @@ public class SilkVertexArray : SilkGlObject<VertexArrayHandle>, IVertexArray
         };
         Debug.Assert(_indexSize != null, nameof(_indexSize) + " != null");
         Debug.Assert(_indexType != null, nameof(_indexType) + " != null");
-        Gl.DrawElementsInstancedBaseVertex(primitiveType, count, _indexType.Value, indexOffset * _indexSize.Value, 
-        instanceCount, baseVertex);
+        Gl.DrawElementsInstancedBaseVertex(primitiveType, count, _indexType.Value, indexOffset * _indexSize.Value,
+            instanceCount, baseVertex);
     }
 
     public void DrawElementsInstancedBaseVertexBaseInstance(DrawMode drawMode, uint count, uint indexOffset,
@@ -112,7 +111,7 @@ public class SilkVertexArray : SilkGlObject<VertexArrayHandle>, IVertexArray
         };
         Debug.Assert(_indexSize != null, nameof(_indexSize) + " != null");
         Debug.Assert(_indexType != null, nameof(_indexType) + " != null");
-        Gl.DrawElementsInstancedBaseVertexBaseInstance(primitiveType, count, _indexType.Value, indexOffset * 
-        _indexSize.Value, instanceCount, baseVertex, baseInstance);
+        Gl.DrawElementsInstancedBaseVertexBaseInstance(primitiveType, count, _indexType.Value, indexOffset *
+            _indexSize.Value, instanceCount, baseVertex, baseInstance);
     }
 }

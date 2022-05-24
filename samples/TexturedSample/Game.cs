@@ -29,8 +29,8 @@ public class Game : IAnabasisGame
     private readonly IImageDataLoader     _imageLoader;
     private readonly ITextureSupport      _textureSupport;
     private          DrawPipeline         _pipeline = null!;
-    private          ITexture2D           _texture = null!;
-    private          Shader               _shader = null!;
+    private          ITexture2D           _texture  = null!;
+    private          Shader               _shader   = null!;
 
     public Game(ILogger<Game> logger, IGraphicsDevice graphics, IShaderSupport shaderSupport,
         IImageDataLoader imageLoader, ITextureSupport textureSupport) {

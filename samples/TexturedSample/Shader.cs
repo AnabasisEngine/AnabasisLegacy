@@ -9,6 +9,7 @@ public class Shader : ShaderProgram
 
     private IShaderParameter<ITextureBinding>? _textureParam;
     public IShaderParameter<ITextureBinding> TextureUniform => CreateParameter(ref _textureParam, "uTexture0");
+
     public override IEnumerable<(ShaderType, Task<string>)> GetTexts() {
         yield return (ShaderType.Vertex, File.ReadAllTextAsync("shader.vert"));
         yield return (ShaderType.Fragment, File.ReadAllTextAsync("shader.frag"));

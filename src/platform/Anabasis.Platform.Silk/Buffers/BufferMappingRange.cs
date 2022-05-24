@@ -12,7 +12,8 @@ public sealed class BufferMappingRange<T> : MemoryManager<T>
     private readonly BufferObjectHandle _buffer;
     private readonly IGlApi             _gl;
 
-    public unsafe BufferMappingRange(SilkBufferObject<T> buffer, IGlApi gl, int offset, int length, MapBufferAccessMask mask) {
+    public unsafe BufferMappingRange(SilkBufferObject<T> buffer, IGlApi gl, int offset, int length,
+        MapBufferAccessMask mask) {
         _buffer = buffer.Handle;
         _gl = gl;
         Offset = offset;
@@ -47,6 +48,5 @@ public sealed class BufferMappingRange<T> : MemoryManager<T>
         return new MemoryHandle(Pointer + elementIndex);
     }
 
-    public override void Unpin() {
-    }
+    public override void Unpin() { }
 }

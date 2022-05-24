@@ -38,7 +38,8 @@ public sealed class SpriteBatcher : IDisposable
         IBufferObject<ushort> indexBuffer = pipeline.CreateIndexBuffer<ushort>(options.Value.VertexBufferSize * 9 / 2,
             flags: BufferAccess.Persistent | BufferAccess.Write | BufferAccess.Coherent);
         IBufferObject<VertexSpecification> vertexBuffer = pipeline.CreateVertexBuffer<VertexSpecification>(
-            options.Value.VertexBufferSize * 3, flags: BufferAccess.Persistent | BufferAccess.Write | BufferAccess.Coherent);
+            options.Value.VertexBufferSize * 3,
+            flags: BufferAccess.Persistent | BufferAccess.Write | BufferAccess.Coherent);
         return new SpriteBatcher(pipeline, shader,
             Guard.IsType<IMappableBufferObject<VertexSpecification>>(vertexBuffer),
             Guard.IsType<IMappableBufferObject<ushort>>(indexBuffer));

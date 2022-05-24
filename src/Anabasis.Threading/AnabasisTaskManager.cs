@@ -9,8 +9,9 @@ public class AnabasisTaskManager : IDisposable
 
     private readonly struct ScheduledContinuation
     {
-        private readonly  AnabasisPlatformStepMask    _steps;
-        internal readonly Action RunAction;
+        private readonly  AnabasisPlatformStepMask _steps;
+        internal readonly Action                   RunAction;
+
         public ScheduledContinuation(AnabasisPlatformStepMask steps, Action runAction) {
             _steps = steps;
             RunAction = runAction;
@@ -21,7 +22,7 @@ public class AnabasisTaskManager : IDisposable
 
     private readonly LinkedList<ScheduledContinuation> _continuations = new();
 
-    private readonly IDisposable[]         _registrations          = new IDisposable[8];
+    private readonly IDisposable[] _registrations = new IDisposable[8];
 
     public AnabasisTaskManager(IAnabasisRunLoop loop) {
         for (int i = 0; i < 8; i++) {
@@ -48,13 +49,15 @@ public class AnabasisTaskManager : IDisposable
     public bool IsOnMainThread => Environment.CurrentManagedThreadId == MainThreadId;
     public int MainThreadId { get; internal set; }
 
-    public void ScheduleContinuation(Action continuation, AnabasisPlatformStepMask mask = AnabasisPlatformStepMask.All) {
+    public void ScheduleContinuation(Action continuation,
+        AnabasisPlatformStepMask mask = AnabasisPlatformStepMask.All) {
         lock (_continuations) {
             _continuations.AddLast(new ScheduledContinuation(mask, continuation));
         }
     }
 
-    public async ValueTask<T> RunOnGraphicsThread<T>(Func<T> func, AnabasisPlatformStepMask mask = AnabasisPlatformStepMask.All) {
+    public async ValueTask<T> RunOnGraphicsThread<T>(Func<T> func,
+        AnabasisPlatformStepMask mask = AnabasisPlatformStepMask.All) {
         await Yield(mask);
         return func();
     }
@@ -64,18 +67,20 @@ public class AnabasisTaskManager : IDisposable
         lock (_continuations) {
             for (LinkedListNode<ScheduledContinuation>? node = _continuations.First; node != null; node = node.Next) {
                 ref ScheduledContinuation continuation = ref node.ValueRef;
-                if(continuation.ShouldRun(step)) {
+                if (continuation.ShouldRun(step)) {
                     drain.AddLast(continuation.RunAction);
                     _continuations.Remove(node);
                 }
             }
         }
+
         foreach (Action action in drain) {
             action();
         }
     }
 
-    public YieldToMainLoopAwaitable Yield(AnabasisPlatformStepMask mask = AnabasisPlatformStepMask.All) => new(mask, this);
+    public YieldToMainLoopAwaitable Yield(AnabasisPlatformStepMask mask = AnabasisPlatformStepMask.All) =>
+        new(mask, this);
 
     /// <summary>Provides the context for waiting when asynchronously switching into a game environment.</summary>
     public readonly struct YieldToMainLoopAwaitable
@@ -112,8 +117,8 @@ public class AnabasisTaskManager : IDisposable
             public void UnsafeOnCompleted(Action continuation) {
                 _anabasisTaskManager.ScheduleContinuation(continuation, _step);
             }
-            
-            public void GetResult() {}
+
+            public void GetResult() { }
             public bool IsCompleted => false;
         }
     }

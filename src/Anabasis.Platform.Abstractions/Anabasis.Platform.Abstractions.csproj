@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-preview.4.22229.4" />
-      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0-preview.4.22229.4" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-preview.4.22229.4"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0-preview.4.22229.4"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Internal" />
+        <Folder Include="Internal"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Anabasis.Abstractions\Anabasis.Abstractions.csproj" />
-      <ProjectReference Include="..\Anabasis.Threading\Anabasis.Threading.csproj" />
+        <ProjectReference Include="..\Anabasis.Abstractions\Anabasis.Abstractions.csproj"/>
+        <ProjectReference Include="..\Anabasis.Threading\Anabasis.Threading.csproj"/>
     </ItemGroup>
 
 </Project>

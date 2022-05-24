@@ -10,7 +10,7 @@ namespace Anabasis.Platform.Silk.Internal;
 internal partial class GlApi : IGlApi
 {
     internal readonly GL             Gl;
-    private readonly ILogger<GlApi> _logger;
+    private readonly  ILogger<GlApi> _logger;
 
     public unsafe GlApi(GL gl, ILogger<GlApi> logger) {
         Gl = gl;
@@ -71,6 +71,7 @@ internal partial class GlApi : IGlApi
                 GetAndThrowError();
                 throw new UnreachableException();
         }
+
         Gl.DeleteSync(fence);
     }
 }

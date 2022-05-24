@@ -5,10 +5,10 @@ namespace Anabasis.Builder;
 
 internal static class HostBuilderExtensions
 {
-    public static IHostBuilder ConfigureDefaultAnabasis(this IHostBuilder hostBuilder, string[]? args/*, Action<ICoconaCommandsBuilder> configureApplication*/)
-    {
+    public static IHostBuilder ConfigureDefaultAnabasis(this IHostBuilder hostBuilder,
+        string[]? args /*, Action<ICoconaCommandsBuilder> configureApplication*/) {
         var builder = new AnabasisAppHostBuilder(hostBuilder);
-        builder.ConfigureDefaults(args/*, configureApplication*/);
+        builder.ConfigureDefaults(args /*, configureApplication*/);
 
         return hostBuilder;
     }

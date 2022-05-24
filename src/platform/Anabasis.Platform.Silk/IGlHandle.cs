@@ -3,7 +3,8 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk;
 
-public interface IGlHandle : IPlatformHandle {
+public interface IGlHandle : IPlatformHandle
+{
     public static abstract ObjectIdentifier ObjectType { get; }
     public uint Value { get; }
 }

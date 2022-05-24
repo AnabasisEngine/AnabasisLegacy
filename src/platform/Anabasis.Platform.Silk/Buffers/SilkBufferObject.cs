@@ -13,7 +13,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
     private readonly BufferTargetARB _target;
     private readonly IGlApi          _gl;
     public int Length { get; private set; } = -1;
-    
+
     internal SilkBufferObject(IGlApi gl, BufferTargetARB target) : base(gl, gl.CreateBuffer()) {
         _target = target;
         _gl = gl;
@@ -80,7 +80,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
             mask |= MapBufferAccessMask.MapReadBit;
         if ((flags & BufferAccess.Write) != 0)
             mask |= MapBufferAccessMask.MapWriteBit;
-    
+
         return new BufferMappingRange<T>(this, _gl, offset, length, mask);
     }
 }

@@ -35,9 +35,9 @@ internal partial class SilkShaderSupport : IShaderSupport
                 cancellationToken.ThrowIfCancellationRequested();
                 GlShaderType glShaderType = ShaderTypeToNative(shaderType);
                 string strings = await task;
-                
+
                 await _taskManager.Yield();
-                
+
                 ShaderHandle handle = _gl.CreateShader(glShaderType);
                 _gl.ShaderSource(handle, strings);
                 _gl.CompileShader(handle);

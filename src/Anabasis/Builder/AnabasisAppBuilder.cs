@@ -19,9 +19,8 @@ public class AnabasisAppBuilder
     public IHostBuilder Host => _configureHostBuilder;
     public IHostEnvironment Environment { get; }
     public ConfigurationManager Configuration { get; }
-    
-    internal AnabasisAppBuilder(string[]? args, Action<AnabasisAppOptions>? configureOptions = null)
-    {
+
+    internal AnabasisAppBuilder(string[]? args, Action<AnabasisAppOptions>? configureOptions = null) {
         Configuration = new ConfigurationManager();
         _configureOptions = configureOptions;
 
@@ -29,7 +28,8 @@ public class AnabasisAppBuilder
         // such as EnvironmentName, ApplicationName, ContentRoot...
         BootstrapHostBuilder bootstrapHostBuilder = new(Services);
         bootstrapHostBuilder.ConfigureDefaultAnabasis(args);
-        (HostBuilderContext hostBuilderContext, ConfigurationManager _) = bootstrapHostBuilder.Apply(Configuration, _hostBuilder);
+        (HostBuilderContext hostBuilderContext, ConfigurationManager _) =
+            bootstrapHostBuilder.Apply(Configuration, _hostBuilder);
 
         _configureHostBuilder = new ConfigureHostBuilder(hostBuilderContext, Configuration, Services);
         Environment = hostBuilderContext.HostingEnvironment;
@@ -39,39 +39,35 @@ public class AnabasisAppBuilder
     }
 
     public AnabasisApp Build() {
-        _hostBuilder.ConfigureAppConfiguration((hostBuilder, configuration) =>
-        {
+        _hostBuilder.ConfigureAppConfiguration((hostBuilder, configuration) => {
             // Use the HostEnvironment created by CoconaAppBuilder instead of the default.
             hostBuilder.HostingEnvironment = Environment;
 
-            var chainedSource = new ChainedConfigurationSource()
-            {
+            var chainedSource = new ChainedConfigurationSource() {
                 Configuration = Configuration,
                 ShouldDisposeConfiguration = true,
             };
             configuration.Add(chainedSource);
 
-            foreach (var keyValue in ((IConfigurationBuilder)Configuration).Properties)
-            {
+            foreach (var keyValue in ((IConfigurationBuilder)Configuration).Properties) {
                 configuration.Properties[keyValue.Key] = keyValue.Value;
             }
         });
 
-        _hostBuilder.ConfigureServices((_, services) =>
-        {
+        _hostBuilder.ConfigureServices((_, services) => {
             services.AddSingleton(Environment);
 
-            if (_configureOptions != null)
-            {
+            if (_configureOptions != null) {
                 services.Configure(_configureOptions);
             }
 
-            foreach (ServiceDescriptor service in Services.Where(x => !typeof(IHostedService).IsAssignableFrom(x.ServiceType)))
-            {
+            foreach (ServiceDescriptor service in Services.Where(x =>
+                         !typeof(IHostedService).IsAssignableFrom(x.ServiceType))) {
                 services.Add(service);
             }
-            foreach (ServiceDescriptor service in Services.Where(x => typeof(IHostedService).IsAssignableFrom(x.ServiceType)))
-            {
+
+            foreach (ServiceDescriptor service in Services.Where(x =>
+                         typeof(IHostedService).IsAssignableFrom(x.ServiceType))) {
                 services.Add(service);
             }
         });

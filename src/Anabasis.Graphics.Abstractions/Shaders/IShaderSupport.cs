@@ -16,6 +16,6 @@ public interface IShaderSupport
     void UseShaderProgram(IPlatformHandle program);
 
     void DisposeProgram(IPlatformHandle program);
-    
+
     IPlatformHandle NullHandle { get; }
 }
