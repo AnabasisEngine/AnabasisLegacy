@@ -18,7 +18,6 @@ public static class GraphicsExtensions
         return program;
     }
 
-    public static void BindTexture(this IShaderParameter<ITextureBinding> parameter, ITexture texture, int unit = 0) {
-        parameter.Value = texture.Bind(unit);
-    }
+    public static ITextureBinding BindTexture(this IShaderParameter<ITextureBinding> parameter, ITexture texture,
+        int unit = 0) => parameter.Value = texture.Bind(unit);
 }
