@@ -71,5 +71,6 @@ internal partial class GlApi : IGlApi
                 GetAndThrowError();
                 throw new UnreachableException();
         }
+        Gl.DeleteSync(fence);
     }
 }
