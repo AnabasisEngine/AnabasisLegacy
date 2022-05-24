@@ -22,7 +22,7 @@ public sealed class SilkPlatform : IGraphicsPlatform
     private readonly ILoggerFactory           _loggerFactory;
 
     private static readonly GraphicsAPI GraphicsApi = new(ContextAPI.OpenGL, ContextProfile.Core,
-        ContextFlags.ForwardCompatible, new APIVersion(4, 3));
+        ContextFlags.ForwardCompatible | ContextFlags.Debug, new APIVersion(4, 3));
 
     public SilkPlatform(IHostApplicationLifetime lifetime, ILoggerFactory loggerFactory) {
         _lifetime = lifetime;
