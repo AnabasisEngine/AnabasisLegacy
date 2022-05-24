@@ -2,7 +2,6 @@
 using Anabasis.Graphics.Abstractions.Textures;
 using Anabasis.Images.Abstractions;
 using Anabasis.Threading;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Anabasis.Ascension.Tileset;
 
@@ -65,7 +64,7 @@ public sealed class TilesetLoader
         if (includeTileFunc != null) {
             finalCount = Enumerable.Range(0, tileCount)
                 .Count(includeTileFunc);
-            tileIdLookup = new(finalCount);
+            tileIdLookup = new Dictionary<int, int>(finalCount);
         } else {
             includeTileFunc = _ => true;
         }
@@ -106,6 +105,21 @@ public sealed class TilesetLoader
             streams = streamsArray;
         }
 
+        return await LoadTilesetTilesAsync(streams, tileWidth, tileHeight, levels, count, cancellationToken);
+    }
+
+    /// <summary>
+    /// Loads a tileset from a sequence of distinct tile images, which must all have the same dimension.
+    /// </summary>
+    /// <param name="streams">The source images to load.</param>
+    /// <param name="tileWidth">The width of any one tile</param>
+    /// <param name="tileHeight">The height of any one tile</param>
+    /// <param name="levels">The number of mipmap levels to allocate</param>
+    /// <param name="count">The number of tiles to load</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>The final texture array.</returns>
+    public async Task<ITexture2DArray> LoadTilesetTilesAsync(IEnumerable<Stream> streams, int tileWidth, int tileHeight,
+        int levels, int count, CancellationToken cancellationToken = default) {
         ITexture2DArray array = await _support.CreateTexture2DArrayAsync(levels, tileWidth, tileHeight, count);
         int layer = 0;
         foreach (Stream stream in streams) {
@@ -114,13 +128,37 @@ public sealed class TilesetLoader
             await _taskManager.Yield();
             ITextureView2D view = array.Upload(layer++);
             source.UploadToTexture(view);
+            if (layer >= count)
+                break;
         }
 
         return array;
     }
-}
 
-public static class TilesetExtensions
-{
-    public static void AddTilesetLoader(this IServiceCollection services) => services.AddScoped<TilesetLoader>();
+    /// <summary>
+    /// Loads a tileset from a sequence of distinct tile images, which must all have the same dimension.
+    /// </summary>
+    /// <param name="streams">The source images to load.</param>
+    /// <param name="tileWidth">The width of any one tile</param>
+    /// <param name="tileHeight">The height of any one tile</param>
+    /// <param name="levels">The number of mipmap levels to allocate</param>
+    /// <param name="count">The number of tiles to load</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>The final texture array.</returns>
+    public async Task<ITexture2DArray> LoadTilesetTilesAsync(IAsyncEnumerable<Stream> streams, int tileWidth,
+        int tileHeight, int levels, int count, CancellationToken cancellationToken = default) {
+        ITexture2DArray array = await _support.CreateTexture2DArrayAsync(levels, tileWidth, tileHeight, count);
+        int layer = 0;
+        await foreach (Stream stream in streams.WithCancellation(cancellationToken)) {
+            cancellationToken.ThrowIfCancellationRequested();
+            IImageDataSource source = await _imageLoader.LoadAsync(stream, cancellationToken);
+            await _taskManager.Yield();
+            ITextureView2D view = array.Upload(layer++);
+            source.UploadToTexture(view);
+            if (layer >= count)
+                break;
+        }
+
+        return array;
+    }
 }

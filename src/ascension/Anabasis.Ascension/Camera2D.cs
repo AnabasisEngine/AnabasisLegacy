@@ -3,11 +3,11 @@ using Anabasis.Graphics.Abstractions;
 
 namespace Anabasis.Ascension;
 
-public class Camera
+public class Camera2D
 {
     private readonly IGraphicsDevice _graphics;
 
-    public Camera(IGraphicsDevice graphics) {
+    public Camera2D(IGraphicsDevice graphics) {
         _graphics = graphics;
     }
 

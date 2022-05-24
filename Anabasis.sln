@@ -37,6 +37,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Images.Abstractions", "src\Anabasis.Images.Abstractions\Anabasis.Images.Abstractions.csproj", "{A1373D82-F570-4677-B4CC-3ACDB2156A00}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ascension", "ascension", "{1A0A4D02-0A02-40ED-8902-7AA32E8A40F2}"
+	ProjectSection(SolutionItems) = preProject
+		src\ascension\README.md = src\ascension\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Ascension", "src\ascension\Anabasis.Ascension\Anabasis.Ascension.csproj", "{7D5B09BE-C86B-47BF-918C-C9A2CA331F1E}"
 EndProject

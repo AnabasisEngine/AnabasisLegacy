@@ -49,7 +49,7 @@ public class VertexAttribSpecificationTests
             new[] {
                 new VertexAttribPointer(0, 3, VertexAttribType.Float, 0, false),
                 new VertexAttribPointer(1, 2, VertexAttribType.Float, 12, false),
-                new VertexAttribPointer(2, 4, VertexAttribType.Byte, 20, true),
+                new VertexAttribPointer(2, 4, VertexAttribType.UnsignedByte, 20, true),
             }
         },
     };

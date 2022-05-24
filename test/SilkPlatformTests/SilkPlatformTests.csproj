@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\ascension\Anabasis.Ascension\Anabasis.Ascension.csproj" />
       <ProjectReference Include="..\..\src\platform\Anabasis.Platform.Silk\Anabasis.Platform.Silk.csproj" />
     </ItemGroup>
 
