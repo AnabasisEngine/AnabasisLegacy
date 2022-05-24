@@ -21,8 +21,9 @@ internal partial class GlApi
         (VertexBufferObjectUsage)usage);
 
     public void NamedBufferSubData<T>(BufferObjectHandle buffer, nint offset, ReadOnlySpan<T> data)
-        where T : unmanaged => Gl.NamedBufferSubData(buffer.Value, offset * Marshal.SizeOf<T>(), (nuint)(data.Length * Marshal
-        .SizeOf<T>()),
+        where T : unmanaged => Gl.NamedBufferSubData(buffer.Value, offset * Marshal.SizeOf<T>(), (nuint)(data.Length *
+            Marshal
+                .SizeOf<T>()),
         data);
 
     public BufferObjectHandle CreateBuffer() => new(Gl.CreateBuffer());
@@ -50,12 +51,12 @@ internal partial class GlApi
         return new Span<T>(ptr, size);
     }
 
-    public unsafe Span<T> MapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
-        where T : unmanaged {
-        return new Span<T>(UnsafeMapNamedBufferRange<T>(handle, offset, length, mask), length);
-    }
+    public unsafe Span<T> MapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length,
+        MapBufferAccessMask mask)
+        where T : unmanaged => new(UnsafeMapNamedBufferRange<T>(handle, offset, length, mask), length);
 
-    public unsafe T* UnsafeMapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length, MapBufferAccessMask mask)
+    public unsafe T* UnsafeMapNamedBufferRange<T>(BufferObjectHandle handle, int offset, int length,
+        MapBufferAccessMask mask)
         where T : unmanaged {
         void* ptr = Gl.MapNamedBufferRange(handle.Value, offset * sizeof(T), (nuint)(length * sizeof(T)), mask);
         if (ptr == null)

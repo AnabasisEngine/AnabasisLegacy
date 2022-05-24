@@ -5,6 +5,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.PooledObjects" Version="3.9.0-5.21120.8" />
       <PackageReference Include="Silk.NET.Maths" Version="2.15.0" />
     </ItemGroup>
 

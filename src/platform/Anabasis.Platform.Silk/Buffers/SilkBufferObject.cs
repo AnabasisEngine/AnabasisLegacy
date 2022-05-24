@@ -24,7 +24,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
     }
 
     [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
-    public void Allocate(int length, ReadOnlySpan<T> data = default, BufferAccess flags = BufferAccess.None) {
+    public void Allocate(int length, ReadOnlySpan<T> data = default, BufferAccess flags = BufferAccess.DefaultMap) {
         Length = length;
         BufferStorageMask mask = 0;
         if (!data.IsEmpty)
@@ -33,7 +33,7 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
         if ((flags & BufferAccess.Persistent) != 0)
             mask |= BufferStorageMask.MapPersistentBit;
         if ((flags & BufferAccess.Coherent) != 0)
-            mask |= BufferStorageMask.MapCoherentBit;
+            mask |= BufferStorageMask.MapCoherentBit | BufferStorageMask.MapPersistentBit;
         if ((flags & BufferAccess.Read) != 0)
             mask |= BufferStorageMask.MapReadBit;
         if ((flags & BufferAccess.Write) != 0)
@@ -45,11 +45,12 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
         _gl.GetAndThrowError();
     }
 
-    public void LoadData(ReadOnlySpan<T> data, int offset = 0) {
+    public void LoadData(ReadOnlySpan<T> data, int offset = 0,
+        BufferAccess flags = BufferAccess.DefaultMap) {
         if (data.IsEmpty)
             throw new ArgumentException("Cannot load a buffer with no data");
-        if (Length < 0) {
-            Allocate(data.Length, data);
+        if (Length <= 0) {
+            Allocate(data.Length, data, flags);
         } else if (Length >= offset + data.Length) {
             _gl.NamedBufferSubData(Handle, offset, data);
         } else {

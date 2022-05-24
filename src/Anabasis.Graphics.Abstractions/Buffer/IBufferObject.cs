@@ -1,5 +1,4 @@
-﻿using System.Buffers;
-using Anabasis.Platform.Abstractions.Resources;
+﻿using Anabasis.Platform.Abstractions.Resources;
 
 namespace Anabasis.Graphics.Abstractions.Buffer;
 
@@ -11,10 +10,11 @@ public interface IBufferObject<T> : IPlatformResource
     /// </summary>
     /// <param name="data"></param>
     /// <param name="offset"></param>
+    /// <param name="flags"></param>
     /// <remarks>
     /// This call *may* change the actively bound buffer object(s) if necessary for the particular backend graphics api
     /// </remarks>
-    void LoadData(ReadOnlySpan<T> data, int offset = 0);
+    void LoadData(ReadOnlySpan<T> data, int offset = 0, BufferAccess flags = BufferAccess.DefaultMap);
 
     /// <summary>
     /// Returns -1 if the buffer is not allocated
@@ -25,7 +25,7 @@ public interface IBufferObject<T> : IPlatformResource
     /// (Pre-)Allocates a buffer object of <paramref name="length"/> elements, configured using the given
     /// <see cref="BufferAccess"/> as storage hints
     /// </summary>
-    void Allocate(int length, ReadOnlySpan<T> data = default, BufferAccess flags = BufferAccess.None);
+    void Allocate(int length, ReadOnlySpan<T> data = default, BufferAccess flags = BufferAccess.DefaultMap);
 
     /// <summary>
     /// Maps this buffer object to a span of at least <paramref name="length"/> elements and invokes
@@ -35,15 +35,10 @@ public interface IBufferObject<T> : IPlatformResource
     /// The default implementation of this method stack-allocates a block of <paramref name="length"/> elements
     /// and calls <see cref="LoadData(ReadOnlySpan{T}, int)"/>
     /// </remarks>
-    void LoadData<TArg>(int offset, int length, SpanAction<T, TArg> load, TArg state) {
+    void LoadData(int offset, int length, StatelessSpanAction<T> load,
+        BufferAccess flags = BufferAccess.DefaultMap) {
         Span<T> buf = stackalloc T[length];
-        load(buf, state);
-        LoadData(buf, offset);
-    }
-
-    /// <inheritdoc cref="IBufferObject{T}.LoadData{TArg}(int, int, SpanAction{T, TArg}, TArg)"/>
-    void LoadData<TArg>(Range range, SpanAction<T, TArg> load, TArg state) {
-        (int offset, int length) = range.GetOffsetAndLength(Length);
-        LoadData(offset, length, load, state);
+        load(buf);
+        LoadData(buf, offset, flags);
     }
 }

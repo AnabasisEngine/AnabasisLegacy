@@ -47,24 +47,18 @@ public class Game : IAnabasisGame
         _shader = await _shaderSupport.CompileShaderAsync<Shader>();
         _pipeline = _graphics.CreateDrawPipeline(_shader);
 
-        _pipeline.CreateVertexBuffer<VertexData>(4, new[] {
-            new VertexData {
-                Position = new Vector3(0.5f, 0.5f, 0f),
-                TexCoord = new Vector2(1f, 0f),
-            },
-            new VertexData {
-                Position = new Vector3(0.5f, -0.5f, 0f),
-                TexCoord = new Vector2(1f, 1f),
-            },
+        _pipeline.CreateVertexBuffer<VertexData>(4, span => {
+            span[0].Position = new Vector3(0.5f, 0.5f, 0f);
+            span[0].TexCoord = new Vector2(1f, 0f);
 
-            new VertexData {
-                Position = new Vector3(-0.5f, -0.5f, 0f),
-                TexCoord = new Vector2(0f, 1f),
-            },
-            new VertexData {
-                Position = new Vector3(-0.5f, 0.5f, 0f),
-                TexCoord = new Vector2(0f, 0f),
-            },
+            span[1].Position = new Vector3(0.5f, -0.5f, 0f);
+            span[1].TexCoord = new Vector2(1f, 1f);
+
+            span[2].Position = new Vector3(-0.5f, -0.5f, 0f);
+            span[2].TexCoord = new Vector2(0f, 1f);
+
+            span[3].Position = new Vector3(-0.5f, 0.5f, 0f);
+            span[3].TexCoord = new Vector2(0f, 0f);
         });
 
         _pipeline.CreateIndexBuffer<ushort>(6, new ushort[] { 0, 1, 3, 1, 2, 3, });

@@ -5,12 +5,10 @@ namespace Anabasis.Platform.Silk.Error;
 
 public class GlException : Exception
 {
-    public GlException(ErrorCode errorCode, string caller, string? message) : base(message) {
+    public GlException(ErrorCode errorCode, string caller, string? message) : base($"{message}: {errorCode}, {caller}") {
         ErrorCode = errorCode;
         Function = caller;
     }
     public ErrorCode ErrorCode { get; }
     public string Function { get; }
-
-    public override string ToString() => $"{base.ToString()}, {nameof(ErrorCode)}: {ErrorCode}, {nameof(Function)}: {Function}";
 }

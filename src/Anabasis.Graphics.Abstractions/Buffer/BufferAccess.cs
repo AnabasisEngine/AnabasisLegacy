@@ -10,4 +10,5 @@ public enum BufferAccess
     Persistent = 4,
     Coherent   = 8,
     Dynamic    = 16,
+    DefaultMap = Coherent | Persistent | Write,
 }
