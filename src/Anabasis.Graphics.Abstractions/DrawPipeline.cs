@@ -73,4 +73,24 @@ public sealed class DrawPipeline : IDisposable
         using (VertexArray.Use())
             VertexArray.DrawElementsInstanced(drawMode, count, indexOffset, instanceCount);
     }
+    
+    
+    public void DrawElementsBaseVertex(DrawMode drawMode, uint count, uint indexOffset, int baseVertex) {
+        using (ShaderProgram.Use())
+        using (VertexArray.Use())
+            VertexArray.DrawElementsBaseVertex(drawMode, count, indexOffset, baseVertex);
+    }
+    public void DrawElementsInstancedBaseVertex(DrawMode drawMode, uint count, uint indexOffset, uint instanceCount,
+        int baseVertex) {
+        using (ShaderProgram.Use())
+        using (VertexArray.Use())
+            VertexArray.DrawElementsInstancedBaseVertex(drawMode, count, indexOffset, instanceCount, baseVertex);
+    }
+    public void DrawElementsInstancedBaseVertexBaseInstance(DrawMode drawMode, uint count, uint indexOffset,
+        uint instanceCount, int baseVertex, uint baseInstance) {
+        using (ShaderProgram.Use())
+        using (VertexArray.Use())
+            VertexArray.DrawElementsInstancedBaseVertexBaseInstance(drawMode, count, indexOffset, instanceCount, 
+            baseVertex, baseInstance);
+    }
 }

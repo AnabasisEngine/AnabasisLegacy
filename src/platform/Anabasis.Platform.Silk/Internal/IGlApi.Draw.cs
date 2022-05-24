@@ -1,5 +1,4 @@
 ﻿using Anabasis.Graphics.Abstractions;
-using Anabasis.Platform.Silk.Textures;
 using Silk.NET.OpenGL;
 
 namespace Anabasis.Platform.Silk.Internal;
@@ -13,4 +12,13 @@ public partial interface IGlApi
     void ClearFlags(ClearBufferMask mask);
     void DrawElementsInstanced(PrimitiveType primitiveType, uint count, DrawElementsType indexType, long indexOffset, uint instanceCount);
     void Viewport(uint width, uint height);
+
+    void DrawElementsInstancedBaseVertexBaseInstance(PrimitiveType mode, uint count, DrawElementsType type,
+        long indices, uint instancecount, int basevertex, uint baseinstance);
+
+    void DrawElementsBaseVertex(PrimitiveType mode, uint count, DrawElementsType type, long indices,
+        int basevertex);
+
+    void DrawElementsInstancedBaseVertex(PrimitiveType mode, uint count, DrawElementsType type, long indices,
+        uint instancecount, int basevertex);
 }

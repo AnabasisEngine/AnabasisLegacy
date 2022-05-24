@@ -81,4 +81,38 @@ public class SilkVertexArray : SilkGlObject<VertexArrayHandle>, IVertexArray
         Debug.Assert(_indexType != null, nameof(_indexType) + " != null");
         Gl.DrawElementsInstanced(primitiveType, count, _indexType.Value, indexOffset * _indexSize.Value, instanceCount);
     }
+
+    public void DrawElementsBaseVertex(DrawMode drawMode, uint count, uint indexOffset, int baseVertex) {
+        PrimitiveType primitiveType = drawMode switch {
+            DrawMode.Triangles => PrimitiveType.Triangles,
+            _ => throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null),
+        };
+        Debug.Assert(_indexSize != null, nameof(_indexSize) + " != null");
+        Debug.Assert(_indexType != null, nameof(_indexType) + " != null");
+        Gl.DrawElementsBaseVertex(primitiveType, count, _indexType.Value, indexOffset * _indexSize.Value, baseVertex);
+    }
+
+    public void DrawElementsInstancedBaseVertex(DrawMode drawMode, uint count, uint indexOffset, uint instanceCount,
+        int baseVertex) {
+        PrimitiveType primitiveType = drawMode switch {
+            DrawMode.Triangles => PrimitiveType.Triangles,
+            _ => throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null),
+        };
+        Debug.Assert(_indexSize != null, nameof(_indexSize) + " != null");
+        Debug.Assert(_indexType != null, nameof(_indexType) + " != null");
+        Gl.DrawElementsInstancedBaseVertex(primitiveType, count, _indexType.Value, indexOffset * _indexSize.Value, 
+        instanceCount, baseVertex);
+    }
+
+    public void DrawElementsInstancedBaseVertexBaseInstance(DrawMode drawMode, uint count, uint indexOffset,
+        uint instanceCount, int baseVertex, uint baseInstance) {
+        PrimitiveType primitiveType = drawMode switch {
+            DrawMode.Triangles => PrimitiveType.Triangles,
+            _ => throw new ArgumentOutOfRangeException(nameof(drawMode), drawMode, null),
+        };
+        Debug.Assert(_indexSize != null, nameof(_indexSize) + " != null");
+        Debug.Assert(_indexType != null, nameof(_indexType) + " != null");
+        Gl.DrawElementsInstancedBaseVertexBaseInstance(primitiveType, count, _indexType.Value, indexOffset * 
+        _indexSize.Value, instanceCount, baseVertex, baseInstance);
+    }
 }

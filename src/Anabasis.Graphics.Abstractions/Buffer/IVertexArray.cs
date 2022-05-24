@@ -15,4 +15,11 @@ public interface IVertexArray : IPlatformResource
     public void DrawElements(DrawMode drawMode, uint count, uint indexOffset);
 
     public void DrawElementsInstanced(DrawMode drawMode, uint count, uint indexOffset, uint instanceCount);
+    void DrawElementsBaseVertex(DrawMode drawMode, uint count, uint indexOffset, int baseVertex);
+
+    void DrawElementsInstancedBaseVertex(DrawMode drawMode, uint count, uint indexOffset, uint instanceCount,
+        int baseVertex);
+
+    void DrawElementsInstancedBaseVertexBaseInstance(DrawMode drawMode, uint count, uint indexOffset,
+        uint instanceCount, int baseVertex, uint baseInstance);
 }
