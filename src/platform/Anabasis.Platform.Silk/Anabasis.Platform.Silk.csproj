@@ -1,21 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Anabasis.Graphics.Abstractions\Anabasis.Graphics.Abstractions.csproj"/>
-        <ProjectReference Include="..\..\Anabasis.Platform.Abstractions\Anabasis.Platform.Abstractions.csproj"/>
-        <ProjectReference Include="..\..\Anabasis.Utility\Anabasis.Utility.csproj"/>
+        <ProjectReference Include="..\..\Anabasis.Graphics.Abstractions\Anabasis.Graphics.Abstractions.csproj" />
+        <ProjectReference Include="..\..\Anabasis.Platform.Abstractions\Anabasis.Platform.Abstractions.csproj" />
+        <ProjectReference Include="..\..\Anabasis.Utility\Anabasis.Utility.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0-preview.4.22229.4"/>
-        <PackageReference Include="Silk.NET" Version="2.15.0"/>
-        <PackageReference Include="Silk.NET.Maths" Version="2.15.0"/>
-        <PackageReference Include="System.Linq.Async" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0-preview.4.22229.4" />
+        <PackageReference Include="Silk.NET.Core" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.GLFW" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.Input.Common" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.Input.Glfw" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.Maths" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.OpenAL" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.OpenGL" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.Windowing.Common" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.Windowing.Glfw" Version="2.15.0" />
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="SilkPlatformTests"/>
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+        <InternalsVisibleTo Include="SilkPlatformTests" />
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
 </Project>

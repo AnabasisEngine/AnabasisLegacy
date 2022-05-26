@@ -81,6 +81,6 @@ public class SilkBufferObject<T> : SilkGlObject<BufferObjectHandle>, IBufferObje
         if ((flags & BufferAccess.Write) != 0)
             mask |= MapBufferAccessMask.MapWriteBit;
 
-        return new BufferMappingRange<T>(this, _gl, offset, length, mask);
+        return new BufferMapping<T>(this, _gl, offset, length, mask);
     }
 }
