@@ -29,12 +29,14 @@ internal partial class SilkShaderSupport : IShaderSupport
         (ShaderType, Task<string>)[] t = texts.GetTexts().ToArray();
         ShaderHandle[] shaders = new ShaderHandle[t.Length];
         ProgramHandle program;
+        int i = 0;
         try {
-            int i = 0;
             foreach ((ShaderType shaderType, Task<string>? task) in t) {
                 cancellationToken.ThrowIfCancellationRequested();
                 GlShaderType glShaderType = ShaderTypeToNative(shaderType);
                 string strings = await task;
+                if(string.IsNullOrWhiteSpace(strings))
+                    continue;
 
                 await _taskManager.Yield();
 
@@ -51,8 +53,8 @@ internal partial class SilkShaderSupport : IShaderSupport
             }
 
             program = _gl.CreateProgram();
-            foreach (ShaderHandle shader in shaders) {
-                _gl.AttachShader(program, shader);
+            for (int index = 0; index < i; index++) {
+                _gl.AttachShader(program, shaders[index]);
             }
 
             _gl.LinkProgram(program);
@@ -61,13 +63,13 @@ internal partial class SilkShaderSupport : IShaderSupport
                 throw new Exception($"Program failed to link with error: {_gl.GetProgramInfoLog(program)}");
             }
 
-            foreach (ShaderHandle shader in shaders) {
-                _gl.DetachShader(program, shader);
+            for (int index = 0; index < i; index++) {
+                _gl.DetachShader(program, shaders[index]);
             }
         }
         finally {
-            foreach (ShaderHandle shader in shaders) {
-                _gl.DeleteShader(shader);
+            for (int index = 0; index < i; index++) {
+                _gl.DeleteShader(shaders[index]);
             }
         }
 

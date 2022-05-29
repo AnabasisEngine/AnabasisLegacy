@@ -63,8 +63,8 @@ internal class SilkGraphicsDevice : IDisposable, IGraphicsDevice
     public Vector2D<uint> Viewport {
         get => _viewport;
         set {
-            Gl.Viewport(_viewport.X, _viewport.Y);
             _viewport = value;
+            Gl.Viewport(_viewport.X, _viewport.Y);
         }
     }
 

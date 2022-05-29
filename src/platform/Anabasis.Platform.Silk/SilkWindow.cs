@@ -36,6 +36,7 @@ internal class SilkWindow : IAnabasisWindow
             time.Render(d);
             runLoop.Render();
         };
+        Window.FramebufferResize += v => _silkPlatform.GraphicsDevice.Viewport = v.As<uint>();
         Window.Closing += unloadCallback;
         Window.Run();
         _tcs.TrySetResult();
