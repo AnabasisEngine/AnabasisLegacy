@@ -15,9 +15,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{2F3F2485-8D3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0C326D5F-E457-4FCA-AB53-B6519A38E0A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Tasks", "src\Anabasis.Tasks\Anabasis.Tasks.csproj", "{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
