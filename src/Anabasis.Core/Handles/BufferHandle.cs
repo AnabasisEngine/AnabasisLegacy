@@ -4,7 +4,7 @@ namespace Anabasis.Core.Handles;
 
 public readonly record struct BufferHandle(uint Value) : IAnabasisHandle
 {
-    public static ObjectType ObjectType => ObjectType.Buffer;
+    public static ObjectIdentifier ObjectType => ObjectIdentifier.Buffer;
     public void Free(GL gl) {
         gl.DeleteBuffer(Value);
     }

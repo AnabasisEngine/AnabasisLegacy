@@ -4,7 +4,7 @@ namespace Anabasis.Core;
 
 public interface IAnabasisHandle
 {
-    public static abstract ObjectType ObjectType { get; }
+    public static abstract ObjectIdentifier ObjectType { get; }
 
     public void Free(GL gl);
 
