@@ -1,0 +1,3 @@
+[submodule "ascension"]
+	path = ascension
+	url = git@github.com:AnabasisEngine/Ascension.git
