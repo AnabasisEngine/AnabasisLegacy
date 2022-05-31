@@ -10,3 +10,8 @@ public interface IAnabasisHandle
 
     public uint Value { get; }
 }
+
+public interface IAnabasisBindableHandle : IAnabasisHandle
+{
+    public void Use(GL gl);
+}

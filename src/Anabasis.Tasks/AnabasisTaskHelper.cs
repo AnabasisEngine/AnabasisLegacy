@@ -24,7 +24,8 @@ public static partial class AnabasisTaskHelper
     
     private static readonly LinkedList<ScheduledContinuation> Continuations = new();
 
-    private static void RunContinuations(AnabasisPlatformLoopStep step) {
+    internal static readonly Action<AnabasisPlatformLoopStep> RunAction = RunContinuations;
+    internal static void RunContinuations(AnabasisPlatformLoopStep step) {
         LinkedList<ScheduledContinuation> drain = new();
         lock (Continuations) {
             for (LinkedListNode<ScheduledContinuation>? node = Continuations.First; node != null; node = node.Next) {

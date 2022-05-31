@@ -4,4 +4,10 @@
     <PackageReference Include="Silk.NET.Maths" Version="2.15.0" />
     <PackageReference Include="Silk.NET.OpenGL" Version="2.15.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Anabasis.Tasks\Anabasis.Tasks.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Anabasis.Hosting" />
+  </ItemGroup>
 </Project>
