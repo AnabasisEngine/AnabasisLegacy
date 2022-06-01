@@ -26,7 +26,8 @@ public sealed class GraphicsBuffer : AnabasisNativeObject<BufferHandle>
     }
 
     [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
-    public void AllocateBuffer<T>(int count = -1, ReadOnlySpan<T> initialData = default)
+    public void AllocateBuffer<T>(int count = -1, ReadOnlySpan<T> initialData = default,
+        BufferStorageMask mask = BufferStorageMask.MapCoherentBit | BufferStorageMask.MapPersistentBit)
         where T : unmanaged {
         ThrowIfAlreadyAllocated();
         count = count switch {
@@ -38,9 +39,9 @@ public sealed class GraphicsBuffer : AnabasisNativeObject<BufferHandle>
         };
 
         count *= Marshal.SizeOf<T>();
+        if (initialData.IsEmpty) mask |= BufferStorageMask.DynamicStorageBit;
         Gl.NamedBufferStorage(Handle.Value, (nuint)count, MemoryMarshal.AsBytes(initialData),
-            BufferStorageMask.DynamicStorageBit | BufferStorageMask.MapCoherentBit |
-            BufferStorageMask.MapPersistentBit | BufferStorageMask.MapWriteBit);
+            mask | BufferStorageMask.MapWriteBit);
         Gl.ThrowIfError(nameof(Gl.NamedBufferStorage));
         Length = count;
     }
@@ -104,6 +105,6 @@ public sealed class GraphicsBuffer : AnabasisNativeObject<BufferHandle>
         }
 
         [SuppressMessage("ReSharper", "ReplaceSliceWithRangeIndexer")]
-        public static implicit operator  TypedBufferSlice<T>(GraphicsBuffer buffer) => buffer.Slice<T>(0, buffer.Length);
+        public static implicit operator TypedBufferSlice<T>(GraphicsBuffer buffer) => buffer.Slice<T>(0, buffer.Length);
     }
 }

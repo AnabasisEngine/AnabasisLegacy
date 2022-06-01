@@ -31,13 +31,3 @@ public abstract class AnabasisNativeObject<THandle> : IAnabasisNativeObject<THan
         GC.SuppressFinalize(this);
     }
 }
-
-public abstract class AnabasisBindableNativeObject<THandle> : AnabasisNativeObject<THandle>, IAnabasisBindableObject
-    where THandle : struct, IAnabasisBindableHandle
-{
-    protected AnabasisBindableNativeObject(GL gl, THandle name) : base(gl, name) { }
-    public IDisposable Use() {
-        Handle.Use(Gl);
-        return new GenericDisposer(() => default(THandle).Use(Gl));
-    }
-}
