@@ -12,26 +12,20 @@ public sealed partial class AnabasisRunLoop
     public readonly struct PlatformLoopHandlerDisposer
         : IDisposable
     {
-        internal PlatformLoopHandlerDisposer(AnabasisPlatformLoopStep Step, string Name,
-            WeakReference<AnabasisRunLoop> Platform) {
-            this.Step = Step;
-            this.Name = Name;
-            this.Platform = Platform;
+        private readonly WeakReference<AnabasisRunLoop> _platform;
+        private readonly string                         _name;
+        private readonly AnabasisPlatformLoopStep       _step;
+
+        internal PlatformLoopHandlerDisposer(AnabasisPlatformLoopStep step, string name,
+            WeakReference<AnabasisRunLoop> platform) {
+            _step = step;
+            _name = name;
+            _platform = platform;
         }
 
         public void Dispose() {
-            if (Platform.TryGetTarget(out AnabasisRunLoop? tgt))
-                tgt.RemoveHandler(Step, Name);
-        }
-
-        internal AnabasisPlatformLoopStep Step { get; init; }
-        internal string Name { get; init; }
-        internal WeakReference<AnabasisRunLoop> Platform { get; init; }
-
-        internal void Deconstruct(out AnabasisPlatformLoopStep Step, out string Name, out WeakReference<AnabasisRunLoop> Platform) {
-            Step = this.Step;
-            Name = this.Name;
-            Platform = this.Platform;
+            if (_platform.TryGetTarget(out AnabasisRunLoop? tgt))
+                tgt.RemoveHandler(_step, _name);
         }
     }
 
@@ -69,7 +63,7 @@ public sealed partial class AnabasisRunLoop
         }
     }
 
-    internal void RunHandlers(AnabasisPlatformLoopStep step) {
+    private void RunHandlers(AnabasisPlatformLoopStep step) {
         PlatformLoopHandler[] list;
         lock (_loopHandlers) {
             list = _loopHandlers[step].ToArray();

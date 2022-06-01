@@ -26,10 +26,10 @@ public sealed class VertexArray : AnabasisBindableNativeObject<VertexArrayHandle
 public static class VertexArrayExtensions
 {
     public static VertexArrayBindingIndex FormatAndBindVertexBuffer(this VertexArray vertexArray, GraphicsBuffer buffer,
-        IVertexFormat vertexFormat, int offset, uint stride) {
+        VertexFormatter vertexFormat, int offset, uint stride) {
         VertexArrayBindingIndex idx = VertexArrayBindingIndex.NextIndex;
         vertexArray.BindVertexBuffer(buffer, idx, offset, stride);
-        vertexFormat.EstablishFormat(idx, vertexArray);
+        vertexFormat(idx, vertexArray.Gl, vertexArray.Handle);
         return idx;
     }
 }

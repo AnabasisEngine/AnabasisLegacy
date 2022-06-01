@@ -1,0 +1,14 @@
+﻿public partial struct Vertex : Anabasis.Core.Rendering.IVertexType
+{
+    public static void EstablishVertexFormat(Anabasis.Core.RenderingVertexArrayBindingIndex bindingIndex, Silk.NET.OpenGL.GL gl, Anabasis.Core.Handles.VertexArrayHandle handle)
+    {
+        uint id = handle.Value, idx = bindingIndex.Value;
+        gl.EnableVertexArrayAttrib(id, 0);
+        gl.VertexArrayAttribFormat(id, 0, 3, Silk.NET.OpenGL.VertexAttribType.Float, false, 0);
+        gl.VertexArrayAttribBinding(id, 0, idx);
+        gl.EnableVertexArrayAttrib(id, 1);
+        gl.VertexArrayAttribFormat(id, 1, 2, Silk.NET.OpenGL.VertexAttribType.Float, false, 12);
+        gl.VertexArrayAttribBinding(id, 1, idx);
+        gl.VertexArrayBindingDivisor(id, idx, 0);
+    }
+}
