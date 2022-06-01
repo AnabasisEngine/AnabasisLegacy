@@ -1,4 +1,5 @@
-﻿using Anabasis.Core.Buffers;
+﻿using System.Runtime.InteropServices;
+using Anabasis.Core.Buffers;
 using Anabasis.Core.Handles;
 using Silk.NET.OpenGL;
 
@@ -30,6 +31,14 @@ public static class VertexArrayExtensions
         VertexArrayBindingIndex idx = VertexArrayBindingIndex.NextIndex;
         vertexArray.BindVertexBuffer(buffer, idx, offset, stride);
         vertexFormat(idx, vertexArray.Gl, vertexArray.Handle);
+        return idx;
+    }
+
+    public static VertexArrayBindingIndex FormatAndBindVertexBuffer<T>(this VertexArray vertexArray, GraphicsBuffer.TypedBufferSlice<T> slice)
+        where T : unmanaged, IVertexType {
+        VertexArrayBindingIndex idx = VertexArrayBindingIndex.NextIndex;
+        vertexArray.BindVertexBuffer(slice.Buffer, idx, slice.Offset, (uint)Marshal.SizeOf<T>());
+        T.EstablishVertexFormat(idx, vertexArray.Gl, vertexArray.Handle);
         return idx;
     }
 }

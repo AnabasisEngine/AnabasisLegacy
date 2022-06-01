@@ -56,7 +56,9 @@ public sealed class GraphicsBuffer : AnabasisNativeObject<BufferHandle>
 
     public TypedBufferSlice<T> Slice<T>(int offset, int length)
         where T : unmanaged {
-        if (length > Length)
+        if (length < 0)
+            length = Length - offset;
+        if (offset + length > Length)
             throw new ArgumentOutOfRangeException(nameof(length), length, "");
         if (offset < 0)
             throw new ArgumentOutOfRangeException(nameof(offset), offset, "");
@@ -81,26 +83,28 @@ public sealed class GraphicsBuffer : AnabasisNativeObject<BufferHandle>
     public readonly struct TypedBufferSlice<T>
         where T : unmanaged
     {
-        private readonly GraphicsBuffer _buffer;
-        private readonly int            _offset;
-        private readonly int            _length;
+        public readonly GraphicsBuffer Buffer;
+        public readonly int            Offset;
+        public readonly int            Length;
 
         internal TypedBufferSlice(GraphicsBuffer buffer, int offset, int length) {
-            _buffer = buffer;
-            _offset = offset;
-            _length = length;
+            Buffer = buffer;
+            Offset = offset;
+            Length = length;
         }
 
-        public TypedBufferSlice<T> Slice(int offset, int length) {
-            if (length > _length)
+        public TypedBufferSlice<T> Slice(int offset = 0, int length = -1) {
+            if (length < 0)
+                length = Length - offset;
+            if (offset + length > Length)
                 throw new ArgumentOutOfRangeException(nameof(length), length, "");
             if (offset < 0)
                 throw new ArgumentOutOfRangeException(nameof(offset), offset, "");
-            return new TypedBufferSlice<T>(_buffer, _offset + offset, length);
+            return new TypedBufferSlice<T>(Buffer, Offset + offset, length);
         }
 
         public void Write(ReadOnlySpan<T> span) {
-            _buffer.Gl.NamedBufferSubData(_buffer.Handle.Value, _offset * Marshal.SizeOf<T>(),
+            Buffer.Gl.NamedBufferSubData(Buffer.Handle.Value, Offset * Marshal.SizeOf<T>(),
                 (nuint)(span.Length * Marshal.SizeOf<T>()), span);
         }
 
