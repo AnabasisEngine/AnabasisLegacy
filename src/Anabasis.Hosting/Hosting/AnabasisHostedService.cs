@@ -8,8 +8,8 @@ namespace Anabasis.Hosting.Hosting;
 
 public class AnabasisHostedService : IHostedService
 {
-    private readonly IServiceProvider  _provider;
-    private readonly Thread            _thread;
+    private readonly IServiceProvider _provider;
+    private readonly Thread           _thread;
 
     public AnabasisHostedService(IServiceProvider provider) {
         _provider = provider;
@@ -35,40 +35,39 @@ public class AnabasisHostedService : IHostedService
     private void Run() {
         AnabasisRunLoop loop = _provider.GetRequiredService<AnabasisRunLoop>();
         AnabasisTaskHelper.MainThreadId = Environment.CurrentManagedThreadId;
-        AnabasisGame? game = null;
-        IServiceScope? scope = null;
+        AnabasisGame[] game = new AnabasisGame[1];
+        IServiceScope[] scope = new IServiceScope[1];
+        AnabasisRunLoop.PlatformLoopHandlerDisposer[] taskRegistrations = new AnabasisRunLoop.PlatformLoopHandlerDisposer[8];
+        PooledDelegates.Releaser[] taskClosures = new PooledDelegates.Releaser[8];
         try {
-            AnabasisRunLoop.PlatformLoopHandlerDisposer[] taskRegistrations = new AnabasisRunLoop.PlatformLoopHandlerDisposer[8];
-            PooledDelegates.Releaser[] taskClosures = new PooledDelegates.Releaser[8];
-            try { 
-                for (int i = 0; i < 8; i++) {
-                    AnabasisPlatformLoopStep step = (AnabasisPlatformLoopStep)i;
-                    taskClosures[i] = PooledDelegates.GetPooledAction(AnabasisTaskHelper.RunAction,
-                        step, out Action action);
-                    taskRegistrations[i] = loop.RegisterHandler(step, -127, $"TaskScheduler.{step}", action);
-                }
-                using (loop.RegisterHandler(AnabasisPlatformLoopStep.Initialization, 0, "IAnabasisGame.Load", () => {
-                           scope = _provider.CreateScope();
-                           game = scope.ServiceProvider.GetRequiredService<AnabasisGame>();
-                           game.DoLoad();
-                       }))
-                using (loop.RegisterHandler(AnabasisPlatformLoopStep.Update, 0, "IAnabasisGame.Update",
-                           () => game?.Update()))
-                using (loop.RegisterHandler(AnabasisPlatformLoopStep.Render, 0, "IAnabasisGame.Render",
-                           () => game?.Render())) {
-                    // _platform.Window.Run(loop, _provider.GetRequiredService<IAnabasisTime>(), () => { scope?.Dispose(); });
-                    throw new NotImplementedException();
-                }
+            for (int i = 0; i < 8; i++) {
+                AnabasisPlatformLoopStep step = (AnabasisPlatformLoopStep)i;
+                taskClosures[i] = PooledDelegates.GetPooledAction(AnabasisTaskHelper.RunAction,
+                    step, out Action action);
+                taskRegistrations[i] = loop.RegisterHandler(step, -127, $"TaskScheduler.{step}", action);
             }
-            finally {
-                for (int i = 0; i < 8; i++) {
-                    taskRegistrations[i].Dispose();
-                    taskClosures[i].Dispose();
-                }
+
+            using (PooledDelegates.GetPooledAction(g => g[0].Update(), game, out Action updateAction))
+            using (PooledDelegates.GetPooledAction(g => g[0].Render(), game, out Action renderAction))
+            using (PooledDelegates.GetPooledAction(arg => {
+                       arg.scope[0] = _provider.CreateScope();
+                       arg.game[0] = arg.scope[0].ServiceProvider.GetRequiredService<AnabasisGame>();
+                       arg.game[0].DoLoad();
+                   }, new { scope, game}, out Action loadAction))
+            using (loop.RegisterHandler(AnabasisPlatformLoopStep.Initialization, 0, "IAnabasisGame.Load", loadAction))
+            using (loop.RegisterHandler(AnabasisPlatformLoopStep.Update, 0, "IAnabasisGame.Update", updateAction))
+            using (loop.RegisterHandler(AnabasisPlatformLoopStep.Render, 0, "IAnabasisGame.Render", renderAction)) {
+                // _platform.Window.Run(loop, _provider.GetRequiredService<IAnabasisTime>(), () => { scope?.Dispose(); });
+                throw new NotImplementedException();
             }
         }
         finally {
-            scope?.Dispose();
+            for (int i = 0; i < 8; i++) {
+                taskRegistrations[i].Dispose();
+                taskClosures[i].Dispose();
+            }
+
+            scope[0].Dispose();
         }
     }
 }

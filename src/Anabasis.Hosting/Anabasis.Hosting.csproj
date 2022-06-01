@@ -6,4 +6,5 @@
     <ProjectReference Include="..\Anabasis.Core\Anabasis.Core.csproj" />
     <ProjectReference Include="..\Anabasis.Tasks\Anabasis.Tasks.csproj" />
   </ItemGroup>
+  <Import Project="..\..\ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.projitems" Label="Shared" />
 </Project>

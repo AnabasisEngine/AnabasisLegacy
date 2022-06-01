@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Core", "src\Anabas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Hosting", "src\Anabasis.Hosting\Anabasis.Hosting.csproj", "{C4ABD26B-79D5-45FF-811F-2B63640BA897}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.CodeAnalysis.PooledObjects", "ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.shproj", "{C1930979-C824-496B-A630-70F5369A636F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,7 @@ Global
 		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
 		{BBBF7DC8-ABD8-4571-A24A-CB212F91C6AF} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
 		{C4ABD26B-79D5-45FF-811F-2B63640BA897} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
+		{C1930979-C824-496B-A630-70F5369A636F} = {2F3F2485-8D39-4C4E-9988-BA39E9E93CCA}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

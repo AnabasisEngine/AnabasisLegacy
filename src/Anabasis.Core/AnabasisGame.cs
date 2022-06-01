@@ -3,6 +3,7 @@
 namespace Anabasis.Core;
 
 public abstract class AnabasisGame
+    : IAnabasisContext
 {
     protected Task LoadTask { get; private set; } = Task.CompletedTask;
 

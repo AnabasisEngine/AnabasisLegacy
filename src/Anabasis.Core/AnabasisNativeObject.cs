@@ -13,10 +13,10 @@ public abstract class AnabasisNativeObject<THandle> : IAnabasisNativeObject<THan
     protected GL Gl { get; }
     public THandle Handle { get; }
     public string Label {
-        get => _label ??= Gl.GetObjectLabel((ObjectIdentifier)THandle.ObjectType, Handle.Value);
+        get => _label ??= Gl.GetObjectLabel(THandle.ObjectType, Handle.Value);
         set {
             _label = value;
-            Gl.ObjectLabel((ObjectIdentifier)THandle.ObjectType, Handle.Value, value);
+            Gl.ObjectLabel(THandle.ObjectType, Handle.Value, value);
         }
     }
 

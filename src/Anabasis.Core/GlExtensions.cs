@@ -27,4 +27,11 @@ public static class GlExtensions
         DrawElementsType indexType, nuint indexOFfset, int baseVertex) {
         gl.DrawElementsBaseVertex(primitiveType, count, indexType, (void*)indexOFfset, baseVertex);
     }
+
+    public static void ThrowIfError(this GL gl, string function) {
+        ErrorCode error = (ErrorCode)gl.GetError();
+        if(error is ErrorCode.NoError)
+            return;
+        throw new GlException(error, function, "OpenGL Error");
+    }
 }
