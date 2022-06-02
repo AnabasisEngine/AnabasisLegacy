@@ -9,7 +9,7 @@ namespace ShaderGen;
 public static class VertexFormatGenerator
 {
     private const string FormatterParamList =
-        "(Anabasis.Core.RenderingVertexArrayBindingIndex bindingIndex, Silk.NET.OpenGL.GL gl, Anabasis.Core.Handles.VertexArrayHandle handle)";
+        "(Anabasis.Core.Rendering.VertexArrayBindingIndex bindingIndex, Silk.NET.OpenGL.GL gl, Anabasis.Core.Handles.VertexArrayHandle handle)";
 
     private static InvocationExpressionSyntax EnableVertexArrayAttrib(int layout) => InvocationExpression(
         MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName("gl"),
