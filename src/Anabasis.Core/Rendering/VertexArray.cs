@@ -27,18 +27,22 @@ public sealed class VertexArray : AnabasisBindableNativeObject<VertexArrayHandle
 public static class VertexArrayExtensions
 {
     public static VertexArrayBindingIndex FormatAndBindVertexBuffer(this VertexArray vertexArray, GraphicsBuffer buffer,
-        VertexFormatter vertexFormat, int offset, uint stride) {
+        VertexFormat vertexFormat, int offset, uint stride) {
         VertexArrayBindingIndex idx = VertexArrayBindingIndex.NextIndex;
         vertexArray.BindVertexBuffer(buffer, idx, offset, stride);
-        vertexFormat(idx, vertexArray.Gl, vertexArray.Handle);
+        vertexFormat(idx, new VertexFormatter(vertexArray.Gl), vertexArray.Handle);
         return idx;
     }
 
-    public static VertexArrayBindingIndex FormatAndBindVertexBuffer<T>(this VertexArray vertexArray, GraphicsBuffer.TypedBufferSlice<T> slice)
+    public static VertexArrayBindingIndex FormatAndBindVertexBuffer<T>(this VertexArray array, GraphicsBuffer buffer)
+        where T : unmanaged, IVertexType => FormatAndBindVertexBuffer(array, buffer.Typed<T>());
+
+    public static VertexArrayBindingIndex FormatAndBindVertexBuffer<T>(this VertexArray vertexArray,
+        GraphicsBuffer.TypedBufferSlice<T> slice)
         where T : unmanaged, IVertexType {
         VertexArrayBindingIndex idx = VertexArrayBindingIndex.NextIndex;
         vertexArray.BindVertexBuffer(slice.Buffer, idx, slice.Offset, (uint)Marshal.SizeOf<T>());
-        T.EstablishVertexFormat(idx, vertexArray.Gl, vertexArray.Handle);
+        T.EstablishVertexFormat(idx, new VertexFormatter(vertexArray.Gl), vertexArray.Handle);
         return idx;
     }
 }
