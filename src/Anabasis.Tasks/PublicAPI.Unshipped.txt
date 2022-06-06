@@ -1,0 +1,317 @@
+﻿#nullable enable
+Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformLoopStep.Initialization = 0 -> Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformLoopStep.PostInitialization = 1 -> Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformLoopStep.PostRender = 7 -> Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformLoopStep.PostUpdate = 4 -> Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformLoopStep.PreRender = 5 -> Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformLoopStep.PreUpdate = 2 -> Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformLoopStep.Render = 6 -> Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformLoopStep.Update = 3 -> Anabasis.Tasks.AnabasisPlatformLoopStep
+Anabasis.Tasks.AnabasisPlatformStepExtensions
+Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.All = Anabasis.Tasks.AnabasisPlatformStepMask.Initialization | Anabasis.Tasks.AnabasisPlatformStepMask.PostInitialization | Anabasis.Tasks.AnabasisPlatformStepMask.PreUpdate | Anabasis.Tasks.AnabasisPlatformStepMask.Update | Anabasis.Tasks.AnabasisPlatformStepMask.PostUpdate | Anabasis.Tasks.AnabasisPlatformStepMask.PreRender | Anabasis.Tasks.AnabasisPlatformStepMask.Render | Anabasis.Tasks.AnabasisPlatformStepMask.PostRender -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.Initialization = 1 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.None = 0 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.PostInitialization = 2 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.PostRender = 128 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.PostUpdate = 16 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.PreRender = 32 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.PreUpdate = 4 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.Render = 64 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisPlatformStepMask.Update = 8 -> Anabasis.Tasks.AnabasisPlatformStepMask
+Anabasis.Tasks.AnabasisProgress<T>
+Anabasis.Tasks.AnabasisProgress<T>.AnabasisProgress() -> void
+Anabasis.Tasks.AnabasisProgress<T>.AnabasisProgress(System.Action<T>! handler) -> void
+Anabasis.Tasks.AnabasisProgress<T>.ProgressChanged -> System.EventHandler<T>?
+Anabasis.Tasks.AnabasisTask
+Anabasis.Tasks.AnabasisTask.AnabasisTask() -> void
+Anabasis.Tasks.AnabasisTask.AnabasisTask(Anabasis.Tasks.IAnabasisTaskSource! source, short token) -> void
+Anabasis.Tasks.AnabasisTask.Awaiter
+Anabasis.Tasks.AnabasisTask.Awaiter.Awaiter() -> void
+Anabasis.Tasks.AnabasisTask.Awaiter.Awaiter(in Anabasis.Tasks.AnabasisTask task) -> void
+Anabasis.Tasks.AnabasisTask.Awaiter.GetResult() -> void
+Anabasis.Tasks.AnabasisTask.Awaiter.IsCompleted.get -> bool
+Anabasis.Tasks.AnabasisTask.Awaiter.OnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.AnabasisTask.Awaiter.SourceOnCompleted(System.Action<object?>! continuation, object? state) -> void
+Anabasis.Tasks.AnabasisTask.Awaiter.UnsafeOnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.AnabasisTask.GetAwaiter() -> Anabasis.Tasks.AnabasisTask.Awaiter
+Anabasis.Tasks.AnabasisTask.Status.get -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTask<T>
+Anabasis.Tasks.AnabasisTask<T>.AnabasisTask() -> void
+Anabasis.Tasks.AnabasisTask<T>.AnabasisTask(Anabasis.Tasks.IAnabasisTaskSource<T>! source, short token) -> void
+Anabasis.Tasks.AnabasisTask<T>.AnabasisTask(T result) -> void
+Anabasis.Tasks.AnabasisTask<T>.AsAnabasisTask() -> Anabasis.Tasks.AnabasisTask
+Anabasis.Tasks.AnabasisTask<T>.Awaiter
+Anabasis.Tasks.AnabasisTask<T>.Awaiter.Awaiter() -> void
+Anabasis.Tasks.AnabasisTask<T>.Awaiter.Awaiter(in Anabasis.Tasks.AnabasisTask<T> task) -> void
+Anabasis.Tasks.AnabasisTask<T>.Awaiter.GetResult() -> T
+Anabasis.Tasks.AnabasisTask<T>.Awaiter.IsCompleted.get -> bool
+Anabasis.Tasks.AnabasisTask<T>.Awaiter.OnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.AnabasisTask<T>.Awaiter.SourceOnCompleted(System.Action<object?>! continuation, object? state) -> void
+Anabasis.Tasks.AnabasisTask<T>.Awaiter.UnsafeOnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.AnabasisTask<T>.GetAwaiter() -> Anabasis.Tasks.AnabasisTask<T>.Awaiter
+Anabasis.Tasks.AnabasisTask<T>.Status.get -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskAsyncEnumerableExtensions
+Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>
+Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>.AnabasisTaskCancelableAsyncEnumerable() -> void
+Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>.Enumerator
+Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>.Enumerator.Current.get -> T
+Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>.Enumerator.DisposeAsync() -> Anabasis.Tasks.AnabasisTask
+Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>.Enumerator.Enumerator() -> void
+Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>.Enumerator.MoveNextAsync() -> Anabasis.Tasks.AnabasisTask<bool>
+Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>.GetAsyncEnumerator() -> Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>.Enumerator
+Anabasis.Tasks.AnabasisTaskCompletionSource
+Anabasis.Tasks.AnabasisTaskCompletionSource.AnabasisTaskCompletionSource() -> void
+Anabasis.Tasks.AnabasisTaskCompletionSource.GetResult(short token) -> void
+Anabasis.Tasks.AnabasisTaskCompletionSource.GetStatus(short token) -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskCompletionSource.OnCompleted(System.Action<object?>! continuation, object? state, short token) -> void
+Anabasis.Tasks.AnabasisTaskCompletionSource.Task.get -> Anabasis.Tasks.AnabasisTask
+Anabasis.Tasks.AnabasisTaskCompletionSource.TrySetCanceled(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSource.TrySetException(System.Exception! exception) -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSource.TrySetResult() -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSource.UnsafeGetStatus() -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.AnabasisTaskCompletionSource() -> void
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.GetResult(short token) -> T
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.GetStatus(short token) -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.OnCompleted(System.Action<object?>! continuation, object? state, short token) -> void
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.Task.get -> Anabasis.Tasks.AnabasisTask<T>
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.TrySetCanceled(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.TrySetException(System.Exception! exception) -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.TrySetResult(T result) -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSource<T>.UnsafeGetStatus() -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.AnabasisTaskCompletionSourceCore() -> void
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.GetResult(short token) -> TResult
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.GetStatus(short token) -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.OnCompleted(System.Action<object?>! continuation, object? state, short token) -> void
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.Reset() -> void
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.TrySetCanceled(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.TrySetException(System.Exception! error) -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.TrySetResult(TResult result) -> bool
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.UnsafeGetStatus() -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskCompletionSourceCore<TResult>.Version.get -> short
+Anabasis.Tasks.AnabasisTaskExtensions
+Anabasis.Tasks.AnabasisTaskScheduler
+Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskStatus.Canceled = 3 -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskStatus.Faulted = 2 -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskStatus.Pending = 0 -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskStatus.Succeeded = 1 -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AnabasisTaskStatusExtensions
+Anabasis.Tasks.AnabasisVoidTask
+Anabasis.Tasks.AnabasisVoidTask.AnabasisVoidTask() -> void
+Anabasis.Tasks.AnabasisVoidTask.Forget() -> void
+Anabasis.Tasks.AsyncUnit
+Anabasis.Tasks.AsyncUnit.AsyncUnit() -> void
+Anabasis.Tasks.AsyncUnit.Equals(Anabasis.Tasks.AsyncUnit other) -> bool
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.GetResult(short token) -> void
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.GetStatus(short token) -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.OnCompleted(System.Action<object?>! continuation, object? state, short token) -> void
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.Task.get -> Anabasis.Tasks.AnabasisTask
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.TrySetCanceled(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> bool
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.TrySetException(System.Exception! exception) -> bool
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.TrySetResult() -> bool
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.UnsafeGetStatus() -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.GetResult(short token) -> T
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.GetStatus(short token) -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.OnCompleted(System.Action<object?>! continuation, object? state, short token) -> void
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.Task.get -> Anabasis.Tasks.AnabasisTask<T>
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.TrySetCanceled(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> bool
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.TrySetException(System.Exception! exception) -> bool
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.TrySetResult(T result) -> bool
+Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.UnsafeGetStatus() -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.CancellationTokenExtensions
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.AnabasisTaskAsyncMethodBuilder() -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.SetException(System.Exception! exception) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.SetResult() -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine! stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.Start<TStateMachine>(ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.Task.get -> Anabasis.Tasks.AnabasisTask
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.AnabasisTaskAsyncMethodBuilder() -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.SetException(System.Exception! exception) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.SetResult(T result) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine! stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.Start<TStateMachine>(ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.Task.get -> Anabasis.Tasks.AnabasisTask<T>
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.AnabasisVoidTaskAsyncMethodBuilder() -> void
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.SetException(System.Exception! e) -> void
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.SetResult() -> void
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine! stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.Start<TStateMachine>(ref TStateMachine stateMachine) -> void
+Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.Task.get -> Anabasis.Tasks.AnabasisVoidTask
+Anabasis.Tasks.IAnabasisTaskAsyncDisposable
+Anabasis.Tasks.IAnabasisTaskAsyncDisposable.DisposeAsync() -> Anabasis.Tasks.AnabasisTask
+Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<T>
+Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<T>.GetAsyncEnumerator(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.IAnabasisTaskAsyncEnumerator<T>!
+Anabasis.Tasks.IAnabasisTaskAsyncEnumerator<T>
+Anabasis.Tasks.IAnabasisTaskAsyncEnumerator<T>.Current.get -> T
+Anabasis.Tasks.IAnabasisTaskAsyncEnumerator<T>.MoveNextAsync() -> Anabasis.Tasks.AnabasisTask<bool>
+Anabasis.Tasks.IAnabasisTaskSource
+Anabasis.Tasks.IAnabasisTaskSource.GetResult(short token) -> void
+Anabasis.Tasks.IAnabasisTaskSource.GetStatus(short token) -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.IAnabasisTaskSource.OnCompleted(System.Action<object?>! continuation, object? state, short token) -> void
+Anabasis.Tasks.IAnabasisTaskSource.UnsafeGetStatus() -> Anabasis.Tasks.AnabasisTaskStatus
+Anabasis.Tasks.IAnabasisTaskSource<T>
+Anabasis.Tasks.IAnabasisTaskSource<T>.GetResult(short token) -> T
+Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable
+Anabasis.Tasks.ReturnToMainThread
+Anabasis.Tasks.ReturnToMainThread.Awaiter
+Anabasis.Tasks.ReturnToMainThread.Awaiter.Awaiter() -> void
+Anabasis.Tasks.ReturnToMainThread.Awaiter.Awaiter(Anabasis.Tasks.AnabasisPlatformLoopStep timing, System.Threading.CancellationToken cancellationToken) -> void
+Anabasis.Tasks.ReturnToMainThread.Awaiter.GetAwaiter() -> Anabasis.Tasks.ReturnToMainThread.Awaiter
+Anabasis.Tasks.ReturnToMainThread.Awaiter.GetResult() -> void
+Anabasis.Tasks.ReturnToMainThread.Awaiter.IsCompleted.get -> bool
+Anabasis.Tasks.ReturnToMainThread.Awaiter.OnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.ReturnToMainThread.Awaiter.UnsafeOnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.ReturnToMainThread.DisposeAsync() -> Anabasis.Tasks.ReturnToMainThread.Awaiter
+Anabasis.Tasks.ReturnToMainThread.ReturnToMainThread() -> void
+Anabasis.Tasks.ReturnToMainThread.ReturnToMainThread(Anabasis.Tasks.AnabasisPlatformLoopStep timing, System.Threading.CancellationToken cancellationToken) -> void
+Anabasis.Tasks.SwitchToMainThreadAwaitable
+Anabasis.Tasks.SwitchToMainThreadAwaitable.Awaiter
+Anabasis.Tasks.SwitchToMainThreadAwaitable.Awaiter.Awaiter() -> void
+Anabasis.Tasks.SwitchToMainThreadAwaitable.Awaiter.Awaiter(Anabasis.Tasks.AnabasisPlatformLoopStep timing, System.Threading.CancellationToken cancellationToken) -> void
+Anabasis.Tasks.SwitchToMainThreadAwaitable.Awaiter.GetResult() -> void
+Anabasis.Tasks.SwitchToMainThreadAwaitable.Awaiter.IsCompleted.get -> bool
+Anabasis.Tasks.SwitchToMainThreadAwaitable.Awaiter.OnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.SwitchToMainThreadAwaitable.Awaiter.UnsafeOnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.SwitchToMainThreadAwaitable.GetAwaiter() -> Anabasis.Tasks.SwitchToMainThreadAwaitable.Awaiter
+Anabasis.Tasks.SwitchToMainThreadAwaitable.SwitchToMainThreadAwaitable() -> void
+Anabasis.Tasks.SwitchToMainThreadAwaitable.SwitchToMainThreadAwaitable(Anabasis.Tasks.AnabasisPlatformLoopStep timing, System.Threading.CancellationToken cancellationToken) -> void
+Anabasis.Tasks.SwitchToThreadPoolAwaitable
+Anabasis.Tasks.SwitchToThreadPoolAwaitable.Awaiter
+Anabasis.Tasks.SwitchToThreadPoolAwaitable.Awaiter.Awaiter() -> void
+Anabasis.Tasks.SwitchToThreadPoolAwaitable.Awaiter.GetResult() -> void
+Anabasis.Tasks.SwitchToThreadPoolAwaitable.Awaiter.IsCompleted.get -> bool
+Anabasis.Tasks.SwitchToThreadPoolAwaitable.Awaiter.OnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.SwitchToThreadPoolAwaitable.Awaiter.UnsafeOnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.SwitchToThreadPoolAwaitable.GetAwaiter() -> Anabasis.Tasks.SwitchToThreadPoolAwaitable.Awaiter
+Anabasis.Tasks.SwitchToThreadPoolAwaitable.SwitchToThreadPoolAwaitable() -> void
+Anabasis.Tasks.YieldAwaitable
+Anabasis.Tasks.YieldAwaitable.Awaiter
+Anabasis.Tasks.YieldAwaitable.Awaiter.Awaiter() -> void
+Anabasis.Tasks.YieldAwaitable.Awaiter.Awaiter(Anabasis.Tasks.AnabasisPlatformLoopStep timing) -> void
+Anabasis.Tasks.YieldAwaitable.Awaiter.GetResult() -> void
+Anabasis.Tasks.YieldAwaitable.Awaiter.IsCompleted.get -> bool
+Anabasis.Tasks.YieldAwaitable.Awaiter.OnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.YieldAwaitable.Awaiter.UnsafeOnCompleted(System.Action! continuation) -> void
+Anabasis.Tasks.YieldAwaitable.GetAwaiter() -> Anabasis.Tasks.YieldAwaitable.Awaiter
+Anabasis.Tasks.YieldAwaitable.ToAnabasisTask() -> Anabasis.Tasks.AnabasisTask
+Anabasis.Tasks.YieldAwaitable.YieldAwaitable() -> void
+Anabasis.Tasks.YieldAwaitable.YieldAwaitable(Anabasis.Tasks.AnabasisPlatformLoopStep timing) -> void
+Microsoft.CodeAnalysis.PooledObjects.StatelessReadOnlySpanAction<T>
+Microsoft.CodeAnalysis.PooledObjects.StatelessSpanAction<T>
+override Anabasis.Tasks.AsyncUnit.Equals(object? obj) -> bool
+override Anabasis.Tasks.AsyncUnit.GetHashCode() -> int
+override Anabasis.Tasks.AsyncUnit.ToString() -> string!
+static Anabasis.Tasks.AnabasisPlatformStepExtensions.HasStep(this Anabasis.Tasks.AnabasisPlatformStepMask mask, Anabasis.Tasks.AnabasisPlatformLoopStep step) -> bool
+static Anabasis.Tasks.AnabasisPlatformStepExtensions.IncludedSteps(this Anabasis.Tasks.AnabasisPlatformStepMask mask) -> System.Collections.Generic.IEnumerable<Anabasis.Tasks.AnabasisPlatformLoopStep>!
+static Anabasis.Tasks.AnabasisPlatformStepExtensions.MaskMatches(this Anabasis.Tasks.AnabasisPlatformStepMask mask, Anabasis.Tasks.AnabasisPlatformStepMask step) -> bool
+static Anabasis.Tasks.AnabasisPlatformStepExtensions.ToMask(this Anabasis.Tasks.AnabasisPlatformLoopStep step) -> Anabasis.Tasks.AnabasisPlatformStepMask
+static Anabasis.Tasks.AnabasisPlatformStepExtensions.ToMask(this System.Collections.Generic.IEnumerable<Anabasis.Tasks.AnabasisPlatformLoopStep>! steps) -> Anabasis.Tasks.AnabasisPlatformStepMask
+static Anabasis.Tasks.AnabasisTask.Action(System.Func<Anabasis.Tasks.AnabasisVoidTask>! asyncAction) -> System.Action!
+static Anabasis.Tasks.AnabasisTask.Action(System.Func<System.Threading.CancellationToken, Anabasis.Tasks.AnabasisVoidTask>! asyncAction, System.Threading.CancellationToken cancellationToken) -> System.Action!
+static Anabasis.Tasks.AnabasisTask.Create(System.Func<Anabasis.Tasks.AnabasisTask>! factory) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.Create<T>(System.Func<Anabasis.Tasks.AnabasisTask<T>>! factory) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.Defer(System.Func<Anabasis.Tasks.AnabasisTask>! factory) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.Defer<T>(System.Func<Anabasis.Tasks.AnabasisTask<T>>! factory) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.FromCanceled(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.FromCanceled<T>(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.FromException(System.Exception! ex) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.FromException<T>(System.Exception! ex) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.FromResult<T>(T value) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.Never(System.Threading.CancellationToken cancellationToken) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.Never<T>(System.Threading.CancellationToken cancellationToken) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.Post(System.Action! action, Anabasis.Tasks.AnabasisPlatformLoopStep timing = Anabasis.Tasks.AnabasisPlatformLoopStep.Update) -> void
+static Anabasis.Tasks.AnabasisTask.ReturnToMainThread(Anabasis.Tasks.AnabasisPlatformLoopStep timing = Anabasis.Tasks.AnabasisPlatformLoopStep.Update, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.ReturnToMainThread
+static Anabasis.Tasks.AnabasisTask.RunOnThreadPool(System.Action! action, bool configureAwait = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.RunOnThreadPool(System.Func<Anabasis.Tasks.AnabasisTask>! action, bool configureAwait = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.RunOnThreadPool(System.Func<object!, Anabasis.Tasks.AnabasisTask>! action, object! state, bool configureAwait = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.RunOnThreadPool<T, TArg>(System.Func<TArg, Anabasis.Tasks.AnabasisTask<T>>! func, TArg state, bool configureAwait = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.RunOnThreadPool<T, TArg>(System.Func<TArg, T>! func, TArg state, bool configureAwait = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.RunOnThreadPool<T>(System.Func<Anabasis.Tasks.AnabasisTask<T>>! func, bool configureAwait = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.RunOnThreadPool<T>(System.Func<T>! func, bool configureAwait = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTask.RunOnThreadPool<TArg>(System.Action<TArg>! action, TArg state, bool configureAwait = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.SwitchToMainThread(Anabasis.Tasks.AnabasisPlatformLoopStep timing = Anabasis.Tasks.AnabasisPlatformLoopStep.Update, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.SwitchToMainThreadAwaitable
+static Anabasis.Tasks.AnabasisTask.SwitchToThreadPool() -> Anabasis.Tasks.SwitchToThreadPoolAwaitable
+static Anabasis.Tasks.AnabasisTask.Void(System.Func<Anabasis.Tasks.AnabasisVoidTask>! asyncAction) -> void
+static Anabasis.Tasks.AnabasisTask.Void(System.Func<System.Threading.CancellationToken, Anabasis.Tasks.AnabasisVoidTask>! asyncAction, System.Threading.CancellationToken cancellationToken) -> void
+static Anabasis.Tasks.AnabasisTask.Void<T>(System.Func<T, Anabasis.Tasks.AnabasisVoidTask>! asyncAction, T state) -> void
+static Anabasis.Tasks.AnabasisTask.Yield() -> Anabasis.Tasks.YieldAwaitable
+static Anabasis.Tasks.AnabasisTask.Yield(Anabasis.Tasks.AnabasisPlatformLoopStep timing) -> Anabasis.Tasks.YieldAwaitable
+static Anabasis.Tasks.AnabasisTask.Yield(Anabasis.Tasks.AnabasisPlatformLoopStep timing, System.Threading.CancellationToken cancellationToken) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask.Yield(System.Threading.CancellationToken cancellationToken) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTask<T>.implicit operator Anabasis.Tasks.AnabasisTask(Anabasis.Tasks.AnabasisTask<T> self) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskAsyncEnumerableExtensions.WithCancellation<T>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<T>! source, System.Threading.CancellationToken cancellationToken) -> Anabasis.Tasks.AnabasisTaskCancelableAsyncEnumerable<T>
+static Anabasis.Tasks.AnabasisTaskExtensions.AsTask(this Anabasis.Tasks.AnabasisTask task) -> System.Threading.Tasks.Task!
+static Anabasis.Tasks.AnabasisTaskExtensions.AsTask<T>(this Anabasis.Tasks.AnabasisTask<T> task) -> System.Threading.Tasks.Task<T>!
+static Anabasis.Tasks.AnabasisTaskExtensions.ContinueWith(this Anabasis.Tasks.AnabasisTask task, System.Action! continuationFunction) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.ContinueWith(this Anabasis.Tasks.AnabasisTask task, System.Func<Anabasis.Tasks.AnabasisTask>! continuationFunction) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.ContinueWith<T, TR>(this Anabasis.Tasks.AnabasisTask<T> task, System.Func<T, Anabasis.Tasks.AnabasisTask<TR>>! continuationFunction) -> Anabasis.Tasks.AnabasisTask<TR>
+static Anabasis.Tasks.AnabasisTaskExtensions.ContinueWith<T, TR>(this Anabasis.Tasks.AnabasisTask<T> task, System.Func<T, TR>! continuationFunction) -> Anabasis.Tasks.AnabasisTask<TR>
+static Anabasis.Tasks.AnabasisTaskExtensions.ContinueWith<T>(this Anabasis.Tasks.AnabasisTask task, System.Func<Anabasis.Tasks.AnabasisTask<T>>! continuationFunction) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTaskExtensions.ContinueWith<T>(this Anabasis.Tasks.AnabasisTask task, System.Func<T>! continuationFunction) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTaskExtensions.ContinueWith<T>(this Anabasis.Tasks.AnabasisTask<T> task, System.Action<T>! continuationFunction) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.ContinueWith<T>(this Anabasis.Tasks.AnabasisTask<T> task, System.Func<T, Anabasis.Tasks.AnabasisTask>! continuationFunction) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.Forget(this Anabasis.Tasks.AnabasisTask task) -> void
+static Anabasis.Tasks.AnabasisTaskExtensions.Forget(this Anabasis.Tasks.AnabasisTask task, System.Action<System.Exception!>! exceptionHandler, bool handleExceptionOnMainThread = true) -> void
+static Anabasis.Tasks.AnabasisTaskExtensions.Forget<T>(this Anabasis.Tasks.AnabasisTask<T> task) -> void
+static Anabasis.Tasks.AnabasisTaskExtensions.Forget<T>(this Anabasis.Tasks.AnabasisTask<T> task, System.Action<System.Exception!>! exceptionHandler, bool handleExceptionOnMainThread = true) -> void
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap(this Anabasis.Tasks.AnabasisTask<Anabasis.Tasks.AnabasisTask> task) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap(this Anabasis.Tasks.AnabasisTask<System.Threading.Tasks.Task!> task) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap(this Anabasis.Tasks.AnabasisTask<System.Threading.Tasks.Task!> task, bool continueOnCapturedContext) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap(this System.Threading.Tasks.Task<Anabasis.Tasks.AnabasisTask>! task) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap(this System.Threading.Tasks.Task<Anabasis.Tasks.AnabasisTask>! task, bool continueOnCapturedContext) -> Anabasis.Tasks.AnabasisTask
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap<T>(this Anabasis.Tasks.AnabasisTask<Anabasis.Tasks.AnabasisTask<T>> task) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap<T>(this Anabasis.Tasks.AnabasisTask<System.Threading.Tasks.Task<T>!> task) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap<T>(this Anabasis.Tasks.AnabasisTask<System.Threading.Tasks.Task<T>!> task, bool continueOnCapturedContext) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap<T>(this System.Threading.Tasks.Task<Anabasis.Tasks.AnabasisTask<T>>! task) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTaskExtensions.Unwrap<T>(this System.Threading.Tasks.Task<Anabasis.Tasks.AnabasisTask<T>>! task, bool continueOnCapturedContext) -> Anabasis.Tasks.AnabasisTask<T>
+static Anabasis.Tasks.AnabasisTaskScheduler.IsOnMainThread.get -> bool
+static Anabasis.Tasks.AnabasisTaskScheduler.MainThreadId.get -> int
+static Anabasis.Tasks.AnabasisTaskScheduler.PublishUnobservedTaskException(System.Exception! exception) -> void
+static Anabasis.Tasks.AnabasisTaskScheduler.Schedule(Anabasis.Tasks.AnabasisPlatformLoopStep timing, System.Action! continuation) -> void
+static Anabasis.Tasks.AnabasisTaskScheduler.Schedule(Anabasis.Tasks.AnabasisPlatformStepMask timing, System.Action! continuation) -> void
+static Anabasis.Tasks.AnabasisTaskScheduler.Schedule<T1>(Anabasis.Tasks.AnabasisPlatformLoopStep timing, System.Action<T1>! action, T1 arg) -> void
+static Anabasis.Tasks.AnabasisTaskScheduler.Schedule<T1>(Anabasis.Tasks.AnabasisPlatformStepMask timing, System.Action<T1>! action, T1 arg) -> void
+static Anabasis.Tasks.AnabasisTaskStatusExtensions.IsCanceled(this Anabasis.Tasks.AnabasisTaskStatus status) -> bool
+static Anabasis.Tasks.AnabasisTaskStatusExtensions.IsCompleted(this Anabasis.Tasks.AnabasisTaskStatus status) -> bool
+static Anabasis.Tasks.AnabasisTaskStatusExtensions.IsCompletedSuccessfully(this Anabasis.Tasks.AnabasisTaskStatus status) -> bool
+static Anabasis.Tasks.AnabasisTaskStatusExtensions.IsFaulted(this Anabasis.Tasks.AnabasisTaskStatus status) -> bool
+static Anabasis.Tasks.AsyncUnit.operator !=(Anabasis.Tasks.AsyncUnit left, Anabasis.Tasks.AsyncUnit right) -> bool
+static Anabasis.Tasks.AsyncUnit.operator ==(Anabasis.Tasks.AsyncUnit left, Anabasis.Tasks.AsyncUnit right) -> bool
+static Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.Create() -> Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource!
+static Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.CreateCompleted(out short token) -> Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource!
+static Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.CreateFromCanceled(System.Threading.CancellationToken cancellationToken, out short token) -> Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource!
+static Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource.CreateFromException(System.Exception! exception, out short token) -> Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource!
+static Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.Create() -> Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>!
+static Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.CreateFromCanceled(System.Threading.CancellationToken cancellationToken, out short token) -> Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>!
+static Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.CreateFromException(System.Exception! exception, out short token) -> Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>!
+static Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>.CreateFromResult(T result, out short token) -> Anabasis.Tasks.AutoResetAnabasisTaskCompletionSource<T>!
+static Anabasis.Tasks.CancellationTokenExtensions.RegisterWithoutCaptureExecutionContext(this System.Threading.CancellationToken cancellationToken, System.Action<object?>! callback, object! state) -> System.Threading.CancellationTokenRegistration
+static Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder.Create() -> Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder
+static Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>.Create() -> Anabasis.Tasks.CompilerServices.AnabasisTaskAsyncMethodBuilder<T>
+static Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder.Create() -> Anabasis.Tasks.CompilerServices.AnabasisVoidTaskAsyncMethodBuilder
+static Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable.AllAsync<TSource>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>! source, System.Func<TSource, bool>! predicate, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<bool>
+static Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable.AllAwaitAsync<TSource>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>! source, System.Func<TSource, Anabasis.Tasks.AnabasisTask<bool>>! predicate, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<bool>
+static Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable.AllAwaitWithCancellationAsync<TSource>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>! source, System.Func<TSource, System.Threading.CancellationToken, Anabasis.Tasks.AnabasisTask<bool>>! predicate, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<bool>
+static Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable.AnyAsync<TSource>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>! source, System.Func<TSource, bool>! predicate, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<bool>
+static Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable.AnyAsync<TSource>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>! source, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<bool>
+static Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable.AnyAwaitAsync<TSource>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>! source, System.Func<TSource, Anabasis.Tasks.AnabasisTask<bool>>! predicate, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<bool>
+static Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable.AnyAwaitWithCancellationAsync<TSource>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>! source, System.Func<TSource, System.Threading.CancellationToken, Anabasis.Tasks.AnabasisTask<bool>>! predicate, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> Anabasis.Tasks.AnabasisTask<bool>
+static Anabasis.Tasks.Linq.AnabasisTaskAsyncEnumerable.AsAnabasisTaskAsyncEnumerable<TSource>(this Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>! source) -> Anabasis.Tasks.IAnabasisTaskAsyncEnumerable<TSource>!
+static readonly Anabasis.Tasks.AnabasisTask.CompletedTask -> Anabasis.Tasks.AnabasisTask
+static readonly Anabasis.Tasks.AsyncUnit.Default -> Anabasis.Tasks.AsyncUnit
+virtual Anabasis.Tasks.AnabasisProgress<T>.OnReport(T value) -> void

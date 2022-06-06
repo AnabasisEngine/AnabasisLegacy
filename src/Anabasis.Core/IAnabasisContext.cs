@@ -7,7 +7,7 @@ namespace Anabasis.Core;
 /// </summary>
 public interface IAnabasisContext
 {
-    AnabasisTask Load();
+    AnabasisTask LoadAsync();
     void Update();
     void Render();
 }

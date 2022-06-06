@@ -5,33 +5,25 @@ namespace Anabasis.Tasks;
 
 public readonly partial struct AnabasisTask
 {
-    public static SwitchToMainThreadAwaitable SwitchToMainThread(CancellationToken cancellationToken = default) {
-        return new SwitchToMainThreadAwaitable(AnabasisPlatformLoopStep.Update, cancellationToken);
-    }
 
     /// <summary>
     /// If running on mainthread, do nothing. Otherwise, same as UniTask.Yield(timing).
     /// </summary>
-    public static SwitchToMainThreadAwaitable SwitchToMainThread(AnabasisPlatformLoopStep timing,
+    public static SwitchToMainThreadAwaitable SwitchToMainThread(AnabasisPlatformLoopStep timing = AnabasisPlatformLoopStep.Update,
         CancellationToken cancellationToken = default) => new(timing, cancellationToken);
 
-    /// <summary>
-    /// Return to mainthread(same as await SwitchToMainThread) after using scope is closed.
-    /// </summary>
-    public static ReturnToMainThread ReturnToMainThread(CancellationToken cancellationToken = default) =>
-        new(AnabasisPlatformLoopStep.Update, cancellationToken);
 
     /// <summary>
     /// Return to mainthread(same as await SwitchToMainThread) after using scope is closed.
     /// </summary>
-    public static ReturnToMainThread ReturnToMainThread(AnabasisPlatformLoopStep timing,
+    public static ReturnToMainThread ReturnToMainThread(AnabasisPlatformLoopStep timing = AnabasisPlatformLoopStep.Update,
         CancellationToken cancellationToken = default) => new(timing, cancellationToken);
 
     /// <summary>
     /// Queue the action to PlayerLoop.
     /// </summary>
     public static void Post(Action action, AnabasisPlatformLoopStep timing = AnabasisPlatformLoopStep.Update) {
-        AnabasisTaskHelper.Schedule(timing, action);
+        AnabasisTaskScheduler.Schedule(timing, action);
     }
     
     public static SwitchToThreadPoolAwaitable SwitchToThreadPool() => new();
@@ -60,18 +52,18 @@ public readonly struct SwitchToMainThreadAwaitable
             _cancellationToken = cancellationToken;
         }
 
-        public bool IsCompleted => AnabasisTaskHelper.MainThreadId == Environment.CurrentManagedThreadId;
+        public bool IsCompleted => AnabasisTaskScheduler.MainThreadId == Environment.CurrentManagedThreadId;
 
         public void GetResult() {
             _cancellationToken.ThrowIfCancellationRequested();
         }
 
         public void OnCompleted(Action continuation) {
-            AnabasisTaskHelper.Schedule(_timing, continuation);
+            AnabasisTaskScheduler.Schedule(_timing, continuation);
         }
 
         public void UnsafeOnCompleted(Action continuation) {
-            AnabasisTaskHelper.Schedule(_timing, continuation);
+            AnabasisTaskScheduler.Schedule(_timing, continuation);
         }
     }
 }
@@ -100,18 +92,18 @@ public readonly struct ReturnToMainThread
 
         public Awaiter GetAwaiter() => this;
 
-        public bool IsCompleted => AnabasisTaskHelper.MainThreadId == Environment.CurrentManagedThreadId;
+        public bool IsCompleted => AnabasisTaskScheduler.MainThreadId == Environment.CurrentManagedThreadId;
 
         public void GetResult() {
             _cancellationToken.ThrowIfCancellationRequested();
         }
 
         public void OnCompleted(Action continuation) {
-            AnabasisTaskHelper.Schedule(_timing, continuation);
+            AnabasisTaskScheduler.Schedule(_timing, continuation);
         }
 
         public void UnsafeOnCompleted(Action continuation) {
-            AnabasisTaskHelper.Schedule(_timing, continuation);
+            AnabasisTaskScheduler.Schedule(_timing, continuation);
         }
     }
 }

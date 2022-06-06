@@ -9,11 +9,3 @@ public record struct ShaderHandle(uint Value) : IAnabasisHandle
         gl.DeleteShader(Value);
     }
 }
-
-public record struct PipelineHandle(uint Value) : IAnabasisHandle
-{
-    public static ObjectIdentifier ObjectType => ObjectIdentifier.ProgramPipeline;
-    public void Free(GL gl) {
-        gl.DeleteProgram(Value);
-    }
-}

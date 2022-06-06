@@ -1,4 +1,6 @@
-﻿namespace Anabasis.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Anabasis.Tasks;
 
 public static class AnabasisTaskExtensions
 {
@@ -108,6 +110,7 @@ public static class AnabasisTaskExtensions
         }
     }
 
+    [SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters")]
     public static void Forget(this AnabasisTask task, Action<Exception> exceptionHandler,
         bool handleExceptionOnMainThread = true) {
         if (exceptionHandler == null!) {
@@ -147,7 +150,7 @@ public static class AnabasisTaskExtensions
             }
         } else {
             awaiter.SourceOnCompleted(state => {
-                using StateTuple<AnabasisTask<T>.Awaiter>? t = (StateTuple<AnabasisTask<T>.Awaiter>)state!;
+                using StateTuple<AnabasisTask<T>.Awaiter> t = (StateTuple<AnabasisTask<T>.Awaiter>)state!;
                 try {
                     t.Item1.GetResult();
                 }
@@ -158,6 +161,7 @@ public static class AnabasisTaskExtensions
         }
     }
 
+    [SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters")]
     public static void Forget<T>(this AnabasisTask<T> task, Action<Exception> exceptionHandler,
         bool handleExceptionOnMainThread = true) {
         if (exceptionHandler == null!) {

@@ -14,6 +14,9 @@ public readonly record struct VertexArrayBindingIndex(uint Value)
 public sealed class VertexArray : AnabasisBindableNativeObject<VertexArrayHandle>
 {
     public VertexArray(GL gl) : base(gl, new VertexArrayHandle(gl.CreateVertexArray())) { }
+    
+    public DrawElementsType? IndexType { get; private set; }
+    public uint IndexOffset { get; private set; }
 
     public void BindVertexBuffer(GraphicsBuffer buffer, VertexArrayBindingIndex bindingIndex, int offset, uint stride) {
         Gl.VertexArrayVertexBuffer(Handle.Value, bindingIndex.Value, buffer.Handle.Value, offset, stride);
@@ -21,6 +24,24 @@ public sealed class VertexArray : AnabasisBindableNativeObject<VertexArrayHandle
 
     public void BindIndexBuffer(GraphicsBuffer buffer) {
         Gl.VertexArrayElementBuffer(Handle.Value, buffer.Handle.Value);
+    }
+
+    public void BindIndexBuffer(GraphicsBuffer.TypedBufferSlice<ushort> slice) {
+        BindIndexBuffer(slice.Buffer);
+        IndexOffset = (uint)slice.Offset;
+        IndexType = DrawElementsType.UnsignedShort;
+    }
+    
+    public void BindIndexBuffer(GraphicsBuffer.TypedBufferSlice<byte> slice) {
+        BindIndexBuffer(slice.Buffer);
+        IndexOffset = (uint)slice.Offset;
+        IndexType = DrawElementsType.UnsignedByte;
+    }
+    
+    public void BindIndexBuffer(GraphicsBuffer.TypedBufferSlice<uint> slice) {
+        BindIndexBuffer(slice.Buffer);
+        IndexOffset = (uint)slice.Offset;
+        IndexType = DrawElementsType.UnsignedInt;
     }
 }
 

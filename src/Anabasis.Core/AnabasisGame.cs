@@ -8,9 +8,9 @@ public abstract class AnabasisGame
     protected Task LoadTask { get; private set; } = Task.CompletedTask;
 
     internal void DoLoad() {
-        LoadTask = Load().AsTask();
+        LoadTask = LoadAsync().AsTask();
     }
-    public abstract AnabasisTask Load();
+    public abstract AnabasisTask LoadAsync();
     public abstract void Update();
     public abstract void Render();
 }

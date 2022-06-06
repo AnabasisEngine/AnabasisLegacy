@@ -75,7 +75,6 @@ public class AnabasisAppHostBuilder
     }
 
     internal void ConfigureDefaults(string[]? args) {
-        _builder
-            .ConfigureAnabasis(args);
+        _builder.ConfigureAnabasis(args);
     }
 }

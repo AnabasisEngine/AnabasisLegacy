@@ -25,7 +25,7 @@ public sealed class VertexFormatter
         _gl.VertexArrayAttribBinding(handle.Value, (uint)attribIndex, index.Value);
     }
 
-    public void VertexArrayAttribDivisor(VertexArrayHandle handle, VertexArrayBindingIndex index, uint divisor) {
+    public void WriteVertexArrayBindingDivisor(VertexArrayHandle handle, VertexArrayBindingIndex index, uint divisor) {
         _gl.VertexArrayBindingDivisor(handle.Value, index.Value, divisor);
     }
 }

@@ -8,17 +8,35 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.3.0-1.final" />
-      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.0-1.final" />
       <PackageReference Include="Microsoft.CodeAnalysis.PooledObjects" Version="3.9.0-5.21120.8" />
-      <PackageReference Include="Silk.NET.GLFW" Version="2.15.0" />
-      <PackageReference Include="Silk.NET.OpenGL" Version="2.15.0" />
-      <PackageReference Include="Silk.NET.Windowing.Common" Version="2.15.0" />
-      <PackageReference Include="Silk.NET.Windowing.Glfw" Version="2.15.0" />
+        <PackageReference Include="Silk.NET.Maths" Version="2.15.0" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="Silk.NET.Core" Version="2.15.0" GeneratePathProperty="true" PrivateAssets="all" />
+      <PackageReference Include="Silk.NET.GLFW" Version="2.15.0" GeneratePathProperty="true" PrivateAssets="all" />
+      <PackageReference Include="Silk.NET.OpenGL" Version="2.15.0" GeneratePathProperty="true" PrivateAssets="all" />
+      <PackageReference Include="Silk.NET.Windowing.Common" Version="2.15.0" GeneratePathProperty="true" PrivateAssets="all" />
+      <PackageReference Include="Silk.NET.Windowing.Glfw" Version="2.15.0" GeneratePathProperty="true" PrivateAssets="all" />
+      <PackageReference Include="Ultz.Bcl.Half.Fallback" Version="1.0.0" GeneratePathProperty="true" PrivateAssets="all" />
     </ItemGroup>
+
+    <PropertyGroup>
+        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+    </PropertyGroup>
+
+    <Target Name="GetDependencyTargetPaths">
+        <ItemGroup>
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGSilk_NET_GLFW)\lib\netstandard2.0\Silk.NET.GLFW.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGSilk_NET_Core)\lib\netstandard2.0\Silk.NET.Core.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGSilk_NET_Maths)\lib\netstandard2.0\Silk.NET.Maths.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGSilk_NET_OpenGL)\lib\netstandard2.0\Silk.NET.OpenGL.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGSilk_NET_Windowing_Common)\lib\netstandard2.0\Silk.NET.Windowing.Common.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGSilk_NET_Windowing_Glfw)\lib\netstandard2.0\Silk.NET.Windowing.Glfw.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGUltz_Bcl_Half_Fallback)\lib\netstandard2.0\Ultz.Bcl.Half.dll" IncludeRuntimeDependency="false" />
+        </ItemGroup>
+    </Target>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0-1.final" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4-beta1.22217.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

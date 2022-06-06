@@ -1,8 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4-beta1.22217.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0-preview.4.22229.4" />
     <PackageReference Include="Silk.NET.Core" Version="2.15.0" />
     <PackageReference Include="Silk.NET.Maths" Version="2.15.0" />
     <PackageReference Include="Silk.NET.OpenGL" Version="2.15.0" />
+    <PackageReference Include="Silk.NET.Windowing.Common" Version="2.15.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Anabasis.Tasks\Anabasis.Tasks.csproj" />

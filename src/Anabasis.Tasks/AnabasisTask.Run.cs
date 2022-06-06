@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Anabasis.Tasks;
 
+[SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters")]
 public readonly partial struct AnabasisTask
 {
     /// <summary>Run action on the threadPool and return to main thread if configureAwait = true.</summary>

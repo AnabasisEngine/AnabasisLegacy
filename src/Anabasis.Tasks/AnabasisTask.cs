@@ -22,9 +22,7 @@ public readonly partial struct AnabasisTask
     public AnabasisTaskStatus Status {
         [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get {
-            return _source == null ? AnabasisTaskStatus.Succeeded : _source.GetStatus(_token);
-        }
+        get => _source?.GetStatus(_token) ?? AnabasisTaskStatus.Succeeded;
     }
 
     [DebuggerHidden]

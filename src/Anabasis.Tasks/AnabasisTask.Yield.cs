@@ -46,7 +46,7 @@ public readonly partial struct AnabasisTask
 
                 result._cancellationToken = cancellationToken;
 
-                AnabasisTaskHelper.Schedule(timing, result.MoveNext);
+                AnabasisTaskScheduler.Schedule(timing, result.MoveNext);
 
                 token = result._core.Version;
                 return result;
@@ -133,12 +133,12 @@ public readonly struct YieldAwaitable
 
         public void OnCompleted(Action continuation)
         {
-            AnabasisTaskHelper.Schedule(timing, continuation);
+            AnabasisTaskScheduler.Schedule(timing, continuation);
         }
 
         public void UnsafeOnCompleted(Action continuation)
         {
-            AnabasisTaskHelper.Schedule(timing, continuation);
+            AnabasisTaskScheduler.Schedule(timing, continuation);
         }
     }
 }

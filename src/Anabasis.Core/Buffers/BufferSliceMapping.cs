@@ -1,5 +1,4 @@
 using System.Buffers;
-using System.Reflection;
 using Anabasis.Core.Handles;
 using Silk.NET.OpenGL;
 
@@ -23,12 +22,12 @@ public sealed class BufferSliceMapping<T> : MemoryManager<T>
 
     public unsafe T* Pointer { get; set; }
 
+    public override unsafe Span<T> GetSpan() => new(Pointer, Length);
+
     protected override unsafe void Dispose(bool disposing) {
         _gl.UnmapNamedBuffer(_buffer.Value);
         Pointer = null;
     }
-
-    public override unsafe Span<T> GetSpan() => new(Pointer, Length);
 
     public override unsafe MemoryHandle Pin(int elementIndex = 0) {
         if (elementIndex < 0 || elementIndex >= Length)

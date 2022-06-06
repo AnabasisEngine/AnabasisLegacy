@@ -1,31 +1,18 @@
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.PooledObjects;
 using ShaderGen.Diagnostics;
 using Silk.NET.OpenGL;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace ShaderGen;
 
 public static class VertexFormatTypeAnalyzer
 {
-    public struct VertexTypeField
-    {
-        public VertexTypeField(bool normalize, int offset, VertexAttribType type, string name) {
-            Normalize = normalize;
-            Offset = offset;
-            Type = type;
-            Name = name;
-        }
-
-        public string Name { get; }
-        public VertexAttribType Type { get; }
-        public int Offset { get; }
-        public bool Normalize { get; }
-    }
-
     public static void GenerateForStruct(SemanticModel semanticModel, StructDeclarationSyntax typeDeclSyntax,
         SourceProductionContext context, ImmutableDictionary<string, AdditionalText> additionals,
         ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> knownTypes) {
@@ -61,66 +48,62 @@ public static class VertexFormatTypeAnalyzer
 
         bool isSequential = (LayoutKind)structLayoutData.ConstructorArguments[0].Value! == LayoutKind.Sequential;
         int cumulOffset = 0;
-        List<VertexTypeField> fields = new();
+        ArrayBuilder<VertexFormatGenerator.VertexAttribPointer> pointers =
+            ArrayBuilder<VertexFormatGenerator.VertexAttribPointer>.GetInstance(typeDeclSyntax.Members.Count);
         foreach (MemberDeclarationSyntax syntax in typeDeclSyntax.Members) {
-            ISymbol? member = semanticModel.GetDeclaredSymbol(syntax);
-            if (member is not IFieldSymbol field)
+            if (syntax is not FieldDeclarationSyntax fieldSyntax)
                 continue;
-            if (!field.Type.IsUnmanagedType) {
-                canGenerate = false;
-                continue;
+            foreach (VariableDeclaratorSyntax variableDeclaratorSyntax in fieldSyntax.Declaration.Variables) {
+                ISymbol? member = semanticModel.GetDeclaredSymbol(variableDeclaratorSyntax);
+                if (member is not IFieldSymbol field)
+                    continue;
+                // if (!field.Type.IsUnmanagedType) {
+                //     canGenerate = false;
+                //     continue;
+                // }
+
+                AttributeData? attributeData = field.GetAttributes().SingleOrDefault(a =>
+                    vertexAttributeAttribute.Equals(a.AttributeClass, SymbolEqualityComparer.Default));
+                AttributeData? fieldOffsetData = field.GetAttributes().SingleOrDefault(a =>
+                    fieldOffsetAttribute.Equals(a.AttributeClass, SymbolEqualityComparer.Default));
+
+                if (attributeData is null || (!isSequential && fieldOffsetData is null)) {
+                    context.ReportDiagnostic(DiagnosticDescriptors.MissingFieldAttributes(syntax.GetLocation(),
+                        typeDeclSyntax.Identifier.ToString(), field.Name));
+                    canGenerate = false;
+                    continue;
+                }
+
+                bool normalize = (bool)attributeData.ConstructorArguments[3].Value!;
+                int offset = isSequential ? cumulOffset : (int)fieldOffsetData!.ConstructorArguments[0].Value!;
+                if (isSequential)
+                    cumulOffset += GetSize(field, knownTypes, field.Type);
+
+                pointers.Add(new VertexFormatGenerator.VertexAttribPointer {
+                    Info = new ShaderIntrospection.VertexAttribInfo(
+                        (string)attributeData.ConstructorArguments[0].Value!,
+                        field.IsFixedSizeBuffer ? field.FixedSize : 1,
+                        (AttributeType)attributeData.ConstructorArguments[1].Value!,
+                        (int)attributeData.ConstructorArguments[2].Value!),
+                    Normalize = normalize,
+                    Offset = offset,
+                    Type = GetVertexAttribType((INamedTypeSymbol)field.Type, knownTypes)
+                });
             }
-
-            AttributeData? attributeData = field.GetAttributes().SingleOrDefault(a =>
-                vertexAttributeAttribute.Equals(a.AttributeClass, SymbolEqualityComparer.Default));
-            AttributeData? fieldOffsetData = field.GetAttributes().SingleOrDefault(a =>
-                fieldOffsetAttribute.Equals(a.AttributeClass, SymbolEqualityComparer.Default));
-
-            if (attributeData is null || (!isSequential && fieldOffsetData is null)) {
-                context.ReportDiagnostic(DiagnosticDescriptors.MissingFieldAttributes(syntax.GetLocation(),
-                    typeDeclSyntax.Identifier.ToString(), field.Name));
-                canGenerate = false;
-                continue;
-            }
-
-            bool normalize = (bool)attributeData.ConstructorArguments[1].Value!;
-            int offset = isSequential ? cumulOffset : (int)fieldOffsetData!.ConstructorArguments[0].Value!;
-            if (isSequential)
-                cumulOffset += GetSize(field, knownTypes, field.Type);
-
-            fields.Add(new VertexTypeField(normalize, offset,
-                GetVertexAttribType((INamedTypeSymbol)field.Type, knownTypes),
-                (string)attributeData.ConstructorArguments[0].Value!));
         }
-
-        ImmutableDictionary<string, VertexTypeField> named = fields.ToImmutableDictionary(p => p.Name);
 
         if (!canGenerate) return;
 
-        string vertFile = (string)vertTypeData.ConstructorArguments[0].Value!;
-        int divisor = (int)vertTypeData.ConstructorArguments[1].Value!;
-        ShaderGenWindowingContext.CreateWindow(gl => {
-            ArrayBuilder<VertexFormatGenerator.VertexAttribPointer> pointers =
-                ArrayBuilder<VertexFormatGenerator.VertexAttribPointer>.GetInstance();
-            uint program = gl.CreateShaderProgram(ShaderType.VertexShader, 1,
-                new[] { additionals[vertFile].GetText()!.ToString(), });
-            foreach (ShaderIntrospection.VertexAttribInfo info in ShaderIntrospection.QueryVertexAttributes(gl,
-                         program)) {
-                VertexTypeField field = named[info.Name];
-                pointers.Add(new VertexFormatGenerator.VertexAttribPointer {
-                    Info = info,
-                    Normalize = field.Normalize,
-                    Offset = field.Offset,
-                    Type = field.Type,
-                });
-            }
+        int divisor = (int)vertTypeData.ConstructorArguments[0].Value!;
 
-            NamespaceDeclarationSyntax syntax = SyntaxFactory
-                .NamespaceDeclaration(SyntaxFactory.ParseName(typeSymbol.ContainingNamespace.Name))
-                .AddMembers(VertexFormatGenerator.VertexFormat(typeSymbol.Name, typeSymbol.DeclaredAccessibility,
-                    pointers.ToArrayAndFree(), divisor));
-            context.AddSource($"{typeSymbol.Name}.Format.cs", syntax.GetText());
-        });
+        NamespaceDeclarationSyntax ns = NamespaceDeclaration(ParseName(typeSymbol.ContainingNamespace.Name))
+            .AddUsings(UsingDirective(ParseName("Anabasis.Core.Rendering")),
+                UsingDirective(ParseName("Anabasis.Core.Handles")),
+                UsingDirective(ParseName("Silk.NET.OpenGL")))
+            .AddMembers(VertexFormatGenerator.VertexFormat(typeSymbol.Name, typeSymbol.DeclaredAccessibility,
+                pointers.ToArrayAndFree(), divisor));
+        context.AddSource($"{typeSymbol.Name}.Format.cs",
+            CSharpSyntaxTree.Create(ns).GetRoot().NormalizeWhitespace().GetText(Encoding.UTF8));
     }
 
     private static VertexAttribType GetVertexAttribType(INamedTypeSymbol type,
@@ -149,16 +132,7 @@ public static class VertexFormatTypeAnalyzer
         if (type.Arity != 1)
             throw new InvalidOperationException();
         INamedTypeSymbol typeArgument = (INamedTypeSymbol)type.TypeArguments[0];
-        if (type.Equals(compilation[KnownNamedType.SilkVector2]?.Construct(typeArgument),
-                SymbolEqualityComparer.Default) || type.Equals(
-                compilation[KnownNamedType.SilkVector3]?.Construct(typeArgument),
-                SymbolEqualityComparer.Default) || type.Equals(
-                compilation[KnownNamedType.SilkVector4]?.Construct(typeArgument),
-                SymbolEqualityComparer.Default)) {
-            return GetVertexAttribType(typeArgument, compilation);
-        }
-
-        throw new InvalidOperationException();
+        return GetVertexAttribType(typeArgument, compilation);
     }
 
     private static int GetSize(IFieldSymbol field, ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> compilation,
@@ -181,9 +155,10 @@ public static class VertexFormatTypeAnalyzer
         ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> compilation) {
         if (type.Equals(compilation[KnownNamedType.Half], SymbolEqualityComparer.Default))
             return sizeof(Half);
-        if (type.Equals(compilation[KnownNamedType.NumericsVector2], SymbolEqualityComparer.Default) ||
-            type.Equals(compilation[KnownNamedType.NumericsVector3], SymbolEqualityComparer.Default))
-            return sizeof(float);
+        if (type.Equals(compilation[KnownNamedType.NumericsVector2], SymbolEqualityComparer.Default))
+            return 2 * sizeof(float);
+        if (type.Equals(compilation[KnownNamedType.NumericsVector3], SymbolEqualityComparer.Default))
+            return 3 * sizeof(float);
         if (type.Arity != 1)
             throw new InvalidOperationException();
         INamedTypeSymbol typeArgument = (INamedTypeSymbol)type.TypeArguments[0];

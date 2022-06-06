@@ -9,15 +9,7 @@ namespace ShaderGen;
 public static class VertexFormatGenerator
 {
     private const string FormatterParamList =
-        "(Anabasis.Core.Rendering.VertexArrayBindingIndex bindingIndex, Silk.NET.OpenGL.GL gl, Anabasis.Core.Handles.VertexArrayHandle handle)";
-
-    private static InvocationExpressionSyntax EnableVertexArrayAttrib(int layout) => InvocationExpression(
-        MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName("gl"),
-                IdentifierName("EnableVertexArrayAttrib")), ArgumentList(
-            SeparatedList(new[] {
-                Argument(IdentifierName("id")),
-                NumericLiteralArgument(layout),
-            })));
+        "(VertexArrayBindingIndex bindingIndex, VertexFormatter formatter, VertexArrayHandle handle)";
 
     private static ArgumentSyntax NumericLiteralArgument(int layout) =>
         Argument(LiteralExpression(SyntaxKind.NumericLiteralExpression,
@@ -26,37 +18,25 @@ public static class VertexFormatGenerator
     private static ArgumentSyntax BoolLiteralArgument(bool value) => Argument(
         LiteralExpression(value ? SyntaxKind.TrueLiteralExpression : SyntaxKind.FalseLiteralExpression));
 
-    private static InvocationExpressionSyntax AttribFormat(int layout, int count, VertexAttribType attribType,
+    private static InvocationExpressionSyntax AttribFormatV2(int layout, int count, VertexAttribType attribType,
         bool normalize, int offset) => InvocationExpression(MemberAccessExpression(
-        SyntaxKind.SimpleMemberAccessExpression, IdentifierName("gl"),
-        IdentifierName("VertexArrayAttribFormat")), ArgumentList(
-        SeparatedList(new[] {
-            Argument(IdentifierName("id")),
-            NumericLiteralArgument(layout),
-            NumericLiteralArgument(count),
-            EnumLiteralArgument(attribType),
-            BoolLiteralArgument(normalize),
-            NumericLiteralArgument(offset),
-        })));
-
-    private static InvocationExpressionSyntax AttribBinding(int layout) => InvocationExpression(
-        MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
-            IdentifierName("gl"),
-            IdentifierName("VertexArrayAttribBinding")), ArgumentList(
-            SeparatedList(new[] {
-                Argument(IdentifierName("id")),
-                NumericLiteralArgument(layout),
-                Argument(IdentifierName("idx")),
-            })
-        ));
+        SyntaxKind.SimpleMemberAccessExpression, IdentifierName("formatter"),
+        IdentifierName("WriteVertexArrayAttribFormat")), ArgumentList(SeparatedList<ArgumentSyntax>()
+        .Add(Argument(IdentifierName("handle")))
+        .Add(Argument(IdentifierName("bindingIndex")))
+        .Add(NumericLiteralArgument(layout))
+        .Add(NumericLiteralArgument(count))
+        .Add(EnumLiteralArgument(attribType))
+        .Add(BoolLiteralArgument(normalize))
+        .Add(NumericLiteralArgument(offset))));
 
     private static InvocationExpressionSyntax AttribDivisor(int divisor) => InvocationExpression(
         MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
-            IdentifierName("gl"),
-            IdentifierName("VertexArrayBindingDivisor")), ArgumentList(
+            IdentifierName("formatter"),
+            IdentifierName("WriteVertexArrayBindingDivisor")), ArgumentList(
             SeparatedList(new[] {
-                Argument(IdentifierName("id")),
-                Argument(IdentifierName("idx")),
+                Argument(IdentifierName("handle")),
+                Argument(IdentifierName("bindingIndex")),
                 NumericLiteralArgument(divisor),
             })));
 
@@ -89,36 +69,28 @@ public static class VertexFormatGenerator
 
     private static ArgumentSyntax EnumLiteralArgument(Enum attribType) =>
         Argument(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
-            ParseTypeName(attribType.GetType().FullName),
+            ParseTypeName(attribType.GetType().Name),
             IdentifierName(attribType.ToString())));
 
     public static MethodDeclarationSyntax CreateVertexFormatMethod(VertexAttribPointer[] attribInfos, int divisor) {
-        MethodDeclarationSyntax methodDeclarationSyntax = MethodDeclaration(ParseTypeName("void"), "EstablishVertexFormat")
-            .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword))
-            .WithParameterList(ParseParameterList(FormatterParamList));
-        methodDeclarationSyntax = methodDeclarationSyntax.AddBodyStatements(LocalDeclarationStatement(
-            VariableDeclaration(ParseTypeName("uint")).AddVariables(VariableDeclarator("id")
-                    .WithInitializer(EqualsValueClause(MemberAccessExpression(SyntaxKind
-                            .SimpleMemberAccessExpression, IdentifierName("handle"),
-                        IdentifierName("Value")))))
-                .AddVariables(VariableDeclarator("idx")
-                    .WithInitializer(EqualsValueClause(MemberAccessExpression(SyntaxKind
-                            .SimpleMemberAccessExpression, IdentifierName("bindingIndex"),
-                        IdentifierName("Value")))))));
+        MethodDeclarationSyntax methodDeclarationSyntax =
+            MethodDeclaration(ParseTypeName("void"), "EstablishVertexFormat")
+                .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword))
+                .WithParameterList(ParseParameterList(FormatterParamList));
+        methodDeclarationSyntax = methodDeclarationSyntax
+            .AddBodyStatements(MethodDeclarationSyntax(attribInfos).ToArray())
+            .AddBodyStatements(ExpressionStatement(AttribDivisor(divisor)));
+        return methodDeclarationSyntax;
+    }
+
+    private static IEnumerable<StatementSyntax> MethodDeclarationSyntax(VertexAttribPointer[] attribInfos) {
         foreach (VertexAttribPointer pointer in attribInfos) {
             DeterminePointerTypeFromAttribute(pointer.Info.PointerType, out int count);
             for (int i = 0; i < pointer.Info.Count; i++) {
-                methodDeclarationSyntax = methodDeclarationSyntax.AddBodyStatements(
-                    ExpressionStatement(EnableVertexArrayAttrib(pointer.Info.Location)),
-                    ExpressionStatement(AttribFormat(pointer.Info.Location, count, pointer.Type,
-                        pointer.Normalize, pointer.Offset + i)),
-                    ExpressionStatement(AttribBinding(pointer.Info.Location)));
+                yield return ExpressionStatement(AttribFormatV2(pointer.Info.Location, count, pointer.Type,
+                    pointer.Normalize, pointer.Offset + i));
             }
         }
-
-        methodDeclarationSyntax =
-            methodDeclarationSyntax.AddBodyStatements(ExpressionStatement(AttribDivisor(divisor)));
-        return methodDeclarationSyntax;
     }
 
     private static void DeterminePointerTypeFromAttribute(AttributeType infoPointerType, out int i) {

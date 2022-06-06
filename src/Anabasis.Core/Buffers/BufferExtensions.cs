@@ -6,6 +6,7 @@ using Silk.NET.OpenGL;
 namespace Anabasis.Core.Buffers;
 
 [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
+[SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters")]
 public static class BufferExtensions
 {
     public static void LoadData<T>(this GraphicsBuffer buffer, StatelessSpanAction<T> action, int offset, int length,

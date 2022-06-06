@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32519.111
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1C15F7BF-0044-4B47-858D-1E277BD2AB90}"
@@ -15,30 +18,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{2F3F2485-8D3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0C326D5F-E457-4FCA-AB53-B6519A38E0A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Tasks", "src\Anabasis.Tasks\Anabasis.Tasks.csproj", "{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anabasis.Tasks", "src\Anabasis.Tasks\Anabasis.Tasks.csproj", "{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Core", "src\Anabasis.Core\Anabasis.Core.csproj", "{BBBF7DC8-ABD8-4571-A24A-CB212F91C6AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anabasis.Core", "src\Anabasis.Core\Anabasis.Core.csproj", "{BBBF7DC8-ABD8-4571-A24A-CB212F91C6AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Hosting", "src\Anabasis.Hosting\Anabasis.Hosting.csproj", "{C4ABD26B-79D5-45FF-811F-2B63640BA897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anabasis.Hosting", "src\Anabasis.Hosting\Anabasis.Hosting.csproj", "{C4ABD26B-79D5-45FF-811F-2B63640BA897}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.CodeAnalysis.PooledObjects", "ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.shproj", "{C1930979-C824-496B-A630-70F5369A636F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderGen", "tools\ShaderGen\ShaderGen.csproj", "{91F947E3-9C46-4611-B0F8-667B9D9426AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShaderGen", "tools\ShaderGen\ShaderGen.csproj", "{91F947E3-9C46-4611-B0F8-667B9D9426AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderGenTests", "test\ShaderGenTests\ShaderGenTests.csproj", "{BD8D39F1-CFF5-446B-A4C9-8EF4EDC477AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShaderGenTests", "test\ShaderGenTests\ShaderGenTests.csproj", "{BD8D39F1-CFF5-446B-A4C9-8EF4EDC477AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AscensionSample", "samples\AscensionSample\AscensionSample.csproj", "{258230A3-E97C-49C1-9EAE-DEBC81F1D9FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "integration", "integration", "{FC062001-0AC2-41B7-82D2-BC38F2CA4A76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anabasis.ImageSharp", "src\integration\Anabasis.ImageSharp\Anabasis.ImageSharp.csproj", "{4A7274A5-FE33-483F-80E8-A1BAFF6DD10E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Ascension", "ascension\Anabasis.Ascension\Anabasis.Ascension.csproj", "{C8B38761-9534-4F49-9905-B12C86B393ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
-		{BBBF7DC8-ABD8-4571-A24A-CB212F91C6AF} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
-		{C4ABD26B-79D5-45FF-811F-2B63640BA897} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
-		{C1930979-C824-496B-A630-70F5369A636F} = {2F3F2485-8D39-4C4E-9988-BA39E9E93CCA}
-		{91F947E3-9C46-4611-B0F8-667B9D9426AD} = {0C326D5F-E457-4FCA-AB53-B6519A38E0A2}
-		{BD8D39F1-CFF5-446B-A4C9-8EF4EDC477AE} = {1C15F7BF-0044-4B47-858D-1E277BD2AB90}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -61,5 +64,41 @@ Global
 		{BD8D39F1-CFF5-446B-A4C9-8EF4EDC477AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD8D39F1-CFF5-446B-A4C9-8EF4EDC477AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD8D39F1-CFF5-446B-A4C9-8EF4EDC477AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{258230A3-E97C-49C1-9EAE-DEBC81F1D9FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{258230A3-E97C-49C1-9EAE-DEBC81F1D9FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{258230A3-E97C-49C1-9EAE-DEBC81F1D9FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{258230A3-E97C-49C1-9EAE-DEBC81F1D9FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7274A5-FE33-483F-80E8-A1BAFF6DD10E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7274A5-FE33-483F-80E8-A1BAFF6DD10E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7274A5-FE33-483F-80E8-A1BAFF6DD10E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7274A5-FE33-483F-80E8-A1BAFF6DD10E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B38761-9534-4F49-9905-B12C86B393ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B38761-9534-4F49-9905-B12C86B393ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B38761-9534-4F49-9905-B12C86B393ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B38761-9534-4F49-9905-B12C86B393ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE7AE4DE-C6FE-40F5-AB93-ED02D60E7C5E} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
+		{BBBF7DC8-ABD8-4571-A24A-CB212F91C6AF} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
+		{C4ABD26B-79D5-45FF-811F-2B63640BA897} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
+		{C1930979-C824-496B-A630-70F5369A636F} = {2F3F2485-8D39-4C4E-9988-BA39E9E93CCA}
+		{91F947E3-9C46-4611-B0F8-667B9D9426AD} = {0C326D5F-E457-4FCA-AB53-B6519A38E0A2}
+		{BD8D39F1-CFF5-446B-A4C9-8EF4EDC477AE} = {1C15F7BF-0044-4B47-858D-1E277BD2AB90}
+		{258230A3-E97C-49C1-9EAE-DEBC81F1D9FB} = {C00C0C81-373C-4513-9556-36AE9BF9F3BF}
+		{FC062001-0AC2-41B7-82D2-BC38F2CA4A76} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
+		{4A7274A5-FE33-483F-80E8-A1BAFF6DD10E} = {FC062001-0AC2-41B7-82D2-BC38F2CA4A76}
+		{C8B38761-9534-4F49-9905-B12C86B393ED} = {16A7CA00-4E2F-4A6B-8CD9-BB92DA1D3AD8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33A667F7-79C6-4CA5-BBA8-6112BDE97563}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.projitems*{bbbf7dc8-abd8-4571-a24a-cb212f91c6af}*SharedItemsImports = 5
+		ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.projitems*{c1930979-c824-496b-a630-70f5369a636f}*SharedItemsImports = 13
+		ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.projitems*{c4abd26b-79d5-45ff-811f-2b63640ba897}*SharedItemsImports = 5
+		ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.projitems*{ce7ae4de-c6fe-40f5-ab93-ed02d60e7c5e}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis.PooledObjects;
 
 namespace Anabasis.Tasks;
 
-public static partial class AnabasisTaskHelper
+public static partial class AnabasisTaskScheduler
 {
     public static void Schedule(AnabasisPlatformLoopStep timing, Action continuation) {
         Schedule(timing.ToMask(), continuation);

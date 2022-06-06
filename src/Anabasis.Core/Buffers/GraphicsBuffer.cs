@@ -68,7 +68,7 @@ public sealed class GraphicsBuffer : AnabasisNativeObject<BufferHandle>
     [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
     public IMemoryOwner<T> MapSlice<T>(int offset, int length,
         MapBufferAccessMask flags = MapBufferAccessMask.MapCoherentBit | MapBufferAccessMask.MapPersistentBit |
-                                    MapBufferAccessMask.MapWriteBit | MapBufferAccessMask.MapReadBit)
+                                    MapBufferAccessMask.MapWriteBit)
         where T : unmanaged {
         if (length > Length)
             throw new ArgumentOutOfRangeException(nameof(length), length, "");
@@ -78,7 +78,7 @@ public sealed class GraphicsBuffer : AnabasisNativeObject<BufferHandle>
     }
 
     public TypedBufferSlice<T> Typed<T>()
-        where T : unmanaged => this;
+        where T : unmanaged => new(this, 0, Length);
 
     public readonly struct TypedBufferSlice<T>
         where T : unmanaged
@@ -108,7 +108,6 @@ public sealed class GraphicsBuffer : AnabasisNativeObject<BufferHandle>
                 (nuint)(span.Length * Marshal.SizeOf<T>()), span);
         }
 
-        [SuppressMessage("ReSharper", "ReplaceSliceWithRangeIndexer")]
-        public static implicit operator TypedBufferSlice<T>(GraphicsBuffer buffer) => buffer.Slice<T>(0, buffer.Length);
+        public static implicit operator TypedBufferSlice<T>(GraphicsBuffer buffer) => buffer.Typed<T>();
     }
 }

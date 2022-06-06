@@ -10,10 +10,11 @@ public static class AnabasisHostBuilderExtensions
         configureHost?.Invoke(hostBuilder);
 
         return hostBuilder
+            .ConfigureDefaults(args)
             .ConfigureLogging(logging => { })
             .ConfigureAppConfiguration(config => { })
             .ConfigureServices(services => {
-                services.AddAnabasisCore(args ?? GetCommandLineArguments());
+                services.AddAnabasisCore();
                 services.AddHostedService<AnabasisHostedService>();
                 services.AddSingleton<IHostLifetime, AnabasisLifetime>();
             });

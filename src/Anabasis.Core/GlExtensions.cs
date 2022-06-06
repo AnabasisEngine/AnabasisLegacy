@@ -24,8 +24,8 @@ public static class GlExtensions
     }
 
     public static unsafe void DrawElementsBaseVertex(this GL gl, PrimitiveType primitiveType, uint count,
-        DrawElementsType indexType, nuint indexOFfset, int baseVertex) {
-        gl.DrawElementsBaseVertex(primitiveType, count, indexType, (void*)indexOFfset, baseVertex);
+        DrawElementsType indexType, nuint indexOffset, int baseVertex) {
+        gl.DrawElementsBaseVertex(primitiveType, count, indexType, (void*)indexOffset, baseVertex);
     }
 
     public static void ThrowIfError(this GL gl, string function) {
@@ -33,5 +33,10 @@ public static class GlExtensions
         if(error is ErrorCode.NoError)
             return;
         throw new GlException(error, function, "OpenGL Error");
+    }
+
+    public static uint CreateTexture(this GL gl, TextureTarget target) {
+        gl.CreateTextures(target, 1, out uint handle);
+        return handle;
     }
 }

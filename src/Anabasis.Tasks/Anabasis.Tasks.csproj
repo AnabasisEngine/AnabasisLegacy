@@ -4,5 +4,12 @@
         <InternalsVisibleTo Include="Anabasis.Hosting" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4-beta1.22217.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
     <Import Project="..\..\ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.projitems" Label="Shared" />
 </Project>
