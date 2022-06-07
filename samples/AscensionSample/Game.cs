@@ -17,7 +17,14 @@ namespace AscensionSample;
 
 public class Game : AscensionGame
 {
-    public Game(GL gl) : base(gl) { }
+    public Game(GL gl) : base(gl) {
+    }
+
+    public override async AnabasisTask LoadAsync() {
+        await base.LoadAsync();
+        Gl.Enable(EnableCap.Blend);
+        Gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+    }
 
     protected override AnabasisTask<IAnabasisContext> CreateInitialSceneAsync() =>
         AnabasisTask.FromResult<IAnabasisContext>(new StartingScene(Gl));
