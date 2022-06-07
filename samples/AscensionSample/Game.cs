@@ -9,8 +9,7 @@ using Anabasis.ImageSharp;
 using Anabasis.Tasks;
 using Silk.NET.OpenGL;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using Color = System.Drawing.Color;
+using Color = Anabasis.Core.Color;
 using VertexArray = Anabasis.Core.Rendering.VertexArray;
 
 namespace AscensionSample;

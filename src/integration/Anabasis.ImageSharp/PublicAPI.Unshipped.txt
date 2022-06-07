@@ -1,5 +1,0 @@
-﻿#nullable enable
-Anabasis.ImageSharp.ImageSharpLoader
-static Anabasis.ImageSharp.ImageSharpLoader.UploadImage(SixLabors.ImageSharp.Image! image, Anabasis.Core.Textures.Texture2D! texture, int mipmapLevel = 0) -> void
-static Anabasis.ImageSharp.ImageSharpLoader.UploadImage(SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32>! image, Anabasis.Core.Textures.Texture2D! texture, int mipmapLevel = 0) -> void
-static Anabasis.ImageSharp.ImageSharpLoader.UploadImage(SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>! image, Anabasis.Core.Textures.Texture2D! texture, int mipmapLevel = 0) -> void
