@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anabasis.ImageSharp", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Ascension", "ascension\Anabasis.Ascension\Anabasis.Ascension.csproj", "{C8B38761-9534-4F49-9905-B12C86B393ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anabasis.Assimp", "src\integration\Anabasis.Assimp\Anabasis.Assimp.csproj", "{A21593FC-1129-4916-9D2A-B0340DA0EA34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{C8B38761-9534-4F49-9905-B12C86B393ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8B38761-9534-4F49-9905-B12C86B393ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8B38761-9534-4F49-9905-B12C86B393ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A21593FC-1129-4916-9D2A-B0340DA0EA34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A21593FC-1129-4916-9D2A-B0340DA0EA34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A21593FC-1129-4916-9D2A-B0340DA0EA34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A21593FC-1129-4916-9D2A-B0340DA0EA34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{FC062001-0AC2-41B7-82D2-BC38F2CA4A76} = {A800E5AD-FD17-45E8-8ACB-D1E8723BFAE0}
 		{4A7274A5-FE33-483F-80E8-A1BAFF6DD10E} = {FC062001-0AC2-41B7-82D2-BC38F2CA4A76}
 		{C8B38761-9534-4F49-9905-B12C86B393ED} = {16A7CA00-4E2F-4A6B-8CD9-BB92DA1D3AD8}
+		{A21593FC-1129-4916-9D2A-B0340DA0EA34} = {FC062001-0AC2-41B7-82D2-BC38F2CA4A76}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33A667F7-79C6-4CA5-BBA8-6112BDE97563}

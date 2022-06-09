@@ -23,6 +23,7 @@ public static class KnownNamedTypes
     public static readonly ImmutableDictionary<KnownNamedType, string> TypeMetadataNames =
         ImmutableDictionary<KnownNamedType, string>.Empty
             .Add(KnownNamedType.Half, "System.Half")
+            .Add(KnownNamedType.Color, "Anabasis.Core.Color")
             .Add(KnownNamedType.NumericsVector2, "System.Numerics.Vector2")
             .Add(KnownNamedType.NumericsVector3, "System.Numerics.Vector3")
             .Add(KnownNamedType.SilkVector2, "Silk.NET.Maths.Vector2D`1")

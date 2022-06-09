@@ -7,7 +7,7 @@ using Silk.NET.OpenGL;
 
 namespace Anabasis.Core.Shaders;
 
-public sealed class ShaderProgram : AnabasisBindableNativeObject<ProgramHandle>, IShaderPackage
+public sealed partial class ShaderProgram : AnabasisBindableNativeObject<ProgramHandle>, IShaderPackage
 {
     private ShaderProgram(GL gl, ProgramHandle name) : base(gl, name) { }
 

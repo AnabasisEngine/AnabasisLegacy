@@ -5,18 +5,29 @@ namespace Anabasis.Core;
 
 public sealed class AnabasisGraphicsDevice : IDisposable
 {
-    private Vector2D<int> _viewport;
-    public GL GL { get; internal set; } = null!;
+    private Rectangle<int>? _viewport;
+    public GL Gl { get; internal set; } = null!;
 
-    public Vector2D<int> Viewport {
-        get => _viewport;
+    public Rectangle<int> ViewportRect {
+        get => _viewport ??= GetViewport();
         set {
-            GL.Viewport(value);
+            Gl.Viewport(value);
             _viewport = value;
         }
     }
 
+    public Vector2D<int> ViewportSize {
+        get => ViewportRect.Size;
+        set => ViewportRect = new Rectangle<int>(ViewportRect.Origin, value);
+    }
+
+    private Rectangle<int> GetViewport() {
+        Rectangle<int> rect = default;
+        Gl.GetInteger(GetPName.Viewport,rect.AsSpan());
+        return rect;
+    }
+
     public void Dispose() {
-        GL.Dispose();
+        Gl.Dispose();
     }
 }

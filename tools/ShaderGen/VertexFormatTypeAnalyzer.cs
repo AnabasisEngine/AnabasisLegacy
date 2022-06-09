@@ -126,6 +126,8 @@ public static class VertexFormatTypeAnalyzer
         ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> compilation) {
         if (type.Equals(compilation[KnownNamedType.Half], SymbolEqualityComparer.Default))
             return VertexAttribType.HalfFloat;
+        if (type.Equals(compilation[KnownNamedType.Color], SymbolEqualityComparer.Default))
+            return VertexAttribType.UnsignedByte;
         if (type.Equals(compilation[KnownNamedType.NumericsVector2], SymbolEqualityComparer.Default) ||
             type.Equals(compilation[KnownNamedType.NumericsVector3], SymbolEqualityComparer.Default))
             return VertexAttribType.Float;
@@ -155,6 +157,8 @@ public static class VertexFormatTypeAnalyzer
         ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> compilation) {
         if (type.Equals(compilation[KnownNamedType.Half], SymbolEqualityComparer.Default))
             return sizeof(Half);
+        if (type.Equals(compilation[KnownNamedType.Color], SymbolEqualityComparer.Default))
+            return 4;
         if (type.Equals(compilation[KnownNamedType.NumericsVector2], SymbolEqualityComparer.Default))
             return 2 * sizeof(float);
         if (type.Equals(compilation[KnownNamedType.NumericsVector3], SymbolEqualityComparer.Default))

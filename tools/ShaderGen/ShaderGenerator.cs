@@ -13,9 +13,8 @@ public class ShaderGenerator : IIncrementalGenerator
             context.CompilationProvider.Select((c, _) => KnownNamedTypes.LoadSymbols(c));
         IncrementalValueProvider<ImmutableDictionary<string, AdditionalText>> additionalTexts = context.AdditionalTextsProvider
             .Collect().Select((a, _) => a.ToImmutableDictionary(t => t.Path));
-        var inputs = context.SyntaxProvider.CreateSyntaxProvider(Predicate, Transform)
-            .Collect().Combine(context.CompilationProvider.Combine(knownTypesProvider).Combine(additionalTexts));
-        context.RegisterSourceOutput(inputs,
+        context.RegisterSourceOutput(context.SyntaxProvider.CreateSyntaxProvider(Predicate, Transform)
+                .Collect().Combine(context.CompilationProvider.Combine(knownTypesProvider).Combine(additionalTexts)),
             (productionContext, tuple) => {
                 (ImmutableArray<StructDeclarationSyntax?> syntax,
                     ((Compilation compilation, ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> knownTypes),

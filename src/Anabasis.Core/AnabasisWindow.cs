@@ -19,8 +19,8 @@ public sealed class AnabasisWindow
 
     public void Run(AnabasisRunLoop runLoop, AnabasisGraphicsDevice graphicsDevice, Action unloadCallback) {
         Window.Load += () => {
-            graphicsDevice.GL = Window.CreateOpenGL();
-            graphicsDevice.GL.Enable(EnableCap.DepthTest);
+            graphicsDevice.Gl = Window.CreateOpenGL();
+            graphicsDevice.Gl.Enable(EnableCap.DepthTest);
             runLoop.Load();
         };
         Window.Update += d => {
@@ -29,7 +29,7 @@ public sealed class AnabasisWindow
         Window.Render += d => {
             runLoop.Render();
         };
-        Window.FramebufferResize += v => graphicsDevice.Viewport = v;
+        Window.FramebufferResize += v => graphicsDevice.ViewportSize = v;
         Window.Closing += unloadCallback;
         Window.Run();
         _tcs.TrySetResult();

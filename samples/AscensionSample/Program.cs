@@ -1,6 +1,8 @@
-﻿using Anabasis.Core;
+﻿using Anabasis.Ascension;
+using Anabasis.Core;
 using Anabasis.Hosting;
 using Anabasis.Hosting.Builder;
+using Anabasis.ImageSharp;
 using AscensionSample;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -19,7 +21,11 @@ try {
                 .Enrich.FromLogContext()
                 .WriteTo.Console();
         }))
-        .ConfigureServices(s => { s.AddScoped<AnabasisGame, Game>(); })
+        .ConfigureServices(s => {
+            s.AddAscension();
+            s.AddScoped<ImageSharpLoader>();
+            s.AddScoped<AnabasisGame, Game>();
+        })
         .Build()
         .RunAsync();
     return 0;

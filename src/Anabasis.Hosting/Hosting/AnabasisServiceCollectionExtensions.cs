@@ -22,7 +22,8 @@ public static class AnabasisServiceCollectionExtensions
         });
         services.TryAddSingleton<AnabasisWindow>();
         services.TryAddSingleton<AnabasisGraphicsDevice>();
-        services.TryAddScoped(s => s.GetRequiredService<AnabasisGraphicsDevice>().GL);
+        services.TryAddScoped<AnabasisLoggingAdapter>();
+        services.TryAddScoped(s => s.GetRequiredService<AnabasisGraphicsDevice>().Gl);
         return services;
     }
 }
