@@ -1,20 +1,9 @@
-﻿using Silk.NET.OpenGL;
+﻿namespace Anabasis.Core;
 
-namespace Anabasis.Core;
-
-public interface IAnabasisHandle
+public interface IAnabasisHandle<TApi>
 {
-    public static abstract ObjectIdentifier ObjectType { get; }
 
-    public void Free(GL gl);
+    public void Free(TApi api);
 
     public uint Value { get; }
 }
-
-public interface IBindable
-{
-    void Use(GL gl);
-}
-
-public interface IAnabasisBindableHandle : IAnabasisHandle, IBindable
-{ }

@@ -8,7 +8,7 @@ public class AutoResetAnabasisTaskCompletionSource<T> : IAnabasisTaskSource<T>
     private static readonly ObjectPool<AutoResetAnabasisTaskCompletionSource<T>> Pool = new(() =>
         new AutoResetAnabasisTaskCompletionSource<T>());
 
-    private AnabasisTaskCompletionSourceCore<T> _core;
+    private ManualResetAnabasisTaskSourceCore<T> _core;
 
     private AutoResetAnabasisTaskCompletionSource() { }
 

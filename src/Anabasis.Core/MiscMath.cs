@@ -1,10 +1,10 @@
-﻿namespace Anabasis.Core;
+﻿using System.Numerics;
+
+namespace Anabasis.Core;
 
 public static class MiscMath
 {
-    public static uint Align(uint value, uint alignment) =>
-        value % alignment == 0 ? value : value + (alignment - value % alignment);
-
-    public static int Align(int value, int alignment) =>
-        value % alignment == 0 ? value : value + (alignment - value % alignment);
+    public static T Align<T>(T value, T alignment)
+        where T : INumber<T> =>
+        value % alignment == T.Zero ? value : value + (alignment - value % alignment);
 }

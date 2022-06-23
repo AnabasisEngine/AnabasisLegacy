@@ -14,8 +14,7 @@ namespace ShaderGen;
 public static class VertexFormatTypeAnalyzer
 {
     public static void GenerateForStruct(SemanticModel semanticModel, StructDeclarationSyntax typeDeclSyntax,
-        SourceProductionContext context, ImmutableDictionary<string, AdditionalText> additionals,
-        ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> knownTypes) {
+        SourceProductionContext context, ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> knownTypes) {
         INamedTypeSymbol vertexTypeAttribute = knownTypes[KnownNamedType.VertexTypeAttribute]!;
         INamedTypeSymbol vertexAttributeAttribute = knownTypes[KnownNamedType.VertexAttributeAttribute]!;
         INamedTypeSymbol structLayoutAttribute = knownTypes[KnownNamedType.StructLayoutAttribute]!;
@@ -96,9 +95,9 @@ public static class VertexFormatTypeAnalyzer
 
         int divisor = (int)vertTypeData.ConstructorArguments[0].Value!;
 
-        NamespaceDeclarationSyntax ns = NamespaceDeclaration(ParseName(typeSymbol.ContainingNamespace.Name))
-            .AddUsings(UsingDirective(ParseName("Anabasis.Core.Rendering")),
-                UsingDirective(ParseName("Anabasis.Core.Handles")),
+        NamespaceDeclarationSyntax ns = NamespaceDeclaration(ParseName(typeSymbol.ContainingNamespace.ToString()))
+            .AddUsings(UsingDirective(ParseName("Anabasis.Core.Graphics.Rendering")),
+                UsingDirective(ParseName("Anabasis.Core.Graphics.Handles")),
                 UsingDirective(ParseName("Silk.NET.OpenGL")))
             .AddMembers(VertexFormatGenerator.VertexFormat(typeSymbol.Name, typeSymbol.DeclaredAccessibility,
                 pointers.ToArrayAndFree(), divisor));

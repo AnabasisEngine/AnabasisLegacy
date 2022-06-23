@@ -1,6 +1,6 @@
 namespace Anabasis.Core;
 
-public interface IAnabasisBindableObject : IAnabasisNativeObject
+public interface IAnabasisBindableObject<TApi> : IAnabasisNativeObject<TApi>
 {
     public IDisposable Use();
 }

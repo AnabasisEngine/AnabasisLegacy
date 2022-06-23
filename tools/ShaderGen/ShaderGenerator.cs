@@ -11,14 +11,11 @@ public class ShaderGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context) {
         IncrementalValueProvider<ImmutableDictionary<KnownNamedType, INamedTypeSymbol?>> knownTypesProvider =
             context.CompilationProvider.Select((c, _) => KnownNamedTypes.LoadSymbols(c));
-        IncrementalValueProvider<ImmutableDictionary<string, AdditionalText>> additionalTexts = context.AdditionalTextsProvider
-            .Collect().Select((a, _) => a.ToImmutableDictionary(t => t.Path));
         context.RegisterSourceOutput(context.SyntaxProvider.CreateSyntaxProvider(Predicate, Transform)
-                .Collect().Combine(context.CompilationProvider.Combine(knownTypesProvider).Combine(additionalTexts)),
+                .Collect().Combine(context.CompilationProvider.Combine(knownTypesProvider)),
             (productionContext, tuple) => {
                 (ImmutableArray<StructDeclarationSyntax?> syntax,
-                    ((Compilation compilation, ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> knownTypes),
-                        ImmutableDictionary<string, AdditionalText> texts)) = tuple;
+                    (Compilation compilation, ImmutableDictionary<KnownNamedType, INamedTypeSymbol?> knownTypes)) = tuple;
                 if (knownTypes[KnownNamedType.VertexTypeAttribute] == null ||
                     knownTypes[KnownNamedType.VertexAttributeAttribute] == null) {
                     productionContext.ReportDiagnostic(DiagnosticDescriptors.MissingAttributes(Location.None));
@@ -29,7 +26,7 @@ public class ShaderGenerator : IIncrementalGenerator
                     if (structDeclarationSyntax is null) continue;
                     VertexFormatTypeAnalyzer.GenerateForStruct(
                         compilation.GetSemanticModel(structDeclarationSyntax.SyntaxTree), structDeclarationSyntax,
-                        productionContext, texts, knownTypes);
+                        productionContext, knownTypes);
                 }
             });
     }

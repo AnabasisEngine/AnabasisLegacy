@@ -1,4 +1,5 @@
 using Anabasis.Core;
+using Anabasis.Core.Graphics;
 using Anabasis.Tasks;
 using Microsoft.CodeAnalysis.PooledObjects;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,7 +59,7 @@ internal class AnabasisHostedService : IHostedService
                        IServiceScope s = arg.scope[0] = _provider.CreateScope();
                        arg.game[0] = s.ServiceProvider.GetRequiredService<AnabasisGame>();
                        arg.game[0].DoLoad();
-                   }, new { scope, game }, out Action loadAction))
+                   }, new { scope, game, }, out Action loadAction))
             using (loop.RegisterHandler(AnabasisPlatformLoopStep.Initialization, 0, "IAnabasisGame.Load", loadAction))
             using (loop.RegisterHandler(AnabasisPlatformLoopStep.Update, 0, "IAnabasisGame.Update", updateAction))
             using (loop.RegisterHandler(AnabasisPlatformLoopStep.Render, 0, "IAnabasisGame.Render", renderAction)) {

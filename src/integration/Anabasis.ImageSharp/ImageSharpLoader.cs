@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Anabasis.Core.Textures;
+using Anabasis.Core.Graphics.Textures;
 using Anabasis.Tasks;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;

@@ -1,28 +1,20 @@
-﻿using Silk.NET.OpenGL;
-
 namespace Anabasis.Core;
 
-public abstract class AnabasisNativeObject<THandle> : IAnabasisNativeObject<THandle>
-    where THandle : struct, IAnabasisHandle
+public abstract class AnabasisNativeObject<TApi, THandle>
+    : IAnabasisNativeObject<TApi, THandle>
+    where THandle : struct, IAnabasisHandle<TApi>
 {
-    private string? _label;
-    protected AnabasisNativeObject(GL gl, THandle name) {
-        Gl = gl;
+    protected AnabasisNativeObject(TApi api, THandle name) {
+        Api = api;
         Handle = name;
     }
-    protected internal GL Gl { get; }
+
+    protected internal TApi Api { get; }
     public THandle Handle { get; }
-    public string Label {
-        get => _label ??= Gl.GetObjectLabel(THandle.ObjectType, Handle.Value);
-        set {
-            _label = value;
-            Gl.ObjectLabel(THandle.ObjectType, Handle.Value, value);
-        }
-    }
 
     protected virtual void Dispose(bool disposing) {
         if (disposing) {
-            Handle.Free(Gl);
+            Handle.Free(Api);
         }
     }
 

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0-preview.4.22229.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0-preview.5.22301.12" />
     <PackageReference Include="Silk.NET.Core" Version="2.15.0" />
     <PackageReference Include="Silk.NET.Maths" Version="2.15.0" />
     <PackageReference Include="Silk.NET.OpenGL" Version="2.15.0" />

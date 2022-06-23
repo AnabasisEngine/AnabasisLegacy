@@ -2,6 +2,7 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="Anabasis.Hosting" />
+        <InternalsVisibleTo Include="Anabasis.Core" />
     </ItemGroup>
 
     <Import Project="..\..\ext\PooledObjects\Microsoft.CodeAnalysis.PooledObjects.projitems" Label="Shared" />

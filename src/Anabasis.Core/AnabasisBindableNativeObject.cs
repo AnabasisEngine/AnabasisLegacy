@@ -1,13 +1,13 @@
-using Silk.NET.OpenGL;
-
 namespace Anabasis.Core;
 
-public abstract class AnabasisBindableNativeObject<THandle> : AnabasisNativeObject<THandle>, IAnabasisBindableObject
-    where THandle : struct, IAnabasisBindableHandle
+public abstract class AnabasisBindableNativeObject<TApi, THandle>
+    : AnabasisNativeObject<TApi, THandle>, IAnabasisBindableObject<TApi>
+    where THandle : struct, IAnabasisBindableHandle<TApi>
 {
-    protected AnabasisBindableNativeObject(GL gl, THandle name) : base(gl, name) { }
+    protected AnabasisBindableNativeObject(TApi api, THandle name) : base(api, name) { }
+
     public IDisposable Use() {
-        Handle.Use(Gl);
-        return new GenericDisposer(() => default(THandle).Use(Gl));
+        Handle.Use(Api);
+        return new GenericDisposer(() => default(THandle).Use(Api));
     }
 }

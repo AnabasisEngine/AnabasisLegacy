@@ -1,15 +1,15 @@
 using System.Numerics;
 using Anabasis.Ascension;
 using Anabasis.Core;
-using Anabasis.Core.Buffers;
-using Anabasis.Core.Rendering;
-using Anabasis.Core.Shaders;
-using Anabasis.Core.Textures;
+using Anabasis.Core.Graphics.Buffers;
+using Anabasis.Core.Graphics.Rendering;
+using Anabasis.Core.Graphics.Shaders;
+using Anabasis.Core.Graphics.Textures;
 using Anabasis.ImageSharp;
 using Anabasis.Tasks;
 using Silk.NET.OpenGL;
 using Color = Anabasis.Core.Color;
-using VertexArray = Anabasis.Core.Rendering.VertexArray;
+using VertexArray = Anabasis.Core.Graphics.Rendering.VertexArray;
 
 namespace AscensionSample;
 

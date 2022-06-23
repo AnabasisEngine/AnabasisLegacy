@@ -5,116 +5,69 @@ namespace Anabasis.Tasks;
 
 public readonly partial struct AnabasisTask
 {
-    public static YieldAwaitable Yield() =>
-        // optimized for single continuation
-        new(AnabasisPlatformLoopStep.Update);
-
-    public static YieldAwaitable Yield(AnabasisPlatformLoopStep timing) =>
+    public static YieldAwaitable Yield(AnabasisPlatformLoopStep timing = AnabasisPlatformLoopStep.Update) =>
         // optimized for single continuation
         new(timing);
-    
 
-    public static AnabasisTask Yield(CancellationToken cancellationToken)
+
+    public static AnabasisTask Yield(AnabasisPlatformLoopStep timing, CancellationToken cancellationToken) =>
+        Create<YieldPromise, AnabasisPlatformLoopStep>(timing, cancellationToken);
+
+    private sealed class YieldPromise : BasicPromise, IPromise<AnabasisPlatformLoopStep>
     {
-        return new AnabasisTask(YieldPromise.Create(AnabasisPlatformLoopStep.Update, cancellationToken, out short token), token);
-    }
+        static readonly ObjectPool<YieldPromise> Pool = new(() => new YieldPromise());
 
-    public static AnabasisTask Yield(AnabasisPlatformLoopStep timing, CancellationToken cancellationToken)
-    {
-        return new AnabasisTask(YieldPromise.Create(timing, cancellationToken, out short token), token);
-    }
-    
-    sealed class YieldPromise : IAnabasisTaskSource
-        {
-            static ObjectPool<YieldPromise> pool = new(() => new YieldPromise());
+        CancellationToken                         _cancellationToken;
 
-            CancellationToken _cancellationToken;
-            AnabasisTaskCompletionSourceCore<object> _core;
+        private YieldPromise() { }
 
-            private YieldPromise() {
+        public static IAnabasisTaskSource Create(AnabasisPlatformLoopStep timing, CancellationToken cancellationToken,
+            out short token) {
+            if (cancellationToken.IsCancellationRequested) {
+                return AutoResetAnabasisTaskCompletionSource.CreateFromCanceled(cancellationToken, out token);
             }
 
-            public static IAnabasisTaskSource Create(AnabasisPlatformLoopStep timing, CancellationToken cancellationToken, out short token)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    return AutoResetAnabasisTaskCompletionSource.CreateFromCanceled(cancellationToken, out token);
-                }
-
-                YieldPromise result = pool.Allocate();
+            YieldPromise result = Pool.Allocate();
 
 
-                result._cancellationToken = cancellationToken;
+            result._cancellationToken = cancellationToken;
 
-                AnabasisTaskScheduler.Schedule(timing, result.MoveNext);
+            AnabasisTaskScheduler.Schedule(timing, result.MoveNext);
 
-                token = result._core.Version;
-                return result;
-            }
-
-            public void GetResult(short token)
-            {
-                try
-                {
-                    _core.GetResult(token);
-                }
-                finally
-                {
-                    TryReturn();
-                }
-            }
-
-            public AnabasisTaskStatus GetStatus(short token)
-            {
-                return _core.GetStatus(token);
-            }
-
-            public AnabasisTaskStatus UnsafeGetStatus()
-            {
-                return _core.UnsafeGetStatus();
-            }
-
-            public void OnCompleted(Action<object?> continuation, object? state, short token)
-            {
-                _core.OnCompleted(continuation, state, token);
-            }
-
-            public void MoveNext()
-            {
-                if (_cancellationToken.IsCancellationRequested)
-                {
-                    _core.TrySetCanceled(_cancellationToken);
-                    return;
-                }
-
-                _core.TrySetResult(null!);
-            }
-
-            void TryReturn()
-            {
-                _core.Reset();
-                _cancellationToken = default;
-                pool.Free(this);
-            }
+            token = result.Core.Version;
+            return result;
         }
+
+        public override void MoveNext() {
+            if (_cancellationToken.IsCancellationRequested) {
+                Core.TrySetCanceled(_cancellationToken);
+                return;
+            }
+
+            Core.TrySetResult(null!);
+        }
+
+        protected override void TryReturn() {
+            Core.Reset();
+            _cancellationToken = default;
+            Pool.Free(this);
+        }
+    }
 }
 
 public readonly struct YieldAwaitable
 {
     readonly AnabasisPlatformLoopStep _timing;
 
-    public YieldAwaitable(AnabasisPlatformLoopStep timing)
-    {
+    public YieldAwaitable(AnabasisPlatformLoopStep timing) {
         this._timing = timing;
     }
 
-    public Awaiter GetAwaiter()
-    {
+    public Awaiter GetAwaiter() {
         return new Awaiter(_timing);
     }
 
-    public AnabasisTask ToAnabasisTask()
-    {
+    public AnabasisTask ToAnabasisTask() {
         return AnabasisTask.Yield(_timing, CancellationToken.None);
     }
 
@@ -122,8 +75,7 @@ public readonly struct YieldAwaitable
     {
         readonly AnabasisPlatformLoopStep timing;
 
-        public Awaiter(AnabasisPlatformLoopStep timing)
-        {
+        public Awaiter(AnabasisPlatformLoopStep timing) {
             this.timing = timing;
         }
 
@@ -131,13 +83,11 @@ public readonly struct YieldAwaitable
 
         public void GetResult() { }
 
-        public void OnCompleted(Action continuation)
-        {
+        public void OnCompleted(Action continuation) {
             AnabasisTaskScheduler.Schedule(timing, continuation);
         }
 
-        public void UnsafeOnCompleted(Action continuation)
-        {
+        public void UnsafeOnCompleted(Action continuation) {
             AnabasisTaskScheduler.Schedule(timing, continuation);
         }
     }

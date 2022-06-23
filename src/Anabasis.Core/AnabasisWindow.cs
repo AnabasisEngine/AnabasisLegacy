@@ -1,3 +1,4 @@
+using Anabasis.Core.Graphics;
 using Microsoft.Extensions.Hosting;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
@@ -24,9 +25,11 @@ public sealed class AnabasisWindow
             runLoop.Load();
         };
         Window.Update += d => {
+            AnabasisTime.Update(d);
             runLoop.Update();
         };
         Window.Render += d => {
+            AnabasisTime.Render(d);
             runLoop.Render();
         };
         Window.FramebufferResize += v => graphicsDevice.ViewportSize = v;

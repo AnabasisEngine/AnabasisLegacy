@@ -283,7 +283,7 @@ public readonly partial struct AnabasisTask
     private sealed class NeverPromise<T> : IAnabasisTaskSource<T>
     {
         private readonly CancellationToken                   _cancellationToken;
-        private          AnabasisTaskCompletionSourceCore<T> _core;
+        private          ManualResetAnabasisTaskSourceCore<T> _core;
 
         public NeverPromise(CancellationToken cancellationToken) {
             _cancellationToken = cancellationToken;

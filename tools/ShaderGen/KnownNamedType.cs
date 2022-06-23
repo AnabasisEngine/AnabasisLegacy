@@ -29,8 +29,8 @@ public static class KnownNamedTypes
             .Add(KnownNamedType.SilkVector2, "Silk.NET.Maths.Vector2D`1")
             .Add(KnownNamedType.SilkVector3, "Silk.NET.Maths.Vector3D`1")
             .Add(KnownNamedType.SilkVector4, "Silk.NET.Maths.Vector4D`1")
-            .Add(KnownNamedType.VertexTypeAttribute, "Anabasis.Core.Rendering.VertexTypeAttribute")
-            .Add(KnownNamedType.VertexAttributeAttribute, "Anabasis.Core.Rendering.VertexAttributeAttribute")
+            .Add(KnownNamedType.VertexTypeAttribute, "Anabasis.Core.Graphics.Rendering.VertexTypeAttribute")
+            .Add(KnownNamedType.VertexAttributeAttribute, "Anabasis.Core.Graphics.Rendering.VertexAttributeAttribute")
             .Add(KnownNamedType.StructLayoutAttribute, "System.Runtime.InteropServices.StructLayoutAttribute")
             .Add(KnownNamedType.FieldOffsetAttribute, "System.Runtime.InteropServices.FieldOffsetAttribute");
 

@@ -1,6 +1,6 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
-using Anabasis.Core.Rendering;
+using Anabasis.Core.Graphics.Rendering;
 using Silk.NET.OpenGL;
 
 namespace AscensionSample;

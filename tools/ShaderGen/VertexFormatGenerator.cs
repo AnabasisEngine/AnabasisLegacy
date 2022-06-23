@@ -160,6 +160,6 @@ public static class VertexFormatGenerator
             _ => throw new ArgumentOutOfRangeException(nameof(accessibility), accessibility, null),
         }), Token(SyntaxKind.PartialKeyword))
         .AddBaseListTypes(
-            SimpleBaseType(ParseTypeName("Anabasis.Core.Rendering.IVertexType")))
+            SimpleBaseType(ParseTypeName("IVertexType")))
         .AddMembers(CreateVertexFormatMethod(attribInfos, divisor));
 }

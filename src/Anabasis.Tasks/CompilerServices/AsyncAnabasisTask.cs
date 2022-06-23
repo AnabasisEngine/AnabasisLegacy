@@ -12,7 +12,7 @@ internal sealed class AsyncAnabasisTask<TStateMachine, T> : IStateMachineRunnerP
     public Action MoveNext { get; }
 
     private TStateMachine?                      _stateMachine;
-    private AnabasisTaskCompletionSourceCore<T> _core;
+    private ManualResetAnabasisTaskSourceCore<T> _core;
 
     private AsyncAnabasisTask() {
         MoveNext = Run;
